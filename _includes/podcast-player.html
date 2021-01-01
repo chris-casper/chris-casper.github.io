@@ -1,0 +1,75 @@
+<script>
+    window.playerConfiguration = {
+  "options": {
+    "theme": "default",
+    "startPanel": "Transcript"
+  },
+  "extensions": {
+    "ChapterMarks": {},
+    "EpisodeInfo": {},
+    "Playlist": {},
+    "Transcript": {},
+    "SubscribeBar": {disabled: true},
+    "Download": {disabled: true},
+  },
+    "episode": {
+     "media": {
+       "mp3": "http://feedproxy.google.com/~r/dancarlin/history/~5/PhCmZDbn2b4/dchha62_Supernova_in_the_East_I.mp3",
+      },
+     "coverUrl": "http://test.casper.im/assets/images/podcast/hh.jpg",
+     "title": "Hardcore History - Supernova In the East",
+     "subtitle": "Part I",
+     "url": "https://www.dancarlin.com/hardcore-history-series/",
+     "description": "The Asia-Pacific War of 1937-1945 has deep roots. It also involves a Japanese society that’s been called one of the most distinctive on Earth. If there were a Japanese version of Captain America, this would be his origin story.",
+     },
+    "episode": {
+     "media": {
+       "mp3": "https://traffic.libsyn.com/revolutionspodcast/001-_The_Kingdoms_of_Charles_Stuart.mp3",
+      },
+     "coverUrl": "http://test.casper.im/assets/images/podcast/revolutions.jpg",
+     "title": "Revolutions Podcast - English Civil War",
+     "subtitle": "Episode 1.1 - The Kingdoms of Charles Stuart",
+     "url": "https://www.revolutionspodcast.com/",
+     "description": "In 1625, Charles Stuart became king of England, Scotland and Ireland. His relationship with Parliament immediately got off on the wrong foot.",
+     },
+    "episode": {
+     "media": {
+       "mp3": "https://traffic.megaphone.fm/PSM2697322292.mp3",
+      },
+     "coverUrl": "http://test.casper.im/assets/images/podcast/chernobyl.jpg",
+     "title": "Chernobyl Podcast",
+     "subtitle": "Episode 1 - 1:23:45",
+     "url": "https://www.dancarlin.com/hardcore-history-series/",
+     "description": "April 26, 1986, Ukrainian SSR. Plant workers and firefighters put their lives on the line to control a catastrophic 1986 explosion at a Soviet nuclear power plant. Peter Sagal and Craig Mazin discuss these events and more behind the series premiere of Chernobyl. They talk about what drew Mazin to this story, and dig into when and why he deviated from what really happened.",
+     },
+    "episode": {
+     "media": {
+       "mp3": "https://media.blubrry.com/spacerockethistory/s/content.blubrry.com/spacerockethistory/SRH-2013-02-26-001.mp3",
+      },
+     "coverUrl": "http://test.casper.im/assets/images/podcast/srhp.png",
+     "title": "Space Rocket History",
+     "subtitle": "Part I",
+     "url": "https://spacerockethistory.com/",
+     "description": "From our small world we have gazed upon the cosmic ocean for thousands of years. Ancient astronomers observed points of light that appeared to move among the stars. They called these objects planets, meaning wanderers, and named them after Roman deities — Jupiter, Mars, Mercury, Venus, and Saturn, and Jupiter. The stargazers also observed comets with sparkling tails, and meteors or shooting stars apparently falling from the sky.",
+     },
+    "episode": {
+     "media": {
+       "mp3": "http://www.podtrac.com/pts/redirect.aac/feeds.soundcloud.com/stream/419786024-user-291478498-they-gave-him-a-tent.mp3,
+      },
+     "coverUrl": "http://test.casper.im/assets/images/podcast/isw.jpg",
+     "title": "Inside Skunk Works",
+     "subtitle": "Episode 1 - They Gave Him a Tent",
+     "url": "https://www.lockheedmartin.com/en-us/who-we-are/business-areas/aeronautics/skunkworks/insideskunkworks.html",
+     "description": "In 1943, the Germans were already using jet technology in combat. The United States military leadership was frantic for a jet fighter of their own to counter the new threat. An idea for a secret organization hidden within a large aeronautics company begins to take shape and at the root of this idea is a young American engineer.",
+     }
+
+}
+</script>
+<script class="podigee-podcast-player" src="//cdn.podigee.com/podcast-player/javascripts/podigee-podcast-player.js" data-configuration="playerConfiguration"></script>
+<noscript>
+    <audio controls>
+        <source src="{{ page.media.mp3 }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+        <a href="{{ page.media.mp3 }}">Download podcast</a>
+    </audio>
+</noscript>
