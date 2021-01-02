@@ -16,7 +16,7 @@ sidebar:
     text: ""
 photos:
     set: aaca
-    size: 3
+    size: 5
 ---
 
 AACA-Logo-clipped.png
@@ -26,11 +26,3 @@ AACA-Logo-clipped.png
 The AACA Museum is in Hershey, PA and a stone's throw from Troeg Brewery, Outlet stores, Hershey Park, Hershey's Chocolate World, etc. Makes a nice addition to a Hershey day trip.
 
 Their permanent collections are the Cammack Tucker Collection, Museum of Bus Transportation, the Kissmobile and the Historic Vehicle Association (HVA) display.
-
-<div class="col-lg-3">
-{% for gallery_image in site.galleries['AACA'] %}
- <a class="fancybox" href="{{ gallery_image.path }}">
- <img src="{{ gallery_image.thumbs['150x150'].path }}">
- </a>
-{% endfor %}
-</div>
