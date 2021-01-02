@@ -11,12 +11,15 @@ layout: default
 <br />
 
 <ul>
+
+  <center>
   {% for i in (1..num) %}
   <ul>
-    <img src="{{ site.baseurl }}/images/photos/{{ page.photos.set }}-{{ i }}.jpg" width="70%" alt="Photo {{ i }} from {{ page.photos.set | capitalize }}"><br />
+    <img src="{{ site.baseurl }}/images/photos/{{ page.photos.set }}-{{ i }}.jpg" width="75%" alt="Photo {{ i }} from {{ page.photos.set | capitalize }}"><br />
 	<br />
   </ul>
   {% endfor %}
+  </center>
 </ul>
 <div>
   <a href="{{ site.baseurl }}/photos/">View All Photo Sets</a>
