@@ -4,34 +4,11 @@ title: "Antique Automobile Club of America Museum"
 excerpt: "Automobile collector’s museum in Hershey, PA"
 permalink: /travels/aaca/
 set_description: "
-
-<table style='width: 100%'
-    <colgroup>
-       <col span='1' style='width: 15%;'>
-       <col span='1' style='width: 70%;'>
-       <col span='1' style='width: 15%;'>
-    </colgroup>
-
-
-
-    <!-- Put <thead>, <tbody>, and <tr>'s here! -->
-    <tbody>
-        <tr>
-            <td></td>
-            <td>
-
-            <a href='https://www.aacamuseum.org/'>AACA Museum</a> is a nifty fairly large car museum that is a Smithsonian affiliate. They have permanent collections as well as special collections. The first time I visited they had a Lotus exhibit. Several of the owners were in attendance and more than thrilled to talk at length about their various vehicles. Not a shock, if you own a Lotus race car, you're not going to be shy about talking about it. <br />
-            <br />
-            The AACA Museum is in Hershey, PA and a stone's throw from Troeg Brewery, Outlet stores, Hershey Park, Hershey's Chocolate World, etc. Makes a nice addition to a Hershey day trip.<br />
-            <br />
-            Their permanent collections are the Cammack Tucker Collection, Museum of Bus Transportation, the Kissmobile and the Historic Vehicle Association (HVA) display.
-
-            </td>
-            <td></td>
-        </tr>
-    </tbody>
-</table>
-"
+<a href='https://www.aacamuseum.org/'>AACA Museum</a> is a nifty fairly large car museum that is a Smithsonian affiliate. They have permanent collections as well as special collections. The first time I visited they had a Lotus exhibit. Several of the owners were in attendance and more than thrilled to talk at length about their various vehicles. Not a shock, if you own a Lotus race car, you're not going to be shy about talking about it. <br />
+<br />
+The AACA Museum is in Hershey, PA and a stone's throw from Troeg Brewery, Outlet stores, Hershey Park, Hershey's Chocolate World, etc. Makes a nice addition to a Hershey day trip.<br />
+<br />
+Their permanent collections are the Cammack Tucker Collection, Museum of Bus Transportation, the Kissmobile and the Historic Vehicle Association (HVA) display."
 tags:
   - gallery
   - Museum
