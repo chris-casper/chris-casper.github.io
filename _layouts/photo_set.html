@@ -8,11 +8,13 @@ layout: default
 <br />
 {{ page.set_description }}
 <br />
+<br />
+
 <ul>
   {% for i in (1..num) %}
-  <li>
-    <img src="{{ site.baseurl }}/images/photos/{{ page.photos.set }}-{{ i }}.jpg" width="70%" alt="Photo {{ i }} from {{ page.photos.set | capitalize }}">
-  </li>
+  <ul>
+    <img src="{{ site.baseurl }}/images/photos/{{ page.photos.set }}-{{ i }}.jpg" width="70%" alt="Photo {{ i }} from {{ page.photos.set | capitalize }}"><br />
+  </ul>
   {% endfor %}
 </ul>
 <div>
