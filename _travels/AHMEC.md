@@ -1,4 +1,5 @@
 ---
+layout: photo_set
 title: "American Helicopter Museum and Education Center"
 excerpt: "Helicopters! Lots and lots of helicopters!"
 permalink: /travels/ahmec/

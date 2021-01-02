@@ -1,4 +1,5 @@
 ---
+layout: photo_set
 title: "American Armoured Foundation Museum"
 excerpt: "AAF Tank Museum collects, restores, displays and preserves as many Tank and Cavalry artifacts as is possible"
 permalink: /travels/aaf/

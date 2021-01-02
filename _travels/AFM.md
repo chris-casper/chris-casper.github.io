@@ -1,4 +1,5 @@
 ---
+layout: photo_set
 title: "National Museum of the USAF"
 excerpt: "The world's largest military aviation museum"
 permalink: /travels/afm/
