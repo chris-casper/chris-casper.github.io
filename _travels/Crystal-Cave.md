@@ -1,4 +1,5 @@
 ---
+layout: photo_set
 title: "Crystal-Cave"
 excerpt: "Bit tourist-y but well curated cave"
 permalink: /travels/crystal-cave/

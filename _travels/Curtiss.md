@@ -1,4 +1,5 @@
 ---
+layout: photo_set
 title: "Curtiss Museum"
 excerpt: "Mix of aircraft, vintage motorcycles, automobiles, and aircraft engines"
 permalink: /travels/curtiss/

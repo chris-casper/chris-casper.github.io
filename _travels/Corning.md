@@ -1,4 +1,5 @@
 ---
+layout: photo_set
 title: "Corning Museum of Glass"
 excerpt: "Probably one of the most beautiful art collections in the US, specially for a single material"
 permalink: /travels/corning/
