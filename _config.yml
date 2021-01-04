@@ -33,6 +33,9 @@ share: false
 permalink: /:categories/:title/
 repository: chris-casper/casper.github.io
 
+# Google Analytics
+google_analytics: G-8L2DTN3STD
+
 include:
   - _pages
 
