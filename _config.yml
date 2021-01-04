@@ -33,6 +33,13 @@ share: false
 permalink: /:categories/:title/
 repository: chris-casper/casper.github.io
 
+# Google Analytics
+analytics:
+  provider: "google-gtag"
+  google:
+    tracking_id: "G-8L2DTN3STD"
+    anonymize_ip: false # default
+
 include:
   - _pages
 
