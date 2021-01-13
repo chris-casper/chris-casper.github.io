@@ -11,7 +11,7 @@ tags:
 
 I wrote a [review](https://www.amazon.com/Web-Power-Switch-Pro-Model/dp/B0765NCB2L) on Amazon that I fired off and more or less forgot about for a while. I mentioned it in passing on Reddit, and quite a few people mentioned that they had read it. Apparently liking it. So figured I should put it up. It's probably a bit irrational writing a several page comprehensive review because of the return policy of a company. But made me feel better to write it out, and some folks found it helpful.
 
-![](images/posts/webpower.jpg)
+![](/images/posts/webpower.jpg)
 
 >
 > The hardware specs are amazing. The build quality is extremely good and durable. Spacing between power outlets is great. Even the mounting options are fantastic. I didn't do a hardware teardown, but the specs for everything made me buy the product in the first place. Whoever did the hardware engineering did it right.
