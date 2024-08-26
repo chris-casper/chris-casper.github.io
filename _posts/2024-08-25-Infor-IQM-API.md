@@ -9,7 +9,7 @@ tags:
   - REST API
 ---
 
-# Infor IQM API
+
 
 ## OEM documentation
 
@@ -28,7 +28,7 @@ The base call will always be http://(serverName)/IDORequestService/ido
 
 The documentation doesn't explain tokens well but it does make sense in retrospect. Pick the URL to specify the environment, change IQM, IQMDEV or IQMPLAY to your environment's name. When you get the token, you'll need to add that to the headers of your future requests. It specifies the account permission but also which environment you're using.
   
-It is persistant, so you don't need to make the token quest repeatedly. I could have added the code programmatically, but easy enough to grab manually. 
+It is persistant, so you don't need to make the token request repeatedly. I could have added the code programmatically, but easy enough to grab manually. 
   
 http://(serverName)/IDORequestService/ido/token/IQM/sa/PW_HERE
 http://(serverName)/IDORequestService/ido/token/IQMDEV/sa/PW_HERE
