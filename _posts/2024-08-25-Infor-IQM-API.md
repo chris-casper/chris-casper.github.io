@@ -1,5 +1,5 @@
 ---
-title: "Infor IQM API - Reading Data"
+title: "Infor IQM API - Reading Data from Mongoose"
 excerpt: "First article on Infor API"
 last_modified_at: 2024-08-25 20:00:00
 tags:
@@ -17,7 +17,7 @@ Infor Mongoose REST API - [Link](https://docs.infor.com/mg/2023.x/en-us/mongoose
 Infor Mongoose Youtube Channel - [Link](https://www.youtube.com/playlist?list=PLQe-TQ28qm-ijxPSNmP2qDHicVyS6x46g)  
 Infor IQM User Manual - [Link](https://docs.infor.com/iqm/10.x/en-us/useradminlist/default.html)  
   
-There isn't much good IQM documentation. But IQM looks like it is just a number of Mongoose forms. There's quite a bit more Infor Mongoose documentation, as you can tell from the above links. 
+Infor does not provide a lot of IQM documentation, just the user manual and admin manual. IQM is predominently just a number of Mongoose forms. And there's quite a bit more Infor Mongoose documentation, as you can tell from the above links. Let alone having its own playlist of Infor documentation on Youtube. Not everything will be applicable, you don't get all the best features Mongoose has available if you just have IQM. 
   
 The most useful bit of documentation is the basic REST API call. I stick to API v2, v1 still works fine. 
   
@@ -37,9 +37,9 @@ http://(serverName)/IDORequestService/ido/token/IQMPLAY/sa/PW_HERE
 
 ## Demo Code in Powershell
 
-I wrote the API call in powershell because it's on every machine. Infor prefers C# or VB. 
+I wrote the API call in powershell because it's on every machine. Infor prefers C# or VB.   
   
-You only need to change the $request and $properties lines. Everything else is basically static, no matter what data you're looking for. Generally, I comment out the $properties line to find all the properties when calling an IDO. Then do another call with the properties to make life easier.
+You only need to change the $request and $properties lines. Everything else is basically static, no matter what data you're looking for. Generally, I comment out the $properties line to find all the properties when calling an IDO. Then do another call with the properties to make life easier.  
   
 You can also switch to piping the output to CSV file. 
 
@@ -78,9 +78,9 @@ $response.items
 # $response.items | Export-Csv c:\temp\iqm_users.csv -NoTypeInformation
 ```
 
-# Finding IDO names
+## Finding IDO names
 
-You can find all of the IQM specific IDO's by making the following SQL query. Plug them into te $request line. 
+You can find all of the IQM specific IDO's by making the following SQL query. Plug them into te $request line.  
 
 ```sql
 use IQM_DB;
@@ -88,3 +88,32 @@ select * from dbo.VQ_FORMS
 ```
 
 As an example, switch from $request = "load/usernames" to $request =  "load/vqskills"
+
+
+## Curl
+
+You can just do your API calls with curl.  Good for one-off situations.
+
+```
+curl --request GET \
+  --url http://(server)/IDORequestService/ido/load/vqunits \
+  --header 'Authorization: b/XdI6IQzCviZOGJ0E'
+```
+
+## IDE Recommendation  
+
+For development, an IDE makes life a lot easier. Since postman has gone downhill, I recommend [Hoppscotch](https://hoppscotch.io/) these days. You'll need the desktop app for local development. 
+
+## Authorization
+
+Setup a collection for your IQM server.  
+Right click, go to Properties.  
+Go to Authorization tab, select "API Key", and paste in just the token starting with b/. Leave as Pass by Headers.  
+Make sure Enabled is checked. 
+
+## Parameters
+
+Open a new tab, select method to GET.  
+Paste in URL like http://(server)/IDORequestService/ido/load/usernames  
+Under parameters, put "properties" on the left side.  
+On the right hand side, put in "Username,UserDesc"
