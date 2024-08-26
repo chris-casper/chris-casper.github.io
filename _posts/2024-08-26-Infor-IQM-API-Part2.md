@@ -83,7 +83,6 @@ $Auth = "b/XdI6IQzCviZOGJ0" # Put token here
 $headers = @{Authorization = "$auth"}
 
 $uri = $base + $request
-#$uri = $base + $request + $properties
 
 # Timestamp for logging
 function Get-TimeStamp {
@@ -92,8 +91,8 @@ function Get-TimeStamp {
 
 # API call
 $response = Invoke-RestMethod -Method $Method -URI $URI -Headers $headers -ContentType "application/json" -Body $body 
-# Output to Command Line or log file
 
+# Output to Command Line or log file
 Write-Output $(Get-TimeStamp) $response
 Write-Output $(Get-TimeStamp) $response >> C:\temp\AddUnitLog.txt
 ```
