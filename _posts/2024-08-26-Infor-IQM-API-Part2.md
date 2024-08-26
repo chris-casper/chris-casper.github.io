@@ -20,7 +20,7 @@ See last post on tokens, setup, finding IDO names, etc.
 
 I wrote the API call in powershell because it's on every machine. Infor prefers C# or VB.   
   
-Unlike the read-only request, Infor doesn't make it extremely easy to add new data. So far the only way I've noodled out is to do a BODY request, which is a big blob of JSON. I'll eventually write a coder and decoder.
+Unlike the read-only request, Infor doesn't make it extremely easy to add new data. So far the only way I've noodled out is to do a BODY request, which is a big blob of JSON. In production, I'll likely write an encoder to convert CSV files to JSON temp file, and then have this script just get the JSON from the temp file. 
 
 Action is very critical, you'll want to double and triple check
 
