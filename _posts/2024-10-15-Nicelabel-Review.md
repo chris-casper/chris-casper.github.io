@@ -23,7 +23,7 @@ Both Infor and Nicelabel support will provide the config file for Nicelabel Auto
 
 Infor allegedly has partial support for Bartender. 5 years ago, I absolutely loved working with Bartender but unfortunately it's now a trainwreck. 
 
-As an example, to have a print station (say in shipping or receiving), you have to install most of the stack of Bartender applications. And those applications are not in a good development state, because they're in the middle of making it more cloud oriented. Might be worth looking at again in a couple years. I evaluated them last year. And they're not offering licenses or support for their older and far more functional versions. If you go that route, skip printing labels from Visual and just grab the info directly from SQL.
+As an example, to have a print station (say in shipping or receiving), you have to install most of the stack of Bartender applications, including packages that previously just needed to be installed on the server. And those applications are not in a good development state, because they're in the middle of making it more cloud oriented. UIs were often broken. Might be worth looking at again in a couple years. I evaluated them last year. And they're not offering licenses or support for their older and far more functional versions. If you go that route, skip printing labels from Visual and just grab the info directly from SQL.
 
 ## Support
 
