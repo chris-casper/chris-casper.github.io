@@ -151,3 +151,9 @@ If your printer is shooting out labels without end, turn the printer off. Go to 
 If your label printer isn't printing when it should be printing, and see if your PrintLabel integration is red and has errors listed. Click on Logs. Look for entries in red. On the front page of the EPM (Dashboard), there is also a "Recent Errors" box. The descriptions tend to be pretty good. It will tell you the label, the printer, the workstation, the user and the field causing problem. 
 
 ![NL-07](/images/posts/NL/NL-07.PNG)
+
+
+## Attribution
+
+If you wish to use this guide internally, please maintain attribution with a link to this article. 
+Original URL: https://casper.im/Visual-Nicelabel/
