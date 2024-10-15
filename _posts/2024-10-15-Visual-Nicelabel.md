@@ -155,5 +155,5 @@ If your label printer isn't printing when it should be printing, and see if your
 
 ## Attribution
 
-If you wish to use this guide internally, please maintain attribution with a link to this article. 
+If you wish to use this guide internally, just maintain attribution/copyright with a link to this article. 
 Original URL: https://casper.im/Visual-Nicelabel/
