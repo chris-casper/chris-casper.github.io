@@ -21,8 +21,7 @@
 title: Casper.im
 email: chris@casper.im
 description: >- # this means to ignore newlines until "baseurl:"
-  Some test stuff
-  Test test test
+  Just a tech blog
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: username
