@@ -13,7 +13,7 @@ feature_row:
     alt: "customizable"
     title: "Blog"
     excerpt: "Mostly reference material"
-    url: "/posts/"
+    url: "/year-archive/"
     btn_class: "btn--primary"
     btn_label: "Why not"
   - image_path: /assets/images/mm-responsive-feature.png
