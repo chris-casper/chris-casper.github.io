@@ -61,7 +61,7 @@ Nicelabel techs tried to be supportive, but didn't know the answer either.
 I got a hint from a [SQL blog](https://sqlrambling.net/2020/04/04/saving-and-extracting-blob-data-basic-examples/) about using OLE object creation. Honestly I should have coded it in powershell, but instead I just wrote the SQL and kick it off with powershell. Works well enough, and I'm scheduling for nightly. I checked all of the file types and they all seem to export cleanly. Someday I might clean it up and rewrite in native powershell. 
 
 Nicelabel-File-Export.SQL:
-```SQL
+```sql
 
 -- Nicelabel - File Repository to Disk
 --
