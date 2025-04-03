@@ -64,4 +64,4 @@ Unfortunately I'll have to skip details on interpreting the results. Infor sent 
 ## Attribution
 
 If you wish to use this guide internally, just maintain attribution/copyright with a link to this article. 
-Original link: https://casper.im/Visual-Queries/s
+Original link: https://casper.im/Visual-Queries/
