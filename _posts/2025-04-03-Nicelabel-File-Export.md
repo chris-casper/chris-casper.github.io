@@ -18,14 +18,16 @@ So a power user that works on the label layouts mucked up a file. I figured it w
 
 ## Support
 
-Nicelabel's front line support is flat out terrible. But if you escalate tickets, their second and third tier support are excellent. They know their stuff and are super helpful. 
+Nicelabel's second and third tier support are excellent. They know their stuff and are super helpful. 
 
 They provided the info that the files are stored in the DB, not in flat files. And that the official guidance is to enable version control. But if you haven't turned that on, you'd need to restore the DB or fire up a virtual clone, restore the DB on that clone and export Nicelabel Designer from the clone. That sounds like work, so I went looking for a better solution.
 
 
 ## Exporting files from T-SQL 
 
-This isn't uncommon. SSRS does the same thing. But there is a handy powershell command to export all of the files to RDL. I schedule it nightly. It's saved my bacon many times, and I always implement it when firing up a new SSRS instance. 
+This isn't uncommon. SSRS does the same thing. But there is a handy powershell command to export all of the files to RDL. I schedule it nightly. 
+
+It's saved my bacon many times, and I always implement it when firing up a new SSRS instance. 
 
 
 ```powershell
@@ -44,14 +46,16 @@ $proxy = New-RsWebServiceProxy -ReportServerUri $sourceRsUri
 Out-RsFolderContent -Proxy $proxy -RsFolder / -Destination 'C:\Backups\SSRS' -Recurse 
 ```
 
-Originally I tried using BCP to export the files, but it's extremely picky. Microsoft 'solved' the issue by having FMT file that provides the settings for export. But if you don't know the settings, it doesn't go well. I learned a bit more about [PNG forensics](https://medium.com/@0xwan/png-structure-for-beginner-8363ce2a9f73) but ultimately gave up because it was taking too long, and I found a new really nice hex editor, [ImHex](https://imhex.werwolv.net/). BCP kept dumping 8 byte header in front of the real data. I could have done a hacky solution to chop those bytes but I wasn't thrilled. 
+Originally I tried using BCP to export the files, but it's extremely picky. 
+
+Microsoft 'solved' the issue by having FMT file that provides the settings for export. But if you don't know the settings, it doesn't go well. I learned a bit more about [PNG forensics](https://medium.com/@0xwan/png-structure-for-beginner-8363ce2a9f73) but ultimately gave up because it was taking too long, and I found a new really nice hex editor, [ImHex](https://imhex.werwolv.net/). BCP kept dumping 8 byte header in front of the real data. I could have done a hacky solution to chop those bytes but I wasn't thrilled. 
 
 Nicelabel techs tried to be supportive, but didn't know the answer either. 
 
 I got a hint from a [SQL blog](https://sqlrambling.net/2020/04/04/saving-and-extracting-blob-data-basic-examples/) about using OLE object creation. Honestly I should have coded it in powershell, but instead I just wrote the SQL and kick it off with powershell. Works well enough, and I'm scheduling for nightly. I checked all of the file types and they all seem to export cleanly. Someday I might clean it up and rewrite in native powershell. 
 
 Nicelabel-File-Export.SQL:
-```T-SQL
+```SQL
 
 -- Nicelabel - File Repository to Disk
 --
