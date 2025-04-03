@@ -18,6 +18,9 @@ Infor Visual doesn't really have a server, the clients work by talking to the SQ
 
 The nice part, that means you can easily reverse engineer anything Visual does. Using a tool that you get with your DB server. I'll be sticking to Microsoft SQL.
 
+The annoying part, their queries suck. They basically grab one thing at a time and combine them in the program. It's very inefficient, and why latency is super critical with Infor Visual performance tuning. 10 Gigabit fiber is definitely your friend, for the latency not the speed. So if you want to be efficient, snag all the queries and re-write them with proper joins for much much faster reports. Still saves a bunch of time, but it's an annoying quirk. Hopefully they change that behavior with their new REST model in Infor Visual 11.
+
+
 ## SQL Server Profiler
 
 Fire up the Visual client. It can be on any machine. I recommend logging into your Visual PLAY or DEV environment rather than LIVE environment, keeps down the noise and it's easier to find the query you want. You can use any username, but I recommend going with SYSADM. 
