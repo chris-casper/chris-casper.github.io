@@ -9,12 +9,18 @@ tags:
 
 ## Nicelabel 
 
-Nicelabel is a bulk label software package. They have a storage system that uses WebDAV for accessing files from Print Stations, the label making software, etc. It is controlled by "EPM", which is their web console. All and all, pretty decent so far.
+Nicelabel is a bulk label software package. They have a storage system that uses WebDAV for accessing files from Print Stations, the label making software, etc. It's handy but I'm not sure why they didn't go with an SMB share. I'm assuming for access control. Rather than just locking down SMB NTFS permissions and performing file operations via ACL's within the software, maybe. 
+
+The central file storage is controlled by "EPM", which is their web console. 
+
+All and all, pretty decent so far.
 
 
 ## Problem
 
-So a power user that works on the label layouts mucked up a file. I figured it wouldn't be too hard to recover the file because I am a bit nuts about backups. Two different independent backup systems and hourly backups. But... I had no idea where the files were physically stored. After looking around, I reached out to support. 
+So a power user that works on the label layouts mucked up a file. I figured it wouldn't be too hard to recover the file because I am a bit nuts about backups. Two different independent backup systems and hourly backups. But... I had no idea where the files were physically stored. 
+
+After looking around, I reached out to support. 
 
 ## Support
 
