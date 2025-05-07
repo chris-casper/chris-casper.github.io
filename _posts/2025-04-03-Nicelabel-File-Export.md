@@ -75,6 +75,7 @@ Nicelabel-File-Export.SQL:
 --  or a label somehow gets corrupted/changed, you would have to overwrite the entire DB to restore one 
 --  label. This script dumps all files to flat file. 
 --
+--  Feel free to copy internally, but please keep attribution and link to https://casper.im/Nicelabel-File-Export/
 --
 
 
