@@ -40,7 +40,7 @@ Once it's finished, plug back into the miner and fire up SSH.
 
 Here's the commands to get Meshtasticd working:
 
-<pre><code class="language-shell">
+```shell
 # Update the RPi
 sudo apt update
 sudo apt upgrade
@@ -91,7 +91,7 @@ sudo systemctl status meshtasticd
 
 # To troubleshoot, systemctl stop meshtasticd
 # Then run "meshtasticd" by itself in CLI to look for errors
-</code></pre>
+```
 
 Once it's up and running, fire up the Meshtastic app to configure it. Use the Network option on the Cloud tab in the app. 
 
