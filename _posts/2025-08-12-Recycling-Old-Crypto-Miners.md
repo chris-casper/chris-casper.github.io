@@ -1,5 +1,5 @@
 ---
-title: "Recycling Old Crypto Miners"
+title: "Recycling Old Crypto Miners - Nebra"
 excerpt: "Low cost high power Lora Mesh networking"
 last_modified_at: 2025-08-12 20:00:00
 tags:
@@ -9,10 +9,16 @@ tags:
 ---
 
 
+![Meshtastic Pi](/images/posts/nebra/nebra-pi.png)
 
 ### Recycling Old Crypto Miners for Something Useful
 
 Helium Coin was/is a crypto coin that got run up in value and then crashed. Regardless of one's opinion, a lot of people bought $750 crypto miners that now aren't very useful. Rather than ending up as rather expensive eWaste, they can be repurposed for Meshtastic.
+
+The model I've been able to find pretty decently is the <a href="https://helium.nebra.com/pdfs/outdoor-overview.pdf">Nebra Outdoor Hotspot Miner</a>. It has pretty good specs across the board. A Pi 4 would be been nice, but it was likely a combination of price, power and heat. Waveshare does have a CM4 to CM3 adapter that might be worth playing around with if you want processing power up the tower for some niche circumstance.  
+
+I have started ordering additional outdoor miners to see if any others would be trivially converted to Meshtastic. 
+
 
 ### Hardware Details
 
@@ -24,13 +30,15 @@ The kit comes with:
 - Electronics with a Pi 3 CM
 - Has USB WiFi and Bluetooth
 
-They can be found on eBay for around $50. If you see one for sale for over a hundred, message the seller and offer them around $50. 
+They can be found on eBay for around $50. If you see one for sale for over a hundred, message the seller and offer them around $50. They need 12VDC barrel connector or POE, it draws too much for USB. It's also not great for solar power (12-15W) and not recommended.
 
-Reach out to WeHooper at [Mountain Mesh](https://mtnme.sh/) in Georgia. They have a number of options. They have Nebra Pi hats that use 40 pin headers (that can also be used on normal Raspberry Pis), [MESHTOAD](https://mtnme.sh/devices/MeshToad/) USB that works for any PC and working on an M2 format card. Hop on their Discord and inquire. 
+There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. I ordered some and will update once I noodled them out. There are some data only plans for a few dollars a month. 
+
+Reach out to WeHooper at [Mountain Mesh](https://mtnme.sh/) in Georgia. They have a number of options: Nebra Pi hats that use 40 pin headers (that can also be used on normal Raspberry Pis), [MESHTOAD](https://mtnme.sh/devices/MeshToad/) USB that works for any PC and developing an M2 format card (still early prototype). Hop on their Discord and inquire. 
 
 ### Shucking
 
-Honestly, I rip out the USB board. I keep the WiFi and stick that in the single USB port. Bluetooth isn't useful up a tower. 
+Honestly, I rip out the USB board. I keep the WiFi and stick that in the single USB port. Nebra Bluetooth adapter is VERY short range and doesn't have any connectors for an external antenna. 
 
 Make sure all other boards are mounted correctly, no cables are loose, etc. Then stick the Nebra hat on the 40 pin header. 
 
@@ -111,4 +119,21 @@ I wrap anything threaded with teflon pipe tape. Every gland, bulkhead and plug.
 
 I wrap the solar panel line connectors with silicon tape, plus the bulkheads. As well as spiral wrap for air hoses, to hopefully keep wildlife from eating the cables.
 
-I use a [mounting bracket](https://www.amazon.com/dp/B0BVT4J3FF) to connect the solar panel to the miner, along with metal hose clamp. The solar panel I had used a 1/4 course threaded nut.
+![Mount](/images/posts/nebra/mount.png)
+
+I use a [mounting bracket](https://www.amazon.com/dp/B0BVT4J3FF) to connect the solar panel to the miner, along with metal hose clamp. The solar panel I had used a 1/4 course threaded nut. The hose clamps are probably the most secure way to fasten the two together. 
+
+
+### The Power of the Sun!
+
+If you got your nebra and don't want to muck around with configuring a Pi, there is a simple solution. Rip everything out. 
+
+![Assembled Unit](/images/posts/nebra/assembled.png)
+
+Wisblock is pretty much the choice for solar repeaters, it absolutely sips power. 
+
+You can print a <a href="https://www.printables.com/model/893147-meshtastic-nebra-ip67-mounting-plate">Meshtastic Nebra mounting plate</a>. It seems to work fine in PETG, but I printed my production models in ASA. You can and should remove material from the plate to fit your antenna bulkheads. 
+
+Once you're completely shucked the case, mount a WisBlock to the backboard. #2 screws worked and you don't need to pre-drill. A 7000mAh battery will fit perfectly, but is extreme overkill. Even a single 18650 would be fine and last for days if not a week. The only annoying quirk of the Wisblock is that it draws so little power, most USB battery packs will turn off. 
+
+![Deployed Unit](/images/posts/nebra/deployed.png)
