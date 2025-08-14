@@ -42,7 +42,7 @@ Honestly, I rip out the USB board. I keep the WiFi and stick that in the single 
 
 Make sure all other boards are mounted correctly, no cables are loose, etc. Then stick the Nebra hat on the 40 pin header. 
 
-Yank out the eMMC key. Download and install the [Raspberry Imager](https://www.raspberrypi.com/software/). Try using a USB MicroSD adapter, SD adapter, etc. SanDisk MicroSD adapters don't seem to work. Which models work or don't work is hit and miss, so try until one works. The uGreen USB MicroSD adapter off Amazon worked for me. Use the Raspberry Pi 3 default image and click through. I do recommend setting the system defaults in the Imager. 
+Yank out the eMMC key, it's the small device with the gold dot on it right next to the green Pi board. Download and install the [Raspberry Imager](https://www.raspberrypi.com/software/). Try using a USB MicroSD adapter, SD adapter, etc. SanDisk MicroSD adapters don't seem to work. Which models work or don't work is hit and miss, so try until one works. The uGreen USB MicroSD adapter off Amazon worked for me. Use the Raspberry Pi 3 default image and click through. I do recommend setting the system defaults in the Imager. 
 
 Once it's finished, plug back into the miner and fire up SSH.
 
@@ -117,7 +117,7 @@ On the bottom of the tower, use another surge protector but this time leave the 
 
 I wrap anything threaded with teflon pipe tape. Every gland, bulkhead and plug. 
 
-I wrap the solar panel line connectors with silicon tape, plus the bulkheads. As well as spiral wrap for air hoses, to hopefully keep wildlife from eating the cables.
+I wrap the solar panel line connectors with silicon tape, plus the bulkheads. As well as spiral wrap for air hoses, to hopefully keep wildlife from eating the external power cable.
 
 ![Mount](/images/posts/nebra/mount.png)
 
