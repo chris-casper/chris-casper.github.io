@@ -136,6 +136,8 @@ You can print a <a href="https://www.printables.com/model/893147-meshtastic-nebr
 
 Once you're completely shucked the case, mount a WisBlock to the backboard. #2 screws worked and you don't need to pre-drill. A 7000mAh battery will fit perfectly, but is extreme overkill. Even a single 18650 would be fine and last for days if not a week. The only annoying quirk of the Wisblock is that it draws so little power, most USB battery packs will turn off. 
 
+BE VERY CAREFUL WITH THE BATTERY WIRING, YOU CAN EASILY FRY THE BOARD IF THE WIRING IS REVERSED. 
+
 I used shorter IPEX cabled bulkheads. With only 0.15W of transmitting power, all loss should be kept to a minimum and you want to mount the 900MHz antenna directly onto the bulkhead. And the 2.4 GHz WiFi antenna works fine for Bluetooth on the Wisblock. But if you want to save money, the bulkheads included will work fine. If you haven't used an IPEX connector, it will take slightly more force than you think it would, but you have to be careful not to snap the connector. I typically press it on with the flat of a flathead screwdriver while holding the cable to hold the connector in position. 
 
 I use a <a href="https://www.printables.com/model/1264626-rak-ipex-pigtail-bracket">bracket</a> to hold the connectors in place. But I don't use nylon or any screws on the cover bracket unless it's to be used in high vibration environment. 
