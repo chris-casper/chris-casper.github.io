@@ -27,7 +27,7 @@ The kit comes with:
 - 2.4 Mhz antenna
 - Very nice aluminium case
 - Hardware (pole mount, spare glands, spare plugs)
-- Electronics with a Pi 3 CM
+- Electronics - Pi CM3
 - Has USB WiFi and Bluetooth
 
 They can be found on eBay for around $50. If you see one for sale for over a hundred, message the seller and offer them around $50. They need 12VDC barrel connector or POE, it draws too much for USB. It's also not great for solar power (12-15W) and not recommended.
@@ -38,7 +38,7 @@ Reach out to WeHooper at [Mountain Mesh](https://mtnme.sh/) in Georgia. They hav
 
 ### Shucking
 
-Honestly, I rip out the USB board. I keep the WiFi and stick that in the single USB port. Nebra Bluetooth adapter is VERY short range and doesn't have any connectors for an external antenna. 
+Honestly, I rip out the USB board. I keep the WiFi and stick that in the single USB port. Nebra Bluetooth adapter is VERY short range and doesn't have any connectors for an external antenna. If you want to keep the USB board, you'll need pass-through headers for the Nebra hat.
 
 Make sure all other boards are mounted correctly, no cables are loose, etc. Then stick the Nebra hat on the 40 pin header. 
 
@@ -117,13 +117,6 @@ On the bottom of the tower, use another surge protector but this time leave the 
 
 I wrap anything threaded with teflon pipe tape. Every gland, bulkhead and plug. 
 
-I wrap the solar panel line connectors with silicon tape, plus the bulkheads. As well as spiral wrap for air hoses, to hopefully keep wildlife from eating the external power cable.
-
-![Mount](/images/posts/nebra/mount.png)
-
-I use a [mounting bracket](https://www.amazon.com/dp/B0BVT4J3FF) to connect the solar panel to the miner, along with metal hose clamp. The solar panel I had used a 1/4 course threaded nut. The hose clamps are probably the most secure way to fasten the two together. 
-
-
 ### The Power of the Sun!
 
 If you got your nebra and don't want to muck around with configuring a Pi, there is a simple solution. Rip everything out. 
@@ -142,5 +135,10 @@ I used shorter IPEX cabled bulkheads. With only 0.15W of transmitting power, all
 
 I use a <a href="https://www.printables.com/model/1264626-rak-ipex-pigtail-bracket">bracket</a> to hold the connectors in place. But I don't use nylon or any screws on the cover bracket unless it's to be used in high vibration environment. 
 
+![Mount](/images/posts/nebra/mount.png)
+
+I use a [mounting bracket](https://www.amazon.com/dp/B0BVT4J3FF) to connect the solar panel to the miner, along with metal hose clamp. The solar panel I had used a 1/4 course threaded nut. The hose clamps are probably the most secure way to fasten the two together. 
+
+I wrap the solar panel line connectors with silicon tape, plus the bulkheads. As well as spiral wrap for air hoses, to hopefully keep wildlife from eating the external power cable.
 
 ![Deployed Unit](/images/posts/nebra/deployed.png)
