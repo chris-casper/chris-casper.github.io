@@ -79,13 +79,14 @@ sudo reboot
 # Documentation at https://github.com/wehooper4/Meshtastic-Hardware/tree/main/NebraHat
 # 
 # Select the model you bought:
-# wget –O /etc/meshtasticd/config.d/NebraHat_2W.yaml https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_1W.yaml
-# wget –O /etc/meshtasticd/config.d/NebraHat_2W.yaml https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_2W.yaml
+# wget –O /etc/meshtasticd/config.d/NebraHat_1W.yaml https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_1W.yaml
+wget –O /etc/meshtasticd/config.d/NebraHat_2W.yaml https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_2W.yaml
 
 sudo nano /etc/meshtasticd/config.yaml
 # Honestly you can leave the web service turned off. API is enough
 # Set either the MAC address or MACAddressSource, not both. It's at bottom of YAML. Eth0 is best choice
 
+#sudo nano /etc/meshtasticd/config.d/NebraHat_1W.yaml
 sudo nano /etc/meshtasticd/config.d/NebraHat_2W.yaml
 # Verify power level is set to 8 or lower. Obviously change 2W to 1W if purchased that model. 
 # Shouldn't need to make changes, but if you have problems below such as "No sx1262 radio" uncomment the CS line
