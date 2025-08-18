@@ -15,7 +15,7 @@ tags:
 
 Helium Coin was/is a crypto coin that got run up in value and then crashed. Regardless of one's opinion, a lot of people bought $750 crypto miners that now aren't very useful. Rather than ending up as rather expensive eWaste, they can be repurposed for Meshtastic.
 
-The model I've been able to find pretty decently is the <a href="https://helium.nebra.com/pdfs/outdoor-overview.pdf">Nebra Outdoor Hotspot Miner</a>. It has pretty good specs across the board. A Pi 4 would be been nice, but it was likely a combination of price, power and heat. Waveshare does have a CM4 to CM3 adapter that might be worth playing around with if you want processing power up the tower for some niche circumstance.  
+The model I've been able to find pretty decently is the <a href="https://helium.nebra.com/pdfs/outdoor-overview.pdf">Nebra Outdoor Hotspot Miner</a>. It has pretty good specs across the board. A Pi CM4 would have been nice, but it was likely a combination of price, power and heat. Waveshare does have a CM4 to CM3 adapter that might be worth playing around with if you want processing power up the tower for some niche circumstance.  
 
 I have started ordering additional outdoor miners to see if any others would be trivially converted to Meshtastic. 
 
