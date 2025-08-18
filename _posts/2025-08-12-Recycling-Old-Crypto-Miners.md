@@ -67,6 +67,7 @@ sudo sed -i -e '/^\s*#\?\s*dtoverlay\s*=\s*vc4-kms-v3d/! s/^\s*#\?\s*(dtoverlay|
 if ! sudo grep -q '^\s*dtoverlay=spi0-0cs' /boot/firmware/config.txt; then
     sudo sed -i '/^\s*dtparam=spi=on/a dtoverlay=spi0-0cs' /boot/firmware/config.txt
 fi
+# May also wish to enable i2c as well: dtparam=i2c_arm=on
 
 #
 # reboot the RPI here
@@ -107,12 +108,16 @@ Once it's up and running, fire up the Meshtastic app to configure it. Use the Ne
 
 If you have i2c sensors on your board, uncomment "I2CDevice: /dev/i2c-1" in /etc/meshtasticd/config.yaml
 
+And double check /boot/firmware/config.txt to make sure you have i2c enabled. Reboot after making the config.txt and config.yaml changes.
+
 To find out if you have any, run the following.
 
 ```shell
 sudo apt-get install i2c-tools
 i2cdetect -y 1
 ```
+
+
 
 
 ### Cell Modem
