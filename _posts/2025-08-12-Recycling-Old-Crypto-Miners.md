@@ -86,6 +86,7 @@ sudo nano /etc/meshtasticd/config.yaml
 # Honestly you can leave the web service turned off. API is enough
 # Set either the MAC address or MACAddressSource, not both. It's at bottom of YAML. Eth0 is best choice
 
+# Select same model as above
 #sudo nano /etc/meshtasticd/config.d/NebraHat_1W.yaml
 sudo nano /etc/meshtasticd/config.d/NebraHat_2W.yaml
 # Verify power level is set to 8 or lower. Obviously change 2W to 1W if purchased that model. 
@@ -102,12 +103,24 @@ sudo systemctl status meshtasticd
 
 Once it's up and running, fire up the Meshtastic app to configure it. Use the Network option on the Cloud tab in the app. 
 
+### Sensors
+
+If you have i2c sensors on your board, uncomment "I2CDevice: /dev/i2c-1" in /etc/meshtasticd/config.yaml
+
+To find out if you have any, run the following.
+
+```shell
+sudo apt-get install i2c-tools
+i2cdetect -y 1
+```
+
 
 ### Cell Modem
 
 There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. I ordered some and will update once I noodled them out. There are some data only plans for a few dollars a month. 
 
-Once I play around with it, I'll update here. I do like the concept of having a tower control node with 4G, ethernet, Wifi and meshtastic connectivity.
+Once I play around with it, I'll update here. I do like the concept of having a tower control node with 4G, ethernet, Wifi and meshtastic connectivity. There are services that offer cheap plans like 500MB for $4/month. Hopefully one offers decent control of multiple SIMs. 
+
 
 ### Prepping Miner for Outdoor Deployment
 
