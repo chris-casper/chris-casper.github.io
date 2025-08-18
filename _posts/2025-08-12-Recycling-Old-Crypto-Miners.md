@@ -32,9 +32,7 @@ The kit comes with:
 
 They can be found on eBay for around $50. If you see one for sale for over a hundred, message the seller and offer them around $50. They need 12VDC barrel connector or POE, it draws too much for USB. It's also not great for solar power (12-15W) and not recommended.
 
-There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. I ordered some and will update once I noodled them out. There are some data only plans for a few dollars a month. 
-
-Reach out to WeHooper at [Mountain Mesh](https://mtnme.sh/) in Georgia. They have a number of options: Nebra Pi hats that use 40 pin headers (that can also be used on normal Raspberry Pis), [MESHTOAD](https://mtnme.sh/devices/MeshToad/) USB that works for any PC and developing an M2 format card (still early prototype). Hop on their Discord and inquire. 
+Reach out to WeHooper at [Mountain Mesh](https://mtnme.sh/) in Georgia. They have a number of options: Nebra Pi hats that use 40 pin headers (that can also be used on normal Raspberry Pis), [MESHTOAD](https://mtnme.sh/devices/MeshToad/) USB that works for any PC and developing an M2 format card (still early prototype). Hop on their [Discord](https://discord.gg/4WN32RHGSs) and inquire. 
 
 ### Shucking
 
@@ -102,6 +100,13 @@ sudo systemctl status meshtasticd
 ```
 
 Once it's up and running, fire up the Meshtastic app to configure it. Use the Network option on the Cloud tab in the app. 
+
+
+### Cell Modem
+
+There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. I ordered some and will update once I noodled them out. There are some data only plans for a few dollars a month. 
+
+Once I play around with it, I'll update here. I do like the concept of having a tower control node with 4G, ethernet, Wifi and meshtastic connectivity.
 
 ### Prepping Miner for Outdoor Deployment
 
