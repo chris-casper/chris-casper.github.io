@@ -126,6 +126,48 @@ There is also a 4G module available if you have cell coverage and want remote ac
 
 Once I play around with it, I'll update here. I do like the concept of having a tower control node with 4G, ethernet, Wifi and meshtastic connectivity. There are services that offer cheap plans like 500MB for $4/month. Hopefully one offers decent control of multiple SIMs. 
 
+### Antenna Selection
+
+The stock Nebra antenna as well as similar RAK antennas claim to be 3dbi and tend to be better than random stuff found on Amazon. You can find the common antennas here:
+
+[https://github.com/meshtastic/antenna-reports](https://github.com/meshtastic/antenna-reports)
+
+Remember, SWR isn't going to tell you everything. If you hooked up a 50 Ω resistor to your NanoVNA, it would look perfectly matched — Thanos will tell you it’s perfectly balanced, just as all things should be — but of course it won’t radiate. 
+
+SWR tells you how well your antenna matches your transmitter. Not how well your antenna performs. To do that, you need to hook up the antenna and take measurements at different azimuth and distance. 2:1 SWR means ~11% reflected. The main effect of high SWR for Meshtastic is wasted battery and poor range
+
+Commercial antennas tend to be a lot more expensive than consumer ones, but you do get what you pay for. For meshtastic, you ideally want 902-928MHz ISM tuned. Wider tuning (824–960 MHz) will still work decently and better than most consumer antenna. Just not with same efficiency.  
+
+Gain is not magic. It's not adding power, it's shaping it. 0dBi would be a very fat (theoretical and idealized isotropic radiator) donut, handy if you want good coverage in all directions equally. 9dBi would be a very wide pancake, handy if you put on a tower and want to reach other towers. 3-6dBi is compromising between the two. 
+
+Higher gain flattens the vertical beam, turning the donut into a wider, thinner pancake. There is no ideal, only ideal for your purpose. 
+
+Suppose you're putting a meshtastic node on a mountain top tower:
+
+If you want all-purpose coverage from a single mountaintop node, 5 dBi, ISM-tuned is the sweet spot. It won't be great at distance, but it won't leave nearby hikers without coverage either. Incidentally these tend to be expensive antennas. 
+
+If you want maximum long-haul distance, point-to-multipoint across valleys, 6 dBi.
+
+If you want to prioritize hikers and nearby stations at different elevations, 3 dBi would be a good choice.
+
+If you have multiple units, mixing antennas would provide different coverage for different folks. 
+
+
+Now let's make things even more complicated. It's not JUST the dBi. That shapes the power, but how do we get the power in the first place?
+
+With commercial high quality fiberglass omnidirectional antennas, you're paying the extra for lower conduction/dielectric loss (ohmic heating in conductors, dielectric materials, radome, etc.). High-quality commercial fiberglass omnis often have radiation efficiency >90–95% (loss <0.5 dB). Cheap eBay/Amazon antennas can be much worse — sometimes only 30–60% efficiency. Meaning if you're beaming a watt, you might only be shooting out 300-600 milliwatts for that antenna to shape. 
+
+SWR tells you what fraction of power even makes it into the antenna.
+Efficiency tells you how much of that delivered power is actually radiated vs lost as heat.
+Together, they give you real radiated efficiency.
+
+Let's suppose you have a great antenna with SWR of 1.5, you'll get a reflection ~4% of TX power and 92.5% antenna efficiency, ~88% of the original watt is radiated. Meaning you get around 0.88W transmitted.
+
+Increase the SWR to 2, you'll get a reflection ~11% of TX power and 92.5% antenna efficiency, ~82% of the original watt is radiated. Meaning you get around 0.82W transmitted.
+
+Suppose you want to add coax instead of mounting your antenna to the ipex bulkhead. 1dB of feedline loss can cost you 20.6% of the watt before it even gets to your expensive commercial antenna. Taking that awesome 0.88W down to 0.71W. 
+
+
 
 ### Prepping Miner for Outdoor Deployment
 
