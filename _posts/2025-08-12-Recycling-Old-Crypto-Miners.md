@@ -132,13 +132,13 @@ There will also be a lightning arrestor on the main antenna. The two grounding c
 
 ### Cell Modem
 
-![Meshtastic Pi](/images/posts/nebra/nebra-pi.png)
+![Meshtastic cell modem](/images/posts/nebra/nebra-case.png)
 
 There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. Card can do 150Mbps down and 50Mbps up, but only if you are using MAIN and DIV connectors. I was very interested in the GPS chip on the EG25-G Mini as it covers GPS, GLONASS, BeiDou/Compass, Galileo and QZSS.
 
-The EG25-G does need a physical SIM card to work. eSIM is possible but would require a lot of custom coding. 
-
 It is possible to use AT commands directly to access the multi-band GPS on the card, but it's frustrating process to put it mildly. Use nmcli. Put your Meshtastic and LTE antennas on opposite ends of the case and only use LTE if you have a band pass filter on your LoRa radio. LTE interferes with 915MHz. I would only use the MAIN LTE connector, not the DIV. Higher bandwidth isn't worth displacing the WiFi antenna aimed down. 
+
+The EG25-G and nmcli does need a physical SIM card to work. Otherwise the EG25-G declare itself to be in failed state and complain when you try to get GPS coordinates from it. eSIM is possible but would require a lot of custom coding. 
 
 You can use a normal LTE antenna as a GPS antenna. Indoors I was easily able to get 12 satellites within a few minutes. 
 
