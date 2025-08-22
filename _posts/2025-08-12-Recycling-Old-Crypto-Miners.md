@@ -130,15 +130,45 @@ Shucking was just prying it out with a multi-tool, you will bend the metal case 
 There will also be a lightning arrestor on the main antenna. The two grounding cables will go to a split bolt and then on to tower ground using ground clamp. Notion is to provide a low-impedance path to ground. 
 
 
-
-
 ### Cell Modem
 
 ![Meshtastic Pi](/images/posts/Nebra/Nebra-pi.png)
 
-There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. I ordered some and will update once I noodled them out. There are some data only plans for a few dollars a month. 
+There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. Card can do 150Mbps down and 50Mbps up, but only if you are using MAIN and DIV connectors. I was very interested in the GPS chip on the EG25-G Mini as it covers GPS, GLONASS, BeiDou/Compass, Galileo and QZSS.
 
-Once I play around with it, I'll update here. I do like the concept of having a tower control node with 4G, ethernet, Wifi and Meshtastic connectivity. There are services that offer cheap plans like 500MB for $4/month. Hopefully one offers decent control of multiple SIMs. 
+The EG25-G does need a physical SIM card to work. eSIM is possible but would require a lot of custom coding. 
+
+It is possible to use AT commands directly to access the multi-band GPS on the card, but it's frustrating process to put it mildly. Use nmcli. Put your Meshtastic and LTE antennas on opposite ends of the case and only use LTE if you have a band pass filter on your LoRa radio. LTE interferes with 915MHz. I would only use the MAIN LTE connector, not the DIV. Higher bandwidth isn't worth displacing the WiFi antenna aimed down. 
+
+You can use a normal LTE antenna as a GPS antenna. Indoors I was easily able to get 12 satellites within a few minutes. 
+
+
+### WiFi AP 
+
+See [https://github.com/wehooper4/Meshtastic-Hardware/tree/main/NebraHat/nebraAP](https://github.com/wehooper4/Meshtastic-Hardware/tree/main/NebraHat/nebraAP)
+
+For the stock USB WiFi adapter, replace the stock driver to be able to use the Nebra as an AP. This would allow you to connect via laptop. Alternatively you can connect the device to the local WiFi if it will reach. 
+
+```shell
+# Get  RT18188 driver for Debian
+wget -O ~/rtl8188eus_1.0-1_arm64.deb https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/NebraHat/nebraAP/rtl8188eus_1.0-1_arm64.deb
+sudo dpkg -i ~/rtl8188eus_1.0-1_arm64.deb
+
+# Remove old driver
+echo "blacklist rtl8xxxu" | sudo tee /etc/modprobe.d/rtl8xxxu.conf
+sudo dpkg -i rtl8188eus_1.0-1_arm64.deb
+sudo modprobe 8188eu
+
+# Reboot
+sudo reboot
+
+# After reboot, check what driver is in use
+basename $(readlink /sys/class/net/wlan0/device/driver)
+# should display 8188eu
+
+```
+
+
 
 ### Antenna Selection
 
