@@ -9,7 +9,7 @@ tags:
 ---
 
 
-![Meshtastic Pi](/images/posts/Nebra/Nebra-pi.png)
+![Meshtastic Pi](/images/posts/nebra/nebra-pi.png)
 
 ### Recycling Old Crypto Miners for Something Useful
 
@@ -119,7 +119,7 @@ I2Cdetect -y 1
 
 ### Grounding
 
-![Nebra Grounding](/images/posts/Nebra/Nebra_case_grounding.jpg)
+![Nebra Grounding](/images/posts/nebra/nebra_case_grounding.jpg)
 
 Not as important for self-contained solar nodes. But pretty critical if placed on a tower, especially with RF equipment. 
 
@@ -132,7 +132,7 @@ There will also be a lightning arrestor on the main antenna. The two grounding c
 
 ### Cell Modem
 
-![Meshtastic Pi](/images/posts/Nebra/Nebra-pi.png)
+![Meshtastic Pi](/images/posts/nebra/nebra-pi.png)
 
 There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. Card can do 150Mbps down and 50Mbps up, but only if you are using MAIN and DIV connectors. I was very interested in the GPS chip on the EG25-G Mini as it covers GPS, GLONASS, BeiDou/Compass, Galileo and QZSS.
 
@@ -231,7 +231,7 @@ I wrap anything threaded with teflon pipe tape. Every gland, bulkhead and plug.
 
 If you got your Nebra and don't want to muck around with configuring a Pi, there is a simple solution. Rip everything out. 
 
-![Assembled Unit](/images/posts/Nebra/assembled.png)
+![Assembled Unit](/images/posts/nebra/assembled.png)
 
 Wisblock is pretty much the choice for solar repeaters, it absolutely sips power. 
 
@@ -251,4 +251,4 @@ I use a [mounting bracket](https://www.amazon.com/dp/B0BVT4J3FF) to connect the 
 
 I wrap the solar panel line connectors with silicon tape, plus the bulkheads. As well as spiral wrap for air hoses, to hopefully keep wildlife from eating the external power cable.
 
-![Deployed Unit](/images/posts/Nebra/deployed.png)
+![Deployed Unit](/images/posts/nebra/deployed.png)
