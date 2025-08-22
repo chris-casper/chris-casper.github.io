@@ -245,7 +245,7 @@ I used shorter IPEX cabled bulkheads. With only 0.15W of transmitting power, all
 
 I use a <a href="https://www.printables.com/model/1264626-rak-ipex-pigtail-bracket">bracket</a> to hold the connectors in place. But I don't use nylon or any screws on the cover bracket unless it's to be used in high vibration environment. 
 
-![Mount](/images/posts/Nebra/mount.png)
+![Mount](/images/posts/nebra/mount.png)
 
 I use a [mounting bracket](https://www.amazon.com/dp/B0BVT4J3FF) to connect the solar panel to the miner, along with metal hose clamp. The solar panel I had used a 1/4 course threaded nut. The hose clamps are probably the most secure way to fasten the two together. 
 
