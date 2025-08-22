@@ -132,7 +132,7 @@ There will also be a lightning arrestor on the main antenna. The two grounding c
 
 ### Cell Modem
 
-![Meshtastic cell modem](/images/posts/nebra/nebra-case.png)
+![Meshtastic cell modem](/images/posts/nebra/nebra-case.jpg)
 
 There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. Card can do 150Mbps down and 50Mbps up, but only if you are using MAIN and DIV connectors. I was very interested in the GPS chip on the EG25-G Mini as it covers GPS, GLONASS, BeiDou/Compass, Galileo and QZSS.
 
