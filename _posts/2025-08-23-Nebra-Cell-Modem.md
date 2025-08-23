@@ -9,7 +9,7 @@ tags:
 ---
 
 
-![Meshtastic Pi](/images/posts/nebra/nebra-pi.png)
+![Meshtastic Pi](/images/posts/nebra/nebra-case.jpg)
 
 ### Nebra Cell Modem
 
