@@ -44,8 +44,12 @@ Connect MAIN and GNSS ipex bulkheads and antennas. Leave DIV empty.
 
 I recommend MAIN be on the opposite side from your 915MHz antenna for meshtastic. GNSS is passive so won't interfere, I put that besides the main antenna. 
 
+GPS works absolutely fine off the included LTE antenna. I'm connecting to 10-12 GPS sats indoors. If you need hyper accurate time, get an active GPS antenna.
+
 
 ### Setup 
+
+This is brand new and I'm still working through the config. Please reach out if you run into any issues.
 
 ```shell
 
