@@ -3,21 +3,21 @@ title: "Recycling Old Crypto Miners - Nebra"
 excerpt: "Low cost high power LoRA Mesh networking"
 last_modified_at: 2025-08-12 20:00:00
 tags:
-  - Meshtastic
+  - meshtastic
   - LoRA
   - crypto
 ---
 
 
-![Meshtastic Pi](/images/posts/nebra/nebra-pi.png)
+![meshtastic Pi](/images/posts/nebra/nebra-pi.png)
 
 ### Recycling Old Crypto Miners for Something Useful
 
-Helium Coin was/is a crypto coin that got run up in value and then crashed. Regardless of one's opinion, a lot of people bought $750 crypto miners that now aren't very useful. Rather than ending up as rather expensive eWaste, they can be repurposed for Meshtastic.
+Helium Coin was/is a crypto coin that got run up in value and then crashed. Regardless of one's opinion, a lot of people bought $750 crypto miners that now aren't very useful. Rather than ending up as rather expensive eWaste, they can be repurposed for meshtastic.
 
 The model I've been able to find pretty decently is the <a href="https://helium.Nebra.com/pdfs/outdoor-overview.pdf">Nebra Outdoor Hotspot Miner</a>. It has pretty good specs across the board. A Pi CM4 would have been nice, but it was likely a combination of price, power and heat. Waveshare does have a CM4 to CM3 adapter that might be worth playing around with if you want processing power up the tower for some niche circumstance.  
 
-I have started ordering additional outdoor miners to see if any others would be trivially converted to Meshtastic. 
+I have started ordering additional outdoor miners to see if any others would be trivially converted to meshtastic. 
 
 
 ### Hardware Details
@@ -44,18 +44,21 @@ Yank out the eMMC key, it's the small device with the gold dot on it right next 
 
 Once it's finished, plug back into the miner and fire up SSH.
 
-Here's the commands to get Meshtasticd working:
+Here's the commands to get meshtasticd working:
 
 ```shell
 # Update the RPi
 sudo apt update
 sudo apt upgrade
 
-# Add Meshtastic repo
-echo 'deb http://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/network:Meshtastic:beta.list
-curl -fsSL https://download.opensuse.org/repositories/network:Meshtastic:beta/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/network_Meshtastic_beta.gpg > /dev/null
+# Add meshtastic repo
+echo 'deb http://download.opensuse.org/repositories/network:/meshtastic:/beta/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/network:meshtastic:beta.list
+curl -fsSL https://download.opensuse.org/repositories/network:meshtastic:beta/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/network_meshtastic_beta.gpg > /dev/null
 sudo apt update
-sudo apt install Meshtasticd
+sudo apt install meshtasticd
+# Install cli
+sudo apt install pipx && pipx install "meshtastic[cli]"
+pipx ensurepath
 
 # Enable SPI on the RPi
 sudo raspi-config nonint set_config_var dtparam=spi on /boot/firmware/config.txt # Enable SPI
@@ -67,7 +70,14 @@ sudo sed -i -e '/^\s*#\?\s*dtoverlay\s*=\s*vc4-kms-v3d/! s/^\s*#\?\s*(dtoverlay|
 if ! sudo grep -q '^\s*dtoverlay=spi0-0cs' /boot/firmware/config.txt; then
     sudo sed -i '/^\s*dtparam=spi=on/a dtoverlay=spi0-0cs' /boot/firmware/config.txt
 fi
-# May also wish to enable I2C as well: dtparam=I2C_arm=on
+
+# May also wish to enable I2C now as well: 
+# sudo nano /boot/firmware/config.txt
+# dtparam=i2c_arm=on
+
+# install I2C tools
+sudo apt-get install I2C-tools
+
 
 #
 # reboot the RPI here
@@ -75,46 +85,47 @@ fi
 sudo reboot
 
 #
-# Setup the hat before turning on Meshtastic to avoid damaging the radio
+# Setup the hat before turning on meshtastic to avoid damaging the radio
 #
-# Documentation at https://github.com/wehooper4/Meshtastic-Hardware/tree/main/NebraHat
+# Documentation at https://github.com/wehooper4/meshtastic-Hardware/tree/main/NebraHat
 # 
 # Select the model you bought:
-# wget –O /etc/Meshtasticd/config.d/NebraHat_1W.yaml https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_1W.yaml
-wget –O /etc/Meshtasticd/config.d/NebraHat_2W.yaml https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_2W.yaml
+# sudo wget –O /etc/meshtasticd/config.d/NebraHat_1W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_1W.yaml
+sudo wget –O /etc/meshtasticd/config.d/NebraHat_2W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_2W.yaml
 
-sudo nano /etc/Meshtasticd/config.yaml
+
+sudo nano /etc/meshtasticd/config.yaml
 # Honestly you can leave the web service turned off. API is enough
 # Set either the MAC address or MACAddressSource, not both. It's at bottom of YAML. Eth0 is best choice
 
 # Select same model as above
-#sudo nano /etc/Meshtasticd/config.d/NebraHat_1W.yaml
-sudo nano /etc/Meshtasticd/config.d/NebraHat_2W.yaml
+#sudo nano /etc/meshtasticd/config.d/NebraHat_1W.yaml
+sudo nano /etc/meshtasticd/config.d/NebraHat_2W.yaml
 # Verify power level is set to 8 or lower. Obviously change 2W to 1W if purchased that model. 
 # Shouldn't need to make changes, but if you have problems below such as "No sx1262 radio" uncomment the CS line
-# to look for errors: journalctl -xeu Meshtasticd.service 
+# to look for errors: journalctl -xeu meshtasticd.service 
 
-sudo systemctl enable Meshtasticd
-sudo systemctl start Meshtasticd
-sudo systemctl status Meshtasticd
+sudo systemctl enable meshtasticd
+sudo systemctl start meshtasticd
+sudo systemctl status meshtasticd
 
-# To troubleshoot, systemctl stop Meshtasticd
-# Then run "Meshtasticd" by itself in CLI to look for errors
+# To troubleshoot, systemctl stop meshtasticd
+# Then run "meshtasticd" by itself in CLI to look for errors
 ```
 
-Once it's up and running, fire up the Meshtastic app to configure it. Use the Network option on the Cloud tab in the app. 
+Once it's up and running, fire up the meshtastic app to configure it. Use the Network option on the Cloud tab in the app. 
 
 ### Sensors
 
-If you have I2C sensors on your board, uncomment "I2CDevice: /dev/I2C-1" in /etc/Meshtasticd/config.yaml
+If you have i2c sensors on your board, uncomment "i2cDevice: /dev/i2c-1" in /etc/meshtasticd/config.yaml
 
-And double check /boot/firmware/config.txt to make sure you have I2C enabled. Reboot after making the config.txt and config.yaml changes.
+And double check /boot/firmware/config.txt to make sure you have i2c enabled. Reboot after making the config.txt and config.yaml changes.
 
 To find out if you have any, run the following.
 
 ```shell
-sudo apt-get install I2C-tools
-I2Cdetect -y 1
+sudo apt-get install i2c-tools
+i2cdetect -y 1
 ```
 
 ### Grounding
@@ -132,11 +143,11 @@ There will also be a lightning arrestor on the main antenna. The two grounding c
 
 ### Cell Modem
 
-![Meshtastic cell modem](/images/posts/nebra/nebra-case.jpg)
+![meshtastic cell modem](/images/posts/nebra/nebra-case.jpg)
 
 There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. Card can do 150Mbps down and 50Mbps up, but only if you are using MAIN and DIV connectors. I was very interested in the GPS chip on the EG25-G Mini as it covers GPS, GLONASS, BeiDou/Compass, Galileo and QZSS.
 
-It is possible to use AT commands directly to access the multi-band GPS on the card, but it's frustrating process to put it mildly. Use nmcli. Put your Meshtastic and LTE antennas on opposite ends of the case and only use LTE if you have a band pass filter on your LoRa radio. LTE interferes with 915MHz. I would only use the MAIN LTE connector, not the DIV. Higher bandwidth isn't worth displacing the WiFi antenna aimed down. 
+It is possible to use AT commands directly to access the multi-band GPS on the card, but it's frustrating process to put it mildly. Use nmcli. Put your meshtastic and LTE antennas on opposite ends of the case and only use LTE if you have a band pass filter on your LoRa radio. LTE interferes with 915MHz. I would only use the MAIN LTE connector, not the DIV. Higher bandwidth isn't worth displacing the WiFi antenna aimed down. 
 
 The EG25-G and nmcli does need a physical SIM card to work. Otherwise the EG25-G declare itself to be in failed state and complain when you try to get GPS coordinates from it. eSIM is possible but would require a lot of custom coding. 
 
@@ -145,13 +156,15 @@ You can use a normal LTE antenna as a GPS antenna. Indoors I was easily able to 
 
 ### WiFi AP 
 
-See [https://github.com/wehooper4/Meshtastic-Hardware/tree/main/NebraHat/nebraAP](https://github.com/wehooper4/Meshtastic-Hardware/tree/main/NebraHat/nebraAP)
+See [https://github.com/wehooper4/meshtastic-Hardware/tree/main/NebraHat/nebraAP](https://github.com/wehooper4/meshtastic-Hardware/tree/main/NebraHat/nebraAP)
 
 For the stock USB WiFi adapter, replace the stock driver to be able to use the Nebra as an AP. This would allow you to connect via laptop. Alternatively you can connect the device to the local WiFi if it will reach. 
 
+I had issues with this and just reverted to stock driver. 
+
 ```shell
 # Get  RT18188 driver for Debian
-wget -O ~/rtl8188eus_1.0-1_arm64.deb https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/NebraHat/nebraAP/rtl8188eus_1.0-1_arm64.deb
+wget -O ~/rtl8188eus_1.0-1_arm64.deb https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/nebraAP/rtl8188eus_1.0-1_arm64.deb
 sudo dpkg -i ~/rtl8188eus_1.0-1_arm64.deb
 
 # Remove old driver
@@ -174,19 +187,19 @@ basename $(readlink /sys/class/net/wlan0/device/driver)
 
 The stock Nebra antenna as well as similar RAK antennas claim to be 3dBi and tend to be better than random stuff found on Amazon. You can find the common antennas here:
 
-[https://github.com/Meshtastic/antenna-reports](https://github.com/Meshtastic/antenna-reports)
+[https://github.com/meshtastic/antenna-reports](https://github.com/meshtastic/antenna-reports)
 
 Remember, SWR isn't going to tell you everything. If you hooked up a 50 Ω resistor to your NanoVNA, it would look perfectly matched — Thanos will tell you it’s perfectly balanced, just as all things should be — but of course it won’t radiate. 
 
-SWR tells you how well your antenna matches your transmitter. Not how well your antenna performs. To do that, you need to hook up the antenna and take measurements at different azimuth and distance. 2:1 SWR means ~11% reflected. The main effect of high SWR for Meshtastic is wasted battery and poor range
+SWR tells you how well your antenna matches your transmitter. Not how well your antenna performs. To do that, you need to hook up the antenna and take measurements at different azimuth and distance. 2:1 SWR means ~11% reflected. The main effect of high SWR for meshtastic is wasted battery and poor range
 
-Commercial antennas tend to be a lot more expensive than consumer ones, but you do get what you pay for. For Meshtastic, you ideally want 902-928MHz ISM tuned. Wider tuning (824–960 MHz) will still work decently and better than most consumer antenna. Just not with same efficiency.  
+Commercial antennas tend to be a lot more expensive than consumer ones, but you do get what you pay for. For meshtastic, you ideally want 902-928MHz ISM tuned. Wider tuning (824–960 MHz) will still work decently and better than most consumer antenna. Just not with same efficiency.  
 
 Gain is not magic. It's not adding power, it's shaping it. 0dBi would be a very fat (theoretical and idealized isotropic radiator) donut, handy if you want good coverage in all directions equally. 9dBi would be a very wide pancake, handy if you put on a tower and want to reach other towers. 3-6dBi is compromising between the two. 
 
 Higher gain flattens the vertical beam, turning the donut into a wider, thinner pancake. There is no ideal, only ideal for your purpose. 
 
-Suppose you're putting a Meshtastic node on a mountain top tower:
+Suppose you're putting a meshtastic node on a mountain top tower:
 
 If you want all-purpose coverage from a single mountaintop node, 5 dBi, ISM-tuned is the sweet spot. It won't be great at distance, but it won't leave nearby hikers without coverage either. Incidentally these tend to be expensive antennas. 
 
@@ -235,7 +248,7 @@ If you got your Nebra and don't want to muck around with configuring a Pi, there
 
 Wisblock is pretty much the choice for solar repeaters, it absolutely sips power. 
 
-You can print a <a href="https://www.printables.com/model/893147-Meshtastic-Nebra-ip67-mounting-plate">Meshtastic Nebra mounting plate</a>. It seems to work fine in PETG, but I printed my production models in ASA. You can and should remove material from the plate to fit your antenna bulkheads. 
+You can print a <a href="https://www.printables.com/model/893147-meshtastic-Nebra-ip67-mounting-plate">meshtastic Nebra mounting plate</a>. It seems to work fine in PETG, but I printed my production models in ASA. You can and should remove material from the plate to fit your antenna bulkheads. 
 
 Once you're completely shucked the case, mount a WisBlock to the backboard. #2 screws worked and you don't need to pre-drill. A 7000mAh battery will fit perfectly, but is extreme overkill. Even a single 18650 would be fine and last for days if not a week. The only annoying quirk of the Wisblock is that it draws so little power, most USB battery packs will turn off. 
 
