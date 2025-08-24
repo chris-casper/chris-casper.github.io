@@ -221,6 +221,140 @@ https://www.waveshare.com/wiki/EG25-G_mPCIe#How_to_Install_and_Use_Dial-up_Tool_
 Waveshare has an install script you can go with. I haven't tried it out yet.
 
 
+### Making sure the modem GPS is turned on
+
+Make sure flock is installed, you can check with sudo apt install util-linux
+
+Write the following with sudo nano /usr/local/bin/check_mm_location.sh
+
+This is still a work in progress. 
+
+```shell
+#!/bin/bash
+# Ensure ModemManager location features are on for all detected modems.
+# Requires: mmcli, flock. Run as root (cron/systemd).
+
+set -euo pipefail
+
+LOG_FILE="/var/log/mm-location-monitor.log"
+MMCLI="${MMCLI:-/usr/bin/mmcli}"
+DATE="/bin/date"
+FLOCK="/usr/bin/flock"
+LOCKFILE="/var/lock/mm-location-monitor.lock"
+
+log() {
+  echo "$($DATE '+%Y-%m-%d %H:%M:%S')  $*" | tee -a "$LOG_FILE"
+}
+
+list_modem_ids() {
+  # Output: one modem ID per line (e.g., 0, 1, 2 ...), or nothing if none exist
+  # mmcli -L example line:
+  # /org/freedesktop/ModemManager1/Modem/1 [QUALCOMM INCORPORATED] QUECTEL Mobile Broadband Module
+  "$MMCLI" -L 2>/dev/null | sed -En 's#.*/Modem/([0-9]+).*#\1#p'
+}
+
+check_and_fix_modem() {
+  local MID="$1"
+
+  # Verify the modem exists
+  if ! "$MMCLI" -m "$MID" >/dev/null 2>&1; then
+    log "modem $MID: not present; skipping"
+    return 0
+  fi
+
+  # Read location status
+  local STATUS
+  if ! STATUS="$("$MMCLI" -m "$MID" --location-status 2>&1)"; then
+    log "modem $MID: failed to read location-status"
+    return 1
+  fi
+
+  # Quick capability check; if modem doesn't support gps-unmanaged, don't spam errors
+  local CAP_LINE
+  CAP_LINE="$(echo "$STATUS" | grep -E '^\s*\|\s*capabilities:' || true)"
+  if ! echo "$CAP_LINE" | grep -q 'gps-unmanaged'; then
+    log "modem $MID: no gps-unmanaged capability; skipping gps enable"
+  fi
+
+  # Parse "enabled" and "signals"
+  local ENABLED_LINE SIGNALS_LINE
+  ENABLED_LINE="$(echo "$STATUS"  | grep -E '^\s*\|\s*enabled:'  || true)"
+  SIGNALS_LINE="$(echo "$STATUS"  | grep -E '^\s*\|\s*signals:'  || true)"
+
+  local HAS_GPS_UNMANAGED="no" HAS_SIGNALS="no"
+  if echo "$ENABLED_LINE" | grep -q 'gps-unmanaged'; then HAS_GPS_UNMANAGED="yes"; fi
+  if echo "$SIGNALS_LINE" | grep -q 'yes'; then HAS_SIGNALS="yes"; fi
+
+  local changed="no"
+
+  # Enable gps-unmanaged if missing and supported
+  if [ "$HAS_GPS_UNMANAGED" != "yes" ] && echo "$CAP_LINE" | grep -q 'gps-unmanaged'; then
+    if "$MMCLI" -m "$MID" --location-enable-gps-unmanaged >/dev/null 2>&1; then
+      log "modem $MID: enabled gps-unmanaged"
+      changed="yes"
+    else
+      log "modem $MID: FAILED to enable gps-unmanaged"
+    fi
+  fi
+
+  # Enable signals if missing (try both flags for compatibility)
+  if [ "$HAS_SIGNALS" != "yes" ]; then
+    if "$MMCLI" -m "$MID" --location-enable-signals >/dev/null 2>&1; then
+      log "modem $MID: enabled signals"
+      changed="yes"
+    elif "$MMCLI" -m "$MID" --location-set-enable-signal >/dev/null 2>&1; then
+      log "modem $MID: enabled signals (compat flag)"
+      changed="yes"
+    else
+      log "modem $MID: FAILED to enable signals"
+    fi
+  fi
+
+  # Dump refreshed status if anything changed
+  if [ "$changed" = "yes" ]; then
+    "$MMCLI" -m "$MID" --location-status | sed 's/^/modem '"$MID"': /' | tee -a "$LOG_FILE" >/dev/null
+  else
+    log "modem $MID: already OK (gps-unmanaged + signals)"
+  fi
+}
+
+_main_run() {
+  local any=0
+  while IFS= read -r MID; do
+    any=1
+    check_and_fix_modem "$MID"
+  done < <(list_modem_ids)
+
+  if [ "$any" -eq 0 ]; then
+    log "no modems detected by ModemManager"
+  fi
+}
+
+main() {
+  # Serialize concurrent runs
+  exec "$FLOCK" -n "$LOCKFILE" -c "$0" _run 2>/dev/null || exit 0
+}
+
+if [ "${1:-}" = "_run" ]; then
+  _main_run
+else
+  main
+fi
+```
+
+You can set it up with
+
+```shell
+sudo chmod 755 /usr/local/bin/check_mm_location.sh
+sudo chmod +x /usr/local/bin/check_mm_location.sh
+sudo touch /var/log/mm-location-monitor.log
+sudo chown root:adm /var/log/mm-location-monitor.log 2>/dev/null || true
+sudo crontab -e
+# 0 * * * * /usr/local/bin/check_mm_location.sh
+
+```
+
+
 
 
 

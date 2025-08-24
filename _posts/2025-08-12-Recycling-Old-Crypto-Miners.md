@@ -1,7 +1,7 @@
 ---
 title: "Recycling Old Crypto Miners - Nebra"
 excerpt: "Low cost high power LoRA Mesh networking"
-last_modified_at: 2025-08-12 20:00:00
+last_modified_at: 2025-08-23 20:00:00
 tags:
   - meshtastic
   - LoRA
@@ -37,6 +37,8 @@ Reach out to WeHooper at [Mountain Mesh](https://mtnme.sh/) in Georgia. They hav
 ### Shucking
 
 Honestly, I rip out the USB board. I keep the WiFi and stick that in the single USB port. Nebra Bluetooth adapter is VERY short range and doesn't have any connectors for an external antenna. If you want to keep the USB board, you'll need pass-through headers for the Nebra hat.
+
+If you add new bulkheads, measure them carefully to make sure the main board fits afterwards.
 
 Make sure all other boards are mounted correctly, no cables are loose, etc. Then stick the Nebra hat on the 40 pin header. 
 
@@ -224,6 +226,45 @@ Increase the SWR to 2, you'll get a reflection ~11% of TX power and 92.5% antenn
 
 Suppose you want to add coax instead of mounting your antenna to the ipex bulkhead. 1dB of feedline loss can cost you 20.6% of the watt before it even gets to your expensive commercial antenna. Taking that awesome 0.88W down to 0.71W. 
 
+### Adding fault tolerance
+
+At the moment, if your meshtasticd crashes, nothing will restart it unless you do so manually.
+
+Here's some maintenance code. Hourly status check on meshtasticd service, and weekly reboot just in case.
+Do a manual reboot to verify all your startup services.
+
+If you have the node plugged into a network, wouldn't be a terrible idea to run updates on an automated basis. That has trade-offs between things breaking and things being secure. 
+
+```shell
+
+# Detect if meshtasticd is running
+sudo tee /usr/local/bin/check_meshtasticd.sh > /dev/null <<'EOF'
+#!/bin/bash
+
+SERVICE="meshtasticd"
+
+if ! pgrep -x "$SERVICE" > /dev/null; then
+    echo "$(date): $SERVICE not running, restarting..." >> /var/log/meshtasticd_monitor.log
+    systemctl restart $SERVICE
+fi
+EOF
+
+# Make it executable
+sudo chmod +x /usr/local/bin/check_meshtasticd.sh
+
+# add to chron
+sudo chrontab -e
+
+#Add the following entries:
+#
+# Hourly check to verify meshtasticd is running and restart if it's not
+#0 * * * * /usr/local/bin/check_meshtasticd.sh
+# Weekly reboot of node - Monday 1AM
+#0 1 * * 1 /sbin/reboot
+
+# Check status log
+tail -n 20 /var/log/meshtasticd_monitor.log
+```
 
 
 ### Prepping Miner for Outdoor Deployment
@@ -252,7 +293,7 @@ You can print a <a href="https://www.printables.com/model/893147-meshtastic-Nebr
 
 Once you're completely shucked the case, mount a WisBlock to the backboard. #2 screws worked and you don't need to pre-drill. A 7000mAh battery will fit perfectly, but is extreme overkill. Even a single 18650 would be fine and last for days if not a week. The only annoying quirk of the Wisblock is that it draws so little power, most USB battery packs will turn off. 
 
-BE VERY CAREFUL WITH THE BATTERY WIRING, YOU CAN EASILY FRY THE BOARD IF THE WIRING IS REVERSED. 
+BE VERY CAREFUL WITH THE BATTERY WIRING, YOU CAN EASILY FRY THE BOARD IF THE WIRING IS REVERSED. Verify the + marking on the battery, and the + next to the battery connector. Do not rely on wire color. 
 
 I used shorter IPEX cabled bulkheads. With only 0.15W of transmitting power, all loss should be kept to a minimum and you want to mount the 900MHz antenna directly onto the bulkhead. And the 2.4 GHz WiFi antenna works fine for Bluetooth on the Wisblock. But if you want to save money, the bulkheads included will work fine. If you haven't used an IPEX connector, it will take slightly more force than you think it would, but you have to be careful not to snap the connector. I typically press it on with the flat of a flathead screwdriver while holding the cable to hold the connector in position. 
 
