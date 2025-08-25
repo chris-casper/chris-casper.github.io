@@ -54,8 +54,8 @@ sudo apt update
 sudo apt upgrade
 
 # Add meshtastic repo
-echo 'deb http://download.opensuse.org/repositories/network:/meshtastic:/beta/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/network:meshtastic:beta.list
-curl -fsSL https://download.opensuse.org/repositories/network:meshtastic:beta/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/network_meshtastic_beta.gpg > /dev/null
+echo 'deb http://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/network:meshtastic:beta.list
+curl -fsSL https://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/network_meshtastic_beta.gpg > /dev/null
 sudo apt update
 sudo apt install meshtasticd
 # Install cli
