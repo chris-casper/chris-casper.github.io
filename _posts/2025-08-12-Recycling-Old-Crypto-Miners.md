@@ -52,7 +52,7 @@ Here's the commands to get meshtasticd working:
 # Update the RPi
 sudo apt update
 sudo apt upgrade
-# hit N when prompted during the long list of installs
+# hit N or Enter when prompted during the long list of installs
 
 # Add meshtastic repo
 echo 'deb http://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/network:meshtastic:beta.list
@@ -62,6 +62,7 @@ sudo apt install meshtasticd
 # Install cli
 sudo apt install pipx && pipx install "meshtastic[cli]"
 pipx ensurepath
+
 
 # Enable SPI on the RPi
 sudo raspi-config nonint set_config_var dtparam=spi on /boot/firmware/config.txt # Enable SPI
@@ -144,10 +145,35 @@ Shucking was just prying it out with a multi-tool, you will bend the metal case 
 
 There will also be a lightning arrestor on the main antenna. The two grounding cables will go to a split bolt and then on to tower ground using ground clamp. Notion is to provide a low-impedance path to ground. 
 
+### Onboard GPS
+
+![NEO-6M](/images/posts/nebra/nebra-gps-neo6m.jpg)
+
+Some of the older Nebra miners have a NEO-6M GPS chip on board. If you don't have a chip, you can add the components to get functionality. But realistically, the [Nebra cell modem](https://casper.im/Nebra-Cell-Modem/) or a UBS GPS would probably be easier. 
+
+```shell
+
+sudo apt install gpsd gpsd-clients chrony socat
+sudo nano /boot/firmware/config.txt
+# add the following to the end:  
+# enable_uart=1
+# dtoverlay=uart1,txd1_pin=32,rxd1_pin=33,pin_func=7
+
+sudo raspi-config
+# interfaces -> serial ports -> no and then yes.
+
+# sudo nano /etc/default/gpsd
+# DEVICES="/dev/serial1"
+
+
+```
+
 
 ### Cell Modem
 
 ![meshtastic cell modem](/images/posts/nebra/nebra-case.jpg)
+
+Please check out a dedicated setup and config post about the [Quectel EG25-G Mini PCIe](https://casper.im/Nebra-Cell-Modem/)
 
 There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. Card can do 150Mbps down and 50Mbps up, but only if you are using MAIN and DIV connectors. I was very interested in the GPS chip on the EG25-G Mini as it covers GPS, GLONASS, BeiDou/Compass, Galileo and QZSS.
 
@@ -156,6 +182,9 @@ It is possible to use AT commands directly to access the multi-band GPS on the c
 The EG25-G and nmcli does need a physical SIM card to work. Otherwise the EG25-G declare itself to be in failed state and complain when you try to get GPS coordinates from it. eSIM is possible but would require a lot of custom coding. 
 
 You can use a normal LTE antenna as a GPS antenna. Indoors I was easily able to get 12 satellites within a few minutes. 
+
+
+
 
 
 ### WiFi AP 

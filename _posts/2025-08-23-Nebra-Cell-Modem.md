@@ -211,7 +211,10 @@ chronyc sources -v
 
 ### PPS?
 
-Allegedly Quectel EG25-G does partially support PPS, which allows really accurate time keeping. We'd need to connect a wire from one of the pins on the card to one of the GPIO pins. This would bring down time inaccuracy to a few ms. But I haven't poked at it yet. 
+Quectel EG25-G does partially support PPS, which allows really accurate time keeping. The system board has a wire to both the PCI-E connectors. 
+
+
+You can also run a jumper from the pad to one of the GPIO pins. It wouldn't be very high precision like nanoseconds. This would bring down time inaccuracy to a few ms. 
 
 
 ### Alternative setup
