@@ -143,6 +143,8 @@ Rip out the USB board, Pi CM3 board and main board. I shucked a $12 Ubiquiti ETH
 
 Shucking was just prying it out with a multi-tool, you will bend the metal case a bit but that's fine. The posts in the case seem to be M3. I used normal 12AWG solid core grounding wire crimped (not soldered) to a ring terminator. Check with your tower owner if heavier gauge wire is needed. I do recommend using Noalox on aluminum wiring points, helps prevent oxidation. The ETH-SP-G2 does want to stick up a bit. You want to screw everything together, then use a cheap flathead screwdriver as a chisel and give it some light wraps with a mallet until it's closer to the floor of the case. I put some silicone tape on top, to prevent ground shorts from the system board. 
 
+Use one of the M10 cable gland. It's pretty good match for the 12AWG wire. 
+
 There will also be a lightning arrestor on the main antenna. The two grounding cables will go to a split bolt and then on to tower ground using ground clamp. Notion is to provide a low-impedance path to ground. 
 
 ### Onboard GPS
@@ -165,6 +167,7 @@ sudo raspi-config
 # sudo nano /etc/default/gpsd
 # DEVICES="/dev/serial1"
 
+# add /dev/serial1 to /etc/meshtasticd/config.yaml
 
 ```
 
@@ -311,6 +314,18 @@ If going onto a tower, you'll need ethernet surge protectors on both ends. I use
 On the bottom of the tower, use another surge protector but this time leave the case on and connect to a copper grounding rod. 
 
 I wrap anything threaded with teflon pipe tape. Every gland, bulkhead and plug. 
+
+
+### Power consumption
+
+This assumes running off 12v barrel connector:
+Running idle: 4.3 Watts
+TX: 4.8 Watts
+Boot-up: 8 Watts  
+ssh and meshtasticd: 6.x Watts
+
+Still need to do POE power check as well
+
 
 ### The Power of the Sun!
 
