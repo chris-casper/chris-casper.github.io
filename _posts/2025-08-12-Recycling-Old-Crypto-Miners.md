@@ -42,7 +42,7 @@ If you add new bulkheads, measure them carefully to make sure the main board fit
 
 Make sure all other boards are mounted correctly, no cables are loose, etc. Then stick the Nebra hat on the 40 pin header. 
 
-Yank out the eMMC key, it's the small device with the gold dot on it right next to the green Pi board. Download and install the [Raspberry Imager](https://www.raspberrypi.com/software/). Try using a USB MicroSD adapter, SD adapter, etc. SanDisk MicroSD adapters don't seem to work. Compatibility is hit-or-miss, so try different adapters until one works. The uGreen USB MicroSD adapter off Amazon worked for me. Use the Raspberry Pi 3 default image and click through. I do recommend setting the system defaults in the Imager. 
+Yank out the eMMC key, it's the small device with the gold dot on it right next to the green Pi board. Download and install the [Raspberry Imager](https://www.raspberrypi.com/software/). Try using a USB MicroSD adapter, SD adapter, etc. SanDisk MicroSD adapters don't seem to work. Compatibility is hit-or-miss, so try different adapters until one works. The uGreen USB MicroSD adapter off Amazon worked for me. Use the Raspberry Pi 3 default image and click through. I do recommend going through the Settings options in the Imager. 
 
 Once it's finished, plug back into the miner and fire up SSH.
 
@@ -52,6 +52,7 @@ Here's the commands to get meshtasticd working:
 # Update the RPi
 sudo apt update
 sudo apt upgrade
+# hit N when prompted during the long list of installs
 
 # Add meshtastic repo
 echo 'deb http://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/network:meshtastic:beta.list
