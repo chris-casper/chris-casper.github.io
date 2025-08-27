@@ -13,245 +13,126 @@ tags:
 
 ### Recycling Old Crypto Miners for Something Useful
 
-Helium Coin was/is a crypto coin that got run up in value and then crashed. Regardless of one's opinion, a lot of people bought $750 crypto miners that now aren't very useful. Rather than ending up as rather expensive eWaste, they can be repurposed for meshtastic.
-
-The model I've been able to find pretty decently is the <a href="https://helium.Nebra.com/pdfs/outdoor-overview.pdf">Nebra Outdoor Hotspot Miner</a>. It has pretty good specs across the board. A Pi CM4 would have been nice, but it was likely a combination of price, power and heat. Waveshare does have a CM4 to CM3 adapter that might be worth playing around with if you want processing power up the tower for some niche circumstance.  
-
-I have started ordering additional outdoor miners to see if any others would be trivially converted to meshtastic. 
+Helium Coin spiked and crashed, leaving many $750+ miners useless. Rather than becoming e-waste, they can be repurposed for Meshtastic. The most practical model I've found is the [Nebra Outdoor Hotspot Miner](https://helium.Nebra.com/pdfs/outdoor-overview.pdf). Though a Pi CM4 would be nice, cost, power and heat likely dictated the CM3. Waveshare does make a CM4-to-CM3 adapter if you need more processing horsepower but there's already power issues with the Nebra. I’ve ordered other outdoor miners to test for easy conversions as well. So far Nebra is king of the hill. 
 
 
 ### Hardware Details
 
-The kit comes with:
-- 915 Mhz antenna (advertised as 3 dBi)
-- 2.4 Mhz antenna
-- Very nice aluminum case
-- Hardware (pole mount, spare glands, spare plugs)
-- Electronics - Pi CM3
-- Has USB WiFi and Bluetooth
+Each kit includes a 915 MHz 3 dBi antenna, a 2.4 GHz antenna, an aluminum enclosure, mounting hardware, a Pi CM3 board with USB WiFi and Bluetooth. Units are often found on eBay for about $50; if listed higher, try offering around that price. They need 12 VDC or PoE (12–15 W draw), which is too high for USB and not ideal for solar.
 
-They can be found on eBay for around $50. If listed for over $100, try offering around $50. They require a 12 VDC barrel connector or PoE, as they draw too much power for USB. At 12–15 W, they are not ideal for solar operation.
-
-Reach out to WeHooper at [Mountain Mesh](https://mtnme.sh/) in Georgia. They have a number of options: Nebra Pi hats that use 40 pin headers (that can also be used on normal Raspberry Pis), [MESHTOAD](https://mtnme.sh/devices/MeshToad/) USB that works for any PC and developing an M2 format card (still early prototype). Hop on their [Discord](https://discord.gg/4WN32RHGSs) and inquire. 
-
-The enclosure is a [DAM005C](https://www.alibaba.com/product-detail/DAM005C-210-130-50mm-aluminium-IP67_1600234767148.html). Schematic can be found [here](https://forum.digikey.com/uploads/short-url/jdaai1wYIySMZllj9n3FrCqtYtU.pdf). I've seen claims of IP67 and IP65. Manufacturer seems to be Ningbo Darer Enclosure Co. Price is pretty reasonable ($15-20) but shipping can be brutal. 
+[Mountain Mesh](https://mtnme.sh/) in Georgia offers accessories: Nebra Pi hats for 40-pin Pis, the [MESHTOAD](https://mtnme.sh/devices/MeshToad/) USB for any PC, and a still-prototypw PCI-E card. Join their [Discord](https://discord.gg/4WN32RHGSs) for details. The enclosure is a [DAM005C](https://www.alibaba.com/product-detail/DAM005C-210-130-50mm-aluminium-IP67_1600234767148.html) from Ningbo Darer, claimed IP65/IP67, about $15–20 plus shipping. A schematic for enclosure is [here](https://forum.digikey.com/uploads/short-url/jdaai1wYIySMZllj9n3FrCqtYtU.pdf).
 
 
 
 
 ### Shucking
 
-Honestly, I rip out the USB board. I keep the WiFi and stick that in the single USB port. Nebra Bluetooth adapter is VERY short range and doesn't have any connectors for an external antenna. If you want to keep the USB board, you'll need pass-through headers for the Nebra hat.
+Remove the USB board if you don’t need it; the Bluetooth adapter has short range and no external antenna support. Keep WiFi and connect to the single USB port. Keep an eye on bulkhead thickness for board clearance. Mounting posts are all M3 pan head screws, buy M3 washers for grounding. Then attach the WeHooper Nebra hat to the 40-pin header or other meshtastic radio. The eMMC module is a small 'key' with gold dot near the Pi board; remove it and flash with [Raspberry Pi Imager](https://www.raspberrypi.com/software/). Adapter compatibility varies greatly; SanDisk SD card adapters don't work, uGreen USB MicroSD adapter off Amazon work reliably. 
 
-If you add new bulkheads, measure them carefully to make sure the main board fits afterwards.
-
-Make sure all other boards are mounted correctly, no cables are loose, etc. Then stick the Nebra hat on the 40 pin header. 
-
-Yank out the eMMC key, it's the small device with the gold dot on it right next to the green Pi board. Download and install the [Raspberry Imager](https://www.raspberrypi.com/software/). Try using a USB MicroSD adapter, SD adapter, etc. SanDisk MicroSD adapters don't seem to work. Compatibility is hit-or-miss, so try different adapters until one works. The uGreen USB MicroSD adapter off Amazon worked for me. Use the Raspberry Pi 3 default image and click through. I do recommend going through the Settings options in the Imager. 
-
-Once it's finished, plug back into the miner and fire up SSH.
-
-Here's the commands to get meshtasticd working:
+Reinstall the module, power up, and SSH in. To install Meshtastic:
 
 ```shell
-# Update the RPi
-sudo apt update
-sudo apt upgrade
-# hit N or Enter when prompted during the long list of installs
-
-# Add meshtastic repo
+sudo apt update && sudo apt upgrade
 echo 'deb http://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/network:meshtastic:beta.list
 curl -fsSL https://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/network_meshtastic_beta.gpg > /dev/null
 sudo apt update
 sudo apt install meshtasticd
-# Install cli
 sudo apt install pipx && pipx install "meshtastic[cli]"
 pipx ensurepath
-
-
-# Enable SPI on the RPi
-sudo raspi-config nonint set_config_var dtparam=spi on /boot/firmware/config.txt # Enable SPI
-
-# Ensure dtoverlay=spi0-0cs is set in /boot/firmware/config.txt without altering dtoverlay=vc4-kms-v3d or dtparam=uart0
-sudo sed -i -e '/^\s*#\?\s*dtoverlay\s*=\s*vc4-kms-v3d/! s/^\s*#\?\s*(dtoverlay|dtparam\s*=\s*uart0)\s*=.*/dtoverlay=spi0-0cs/' /boot/firmware/config.txt
-
-# Insert dtoverlay=spi0-0cs after dtparam=spi=on if not already present
-if ! sudo grep -q '^\s*dtoverlay=spi0-0cs' /boot/firmware/config.txt; then
-    sudo sed -i '/^\s*dtparam=spi=on/a dtoverlay=spi0-0cs' /boot/firmware/config.txt
-fi
-
-# May also wish to enable I2C now as well: 
-# sudo nano /boot/firmware/config.txt
-# dtparam=i2c_arm=on
-
-# install I2C tools
-sudo apt-get install i2c-tools
-
-
-#
-# reboot the RPI here
-#
-sudo reboot
-
-#
-# Setup the hat before turning on meshtastic to avoid damaging the radio
-#
-# Documentation at https://github.com/wehooper4/meshtastic-Hardware/tree/main/NebraHat
-# 
-# Select the model you bought:
-# sudo wget –O /etc/meshtasticd/config.d/NebraHat_1W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_1W.yaml
-sudo wget –O /etc/meshtasticd/config.d/NebraHat_2W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_2W.yaml
-
-
-sudo nano /etc/meshtasticd/config.yaml
-# Honestly you can leave the web service turned off. API is enough
-# Set either the MAC address or MACAddressSource, not both. It's at bottom of YAML. Eth0 is best choice
-# I also set maxnodes to 400. 
-
-# Select same model as above
-#sudo nano /etc/meshtasticd/config.d/NebraHat_1W.yaml
-sudo nano /etc/meshtasticd/config.d/NebraHat_2W.yaml
-# If 2W, verify power level is set to 8 or lower. Obviously change 2W to 1W if purchased that model. 
-# Shouldn't need to make changes, but if you have problems below such as "No sx1262 radio" uncomment the CS line
-# to look for errors: journalctl -xeu meshtasticd.service 
-
-sudo systemctl enable meshtasticd
-sudo systemctl start meshtasticd
-sudo systemctl status meshtasticd
-
-# To troubleshoot, systemctl stop meshtasticd
-# Then run "meshtasticd" by itself in CLI to look for errors
 ```
 
-Once it's up and running, fire up the meshtastic app to configure it. Use the Network option on the Cloud tab in the app. 
+Enable SPI in `/boot/firmware/config.txt` and ensure `dtoverlay=spi0-0cs` is present. Optionally enable I2C via dtparam=i2c_arm=on and install `i2c-tools`. Reboot, then download the correct hat config:
 
-### Sensors
-
-If you have i2c sensors on your board, uncomment "i2cDevice: /dev/i2c-1" in /etc/meshtasticd/config.yaml
-
-And double check /boot/firmware/config.txt to make sure you have i2c enabled. Reboot after making the config.txt and config.yaml changes.
-
-To find out if you have any, run the following.
 
 ```shell
-sudo apt-get install i2c-tools
-i2cdetect -y 1
+# Documentation at https://github.com/wehooper4/meshtastic-Hardware/tree/main/NebraHat
+# sudo wget –O /etc/meshtasticd/config.d/NebraHat_1W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_1W.yaml
+sudo wget -O /etc/meshtasticd/config.d/NebraHat_2W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_2W.yaml
+#sudo nano /etc/meshtasticd/config.d/NebraHat_1W.yaml
+sudo nano /etc/meshtasticd/config.d/NebraHat_2W.yaml
+# If 2W, verify power level is set to 8 or lower. 4 is recommended due to 5v rail sag, and is NOT cutting your TX power in half. Obviously change 2W to 1W if purchased that model. 
+# If you have problems below such as "No sx1262 radio", try uncommenting the CS line
+sudo nano /etc/meshtasticd/config.yaml
+
+sudo systemctl enable meshtasticd && sudo systemctl start meshtasticd
 ```
+
+Edit config.yaml to set MAC (use MACAddressSource eth0) and node limits (200-400). Troubleshoot with `journalctl -xeu meshtasticd.service` or run `meshtasticd` manually. Configure through the Meshtastic app. Use the Network option on the Cloud tab in the app. 
+
+
+### Sensors and GPS
+
+![NEO-6M](/images/posts/nebra/nebra-gps-neo6m.jpg)
+
+Enable I2C by uncommenting their lines in both `/boot/firmware/config.txt` and `/etc/meshtasticd/config.yaml` if using I2C sensors. Check devices with `i2cdetect -y 1`. 
+
+Some miners include a NEO-6M GPS; if absent, adding parts is possible but often a USB GPS or cell modem is easier. I spoke with the developer of the Nebra board. The pin allocation on the hat header is because he wanted to leave UART0 available on 14/15. To enable onboard NEO-6M GPS:
+
+```shell
+sudo apt install gpsd gpsd-clients chrony socat
+sudo nano /boot/firmware/config.txt
+# Add to end of file:
+# enable_uart=1
+# dtoverlay=uart1,txd1_pin=32,rxd1_pin=33,pin_func=7
+sudo raspi-config   # Select serial interface -> disable shell serial console -> enable serial hardware
+sudo nano /etc/default/gpsd
+```
+
+Update `/etc/default/gpsd` with DEVICES="/dev/serial1" and add `/dev/serial1` to the Meshtastic GPS: section of config.yaml.
+
 
 ### Grounding
 
 ![Nebra Grounding](/images/posts/nebra/nebra_case_grounding.jpg)
 
-Not as important for self-contained solar nodes. But pretty critical if placed on a tower, especially with RF equipment. 
+Critical if placed on a tower, especially with RF equipment. 
 
-Rip out the USB board, Pi CM3 board and main board. I shucked a $12 Ubiquiti ETH-SP-G2 Surge Protector. They have more capable models and I recommend them if you want to pay the premium. The ETH-SP-G2 is not meant to stop a lightning strike. It's meant to ensure Ethernet pins potential vs the local enclosure ground never exceeds 90-100v and preventing surges/transient power. 
+Rip out the USB board, Pi CM3 board and main board. Shuck a $12 Ubiquiti ETH-SP-G2 Surge Protector. Pry it out with a multi-tool, bending the case a bit is fine. It is not meant to stop a lightning strike. It's meant to ensure Ethernet pins potential vs the local enclosure ground never exceeds 90-100v and preventing surges/transient power. ETH-SP-G2 does want to stick up a bit. Screw unit to a post with M3 pan head screw and washer, use a cheap flathead screwdriver as a chisel, give it some light taps until closer to the floor of the case. Put some silicone tape on top, to prevent ground shorts from the system board. 
 
-Shucking was just prying it out with a multi-tool, you will bend the metal case a bit but that's fine. The posts in the case seem to be M3. I used normal 12AWG solid core grounding wire crimped (not soldered) to a ring terminator. Check with your tower owner if heavier gauge wire is needed. I do recommend using Noalox on aluminum wiring points, helps prevent oxidation. The ETH-SP-G2 does want to stick up a bit. You want to screw everything together, then use a cheap flathead screwdriver as a chisel and give it some light wraps with a mallet until it's closer to the floor of the case. I put some silicone tape on top, to prevent ground shorts from the system board. 
+Use Noalox on aluminum wiring points, helps prevent oxidation. 
 
-Use one of the M10 cable gland. It's pretty good match for the 12AWG wire. 
+Use 12AWG solid core grounding wire, crimped (not soldered) to a ring terminator. Check with your tower owner if heavier gauge wire is needed. Use one of the M10 cable gland. It's pretty good match for the 12AWG wire.
 
-There will also be a lightning arrestor on the main antenna. The two grounding cables will go to a split bolt and then on to tower ground using ground clamp. Notion is to provide a low-impedance path to ground. 
-
-### Onboard GPS
-
-![NEO-6M](/images/posts/nebra/nebra-gps-neo6m.jpg)
-
-Some of the older Nebra miners have a NEO-6M GPS chip on board. If you don't have a chip, you can add the components to get functionality. But realistically, the [Nebra cell modem](https://casper.im/Nebra-Cell-Modem/) or a UBS GPS would probably be easier. 
-
-I spoke with the developer of the Nebra board. The pin allocation on the hat header is because he wanted to leave UART0 available on 14/15
-
-```shell
-
-sudo apt install gpsd gpsd-clients chrony socat
-sudo nano /boot/firmware/config.txt
-# add the following to the end:  
-# enable_uart=1
-# dtoverlay=uart1,txd1_pin=32,rxd1_pin=33,pin_func=7
-
-sudo raspi-config
-# interfaces -> serial ports -> no and then yes.
-
-# sudo nano /etc/default/gpsd
-# DEVICES="/dev/serial1"
-
-# add /dev/serial1 to /etc/meshtasticd/config.yaml
-
-```
+Put a lightning arrestor on the main antenna. Connect both wires with a split bolt and then to tower ground using ground clamp. Notion is to provide a low-impedance path to ground. 
 
 
 ### Cell Modem
 
 ![meshtastic cell modem](/images/posts/nebra/nebra-case.jpg)
 
-Please check out a dedicated setup and config post about the [Quectel EG25-G Mini PCIe](https://casper.im/Nebra-Cell-Modem/)
-
-There is also a 4G module available if you have cell coverage and want remote access. The "Quectel EG25-G Mini PCIe 4G Mobile Broadband Card w/ Antennas" originally were pricy but can be found on eBay pretty economically. Card can do 150Mbps down and 50Mbps up, but only if you are using MAIN and DIV connectors. I was very interested in the GPS chip on the EG25-G Mini as it covers GPS, GLONASS, BeiDou/Compass, Galileo and QZSS.
-
-It is possible to use AT commands directly to access the multi-band GPS on the card, but it's frustrating process to put it mildly. Use nmcli. Put your meshtastic and LTE antennas on opposite ends of the case and only use LTE if you have a band pass filter on your LoRa radio. LTE interferes with 915MHz. I would only use the MAIN LTE connector, not the DIV. Higher bandwidth isn't worth displacing the WiFi antenna aimed down. 
-
-The EG25-G and nmcli does need a physical SIM card to work. Otherwise the EG25-G declare itself to be in failed state and complain when you try to get GPS coordinates from it. eSIM is possible but would require a lot of custom coding. 
-
-You can use a normal LTE antenna as a GPS antenna. Indoors I was easily able to get 12 satellites within a few minutes. 
-
-
-
+For remote access, see the [Quectel EG25-G Mini PCIe guide](https://casper.im/Nebra-Cell-Modem/). This LTE card supports multiple GNSS constellations. Use MAIN only for Meshtastic to avoid interference. Use other LTE antenna for GPS, it works fine. The EG25-G requires a SIM; eSIM is possible but complex. GPS performance is good even indoors. Keep LTE and LoRa antennas separated.
 
 
 ### WiFi AP 
 
 See [https://github.com/wehooper4/meshtastic-Hardware/tree/main/NebraHat/nebraAP](https://github.com/wehooper4/meshtastic-Hardware/tree/main/NebraHat/nebraAP)
 
-For the stock USB WiFi adapter, replace the stock driver to be able to use the Nebra as an AP. This would allow you to connect via laptop. Alternatively you can connect the device to the local WiFi if it will reach. 
-
-I had issues with this and just reverted to stock driver. 
+For access point mode, replace the stock Realtek driver:
 
 ```shell
-# Get  RT18188 driver for Debian
 wget -O ~/rtl8188eus_1.0-1_arm64.deb https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/nebraAP/rtl8188eus_1.0-1_arm64.deb
 sudo dpkg -i ~/rtl8188eus_1.0-1_arm64.deb
-
-# Remove old driver
 echo "blacklist rtl8xxxu" | sudo tee /etc/modprobe.d/rtl8xxxu.conf
-sudo dpkg -i rtl8188eus_1.0-1_arm64.deb
 sudo modprobe 8188eu
-
-# Reboot
 sudo reboot
-
-# After reboot, check what driver is in use
-basename $(readlink /sys/class/net/wlan0/device/driver)
-# should display 8188eu
-
 ```
+
+Verify with `basename $(readlink /sys/class/net/wlan0/device/driver)`.
 
 
 
 ### Antenna Selection
 
-The stock Nebra antenna as well as similar RAK antennas claim to be 3dBi and tend to be better than random stuff found on Amazon. You can find the common antennas here:
+Stock antenna is decent at alleged 3dBi. RAK sells similiarly decent generic Chinese antennas. See [https://github.com/meshtastic/antenna-reports](https://github.com/meshtastic/antenna-reports)
 
-[https://github.com/meshtastic/antenna-reports](https://github.com/meshtastic/antenna-reports)
-
-Remember, SWR isn't going to tell you everything. If you hooked up a 50 Ω resistor to your NanoVNA, it would look perfectly matched — Thanos will tell you it’s perfectly balanced, just as all things should be — but of course it won’t radiate. 
-
-SWR tells you how well your antenna matches your transmitter. Not how well your antenna performs. To do that, you need to hook up the antenna and take measurements at different azimuth and distance. 2:1 SWR means ~11% reflected. The main effect of high SWR for meshtastic is wasted battery and poor range
-
-Commercial antennas tend to be a lot more expensive than consumer ones, but you do get what you pay for. For meshtastic, you ideally want 902-928MHz ISM tuned. Wider tuning (824–960 MHz) will still work decently and better than most consumer antenna. Just not with same efficiency.  
+Do not focus on just SWR. If you hooked up a 50 Ω resistor to your NanoVNA, Thanos would be happy that it perfectly balanced but it won’t radiate RF well. SWR tells you how well your antenna matches your transmitter, not antenna performance. High SWR does mean wasted battery and poor range, but low SWR doesn't guarantee good transmitting or efficiency. To do that, hook up the antenna and take measurements at different distance and angle. 
 
 Gain is not magic. It's not adding power, it's shaping it. 0dBi would be a very fat (theoretical and idealized isotropic radiator) donut, handy if you want good coverage in all directions equally. 9dBi would be a very wide pancake, handy if you put on a tower and want to reach other towers. 3-6dBi is compromising between the two. 
 
 Higher gain flattens the vertical beam, turning the donut into a wider, thinner pancake. There is no ideal, only ideal for your purpose. 
 
-Suppose you're putting a meshtastic node on a mountain top tower:
-
 If you want all-purpose coverage from a single mountaintop node, 5 dBi, ISM-tuned is the sweet spot. It won't be great at distance, but it won't leave nearby hikers without coverage either. Incidentally these tend to be expensive antennas. 
-
-If you want maximum long-haul distance, point-to-multipoint across valleys, 6 dBi.
-
-If you want to prioritize hikers and nearby stations at different elevations, 3 dBi would be a good choice.
-
-If you have multiple units, mixing antennas would provide different coverage for different folks. 
-
+If you want all-purchase coverage in an urban or suburban environment, 3 dBi would probably be a better choice. 
 
 Now let's make things even more complicated. It's not JUST the dBi. That shapes the power, but how do we get the power in the first place?
 
@@ -267,60 +148,29 @@ Increase the SWR to 2, you'll get a reflection ~11% of TX power and 92.5% antenn
 
 Suppose you want to add coax instead of mounting your antenna to the ipex bulkhead. 1dB of feedline loss can cost you 20.6% of the watt before it even gets to your expensive commercial antenna. Taking that awesome 0.88W down to 0.71W. 
 
-### Adding fault tolerance
+### Reliability
 
-At the moment, if your meshtasticd crashes, nothing will restart it unless you do so manually.
-
-Here's some maintenance code. Hourly status check on meshtasticd service, and weekly reboot just in case.
-Do a manual reboot to verify all your startup services.
-
-If you have the node plugged into a network, wouldn't be a terrible idea to run updates on an automated basis. That has trade-offs between things breaking and things being secure. 
+To auto-restart Meshtastic and reboot weekly:
 
 ```shell
-
-# Detect if meshtasticd is running
 sudo tee /usr/local/bin/check_meshtasticd.sh > /dev/null <<'EOF'
 #!/bin/bash
-
 SERVICE="meshtasticd"
-
 if ! pgrep -x "$SERVICE" > /dev/null; then
     echo "$(date): $SERVICE not running, restarting..." >> /var/log/meshtasticd_monitor.log
     systemctl restart $SERVICE
 fi
 EOF
-
-# Make it executable
 sudo chmod +x /usr/local/bin/check_meshtasticd.sh
-
-# add to chron
-sudo chrontab -e
-
-#Add the following entries:
-#
-# Hourly check to verify meshtasticd is running and restart if it's not
-#0 * * * * /usr/local/bin/check_meshtasticd.sh
-# Weekly reboot of node - Monday 1AM
-#0 1 * * 1 /sbin/reboot
-
-# Check status log
-tail -n 20 /var/log/meshtasticd_monitor.log
+sudo crontab -e
+# 0 * * * * /usr/local/bin/check_meshtasticd.sh
+# 0 1 * * 1 /sbin/reboot
 ```
-
 
 ### Prepping Miner for Outdoor Deployment
 
-It's mostly fine as-is. But you can and should take additional steps. 
-
-The alleged 3 dBi antenna isn't terrible. But you can [upgrade](https://store.rokland.com/collections/all-helium-antennnas/products/5-8-dBi-n-male-omni-outdoor-915-mhz-antenna-large-profile-32-height-for-helium-rak-miner-2-Nebra-indoor-bobcat) it. 
-
-The silver rope is an EMI gasket and goes into the lid that doesn't have a gasket already in it. You will have to trim it a touch, the ends unravel quickly. 
-
-If going onto a tower, you'll need ethernet surge protectors on both ends. I use Ubiquiti ETH-SP-G2. For inside the case, I rip out the board and wrap it. You'll want to attach a bimetallic grounding lug to a post inside the case. Or screw the surge protector to a post and ground there. Aluminum and copper smooshed together will cause corrosion. Do not solder any grounding. Attach a line to the post, attach another line to the ethernet surge protector, and run them outside the case to another line to your ground. Use a split bolt to connect the wires, connect to the tower itself or grounding system. You can also use a second lightning arrestor directly onto the N bulkhead. 
-
-On the bottom of the tower, use another surge protector but this time leave the case on and connect to a copper grounding rod. 
-
-I wrap anything threaded with teflon pipe tape. Every gland, bulkhead and plug. 
+The stock antenna is usable but can be upgraded. Wrap threads with telfon tape. Wrap all bulkheads with electrical tape, silicon tape, and then another layer of electrical tape. 
+ Fit the EMI rope gasket into the upper lid, trim to fit. Use surge protection at both ends; put a shucked ETH-SP-G2 in the case and connect another cased ETH-SP-G2 to grounding rod or common tower ground. Use lightning arrestor between 915 MHz antenna and N bulkhead, crimp on grounding cable with enough slack. Use M10 port and M10 cable glands for case grounding wire, connect internal shucked ETH-SP-G2 and case grounding lug with one wire and leave enough of a tail to connect. Use split bolts to connect all grounding lines.
 
 
 ### Power consumption
@@ -336,25 +186,17 @@ Still need to do POE power check as well
 
 ### The Power of the Sun!
 
-If you got your Nebra and don't want to muck around with configuring a Pi, there is a simple solution. Rip everything out. 
+If you got your Nebra and don't want to muck around with configuring a Pi or 12VDC/POE, you can just use the enclosure for a solar node.
 
 ![Assembled Unit](/images/posts/nebra/assembled.png)
 
-Wisblock is pretty much the choice for solar repeaters, it absolutely sips power. 
-
-You can print a <a href="https://www.printables.com/model/893147-meshtastic-Nebra-ip67-mounting-plate">meshtastic Nebra mounting plate</a>. It seems to work fine in PETG, but I printed my production models in ASA. You can and should remove material from the plate to fit your antenna bulkheads. 
-
-Once you're completely shucked the case, mount a WisBlock to the backboard. #2 screws worked and you don't need to pre-drill. A 7000mAh battery will fit perfectly, but is extreme overkill. Even a single 18650 would be fine and last for days if not a week. The only annoying quirk of the Wisblock is that it draws so little power, most USB battery packs will turn off. 
+For solar, strip the case and mount a WisBlock. A printed [mounting plate](https://www.printables.com/model/893147-meshtastic-Nebra-ip67-mounting-plate) works; PETG is ok but ASA is best. Use a 3000 mAh bag battery or even a single 18650. Short IPEX cables on the bulkheads minimize loss, you only have 0.15W TX to play with, but can reuse included bulkheads to save money. A [pigtail bracket](https://www.printables.com/model/1264626-rak-ipex-pigtail-bracket) holds connectors in place. Use #2 screws. 2.4 GHz WiFi antenna works fine for Bluetooth on the Wisblock
 
 BE VERY CAREFUL WITH THE BATTERY WIRING, YOU CAN EASILY FRY THE BOARD IF THE WIRING IS REVERSED. Verify the + marking on the battery, and the + next to the battery connector. Do not rely on wire color. 
 
-I used shorter IPEX cabled bulkheads. With only 0.15W of transmitting power, all loss should be kept to a minimum and you want to mount the 900MHz antenna directly onto the bulkhead. And the 2.4 GHz WiFi antenna works fine for Bluetooth on the Wisblock. But if you want to save money, the bulkheads included will work fine. If you haven't used an IPEX connector, it will take slightly more force than you think it would, but you have to be careful not to snap the connector. I typically press it on with the flat of a flathead screwdriver while holding the cable to hold the connector in position. 
-
-I use a <a href="https://www.printables.com/model/1264626-rak-ipex-pigtail-bracket">bracket</a> to hold the connectors in place. But I don't use nylon or any screws on the cover bracket unless it's to be used in high vibration environment. 
-
 ![Mount](/images/posts/nebra/mount.png)
 
-I use a [mounting bracket](https://www.amazon.com/dp/B0BVT4J3FF) to connect the solar panel to the miner, along with metal hose clamp. The solar panel I had used a 1/4 course threaded nut. The hose clamps are probably the most secure way to fasten the two together. 
+I use a [mounting bracket](https://www.amazon.com/dp/B0BVT4J3FF) to connect the solar panel to the miner, along with metal hose clamp. The solar panel I had used a 1/4 in course threaded nut. The hose clamp are probably the most secure way to fasten the two together. One honestly is fine, and trim slack.
 
 I wrap the solar panel line connectors with silicon tape, plus the bulkheads. As well as spiral wrap for air hoses, to hopefully keep wildlife from eating the external power cable.
 
