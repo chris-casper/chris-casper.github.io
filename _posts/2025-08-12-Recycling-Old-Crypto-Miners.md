@@ -34,6 +34,11 @@ They can be found on eBay for around $50. If listed for over $100, try offering 
 
 Reach out to WeHooper at [Mountain Mesh](https://mtnme.sh/) in Georgia. They have a number of options: Nebra Pi hats that use 40 pin headers (that can also be used on normal Raspberry Pis), [MESHTOAD](https://mtnme.sh/devices/MeshToad/) USB that works for any PC and developing an M2 format card (still early prototype). Hop on their [Discord](https://discord.gg/4WN32RHGSs) and inquire. 
 
+The enclosure is a [DAM005C](https://www.alibaba.com/product-detail/DAM005C-210-130-50mm-aluminium-IP67_1600234767148.html). Schematic can be found [here](https://forum.digikey.com/uploads/short-url/jdaai1wYIySMZllj9n3FrCqtYtU.pdf). I've seen claims of IP67 and IP65. Manufacturer seems to be Ningbo Darer Enclosure Co. Price is pretty reasonable ($15-20) but shipping can be brutal. 
+
+
+
+
 ### Shucking
 
 Honestly, I rip out the USB board. I keep the WiFi and stick that in the single USB port. Nebra Bluetooth adapter is VERY short range and doesn't have any connectors for an external antenna. If you want to keep the USB board, you'll need pass-through headers for the Nebra hat.
@@ -152,6 +157,8 @@ There will also be a lightning arrestor on the main antenna. The two grounding c
 ![NEO-6M](/images/posts/nebra/nebra-gps-neo6m.jpg)
 
 Some of the older Nebra miners have a NEO-6M GPS chip on board. If you don't have a chip, you can add the components to get functionality. But realistically, the [Nebra cell modem](https://casper.im/Nebra-Cell-Modem/) or a UBS GPS would probably be easier. 
+
+I spoke with the developer of the Nebra board. The pin allocation on the hat header is because he wanted to leave UART0 available on 14/15
 
 ```shell
 
