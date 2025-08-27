@@ -13,7 +13,9 @@ tags:
 
 ### Recycling Old Crypto Miners for Something Useful
 
-Helium Coin spiked and crashed, leaving many $750+ miners useless. Rather than becoming e-waste, they can be repurposed for Meshtastic. The most practical model I've found is the [Nebra Outdoor Hotspot Miner](https://helium.Nebra.com/pdfs/outdoor-overview.pdf). Though a Pi CM4 would be nice, cost, power and heat likely dictated the CM3. Waveshare does make a CM4-to-CM3 adapter if you need more processing horsepower but there's already power issues with the Nebra. I’ve ordered other outdoor miners to test for easy conversions as well. So far Nebra is king of the hill. 
+Helium Coin spiked and crashed, leaving many $750+ miners useless. Rather than becoming e-waste, they can be repurposed for Meshtastic. The most practical model I've found is the [Nebra Outdoor Hotspot Miner](https://helium.Nebra.com/pdfs/outdoor-overview.pdf). 
+
+Though a Pi CM4 would be nice, cost, power and heat likely dictated the CM3. Waveshare does make a CM4-to-CM3 adapter if you need more processing horsepower but there's already power issues with the Nebra. I’ve ordered other outdoor miners to test for easy conversions as well. So far Nebra is king of the hill. 
 
 
 ### Hardware Details
@@ -27,7 +29,7 @@ Each kit includes a 915 MHz 3 dBi antenna, a 2.4 GHz antenna, an aluminum enclos
 
 ### Shucking
 
-Remove the USB board if you don’t need it; the Bluetooth adapter has short range and no external antenna support. Keep WiFi and connect to the single USB port. Keep an eye on bulkhead thickness for board clearance. Mounting posts are all M3 pan head screws, buy M3 washers for grounding. Then attach the WeHooper Nebra hat to the 40-pin header or other meshtastic radio. The eMMC module is a small 'key' with gold dot near the Pi board; remove it and flash with [Raspberry Pi Imager](https://www.raspberrypi.com/software/). Adapter compatibility varies greatly; SanDisk SD card adapters don't work, uGreen USB MicroSD adapter off Amazon work reliably. 
+Remove the USB board if you don’t need it. The Bluetooth adapter has short range and no external antenna support, I believe it was only meant for initial setup. Keep WiFi and connect to the single USB port. Keep an eye on bulkhead thickness for board clearance. Mounting posts are all M3 pan head screws, buy M3 washers for grounding. Then attach the WeHooper Nebra hat to the 40-pin header or other meshtastic radio. The eMMC module is a small 'key' with gold dot near the Pi board; remove it and flash with [Raspberry Pi Imager](https://www.raspberrypi.com/software/). Adapter compatibility varies greatly; SanDisk SD card adapters don't work, uGreen USB MicroSD adapter off Amazon work reliably. 
 
 Reinstall the module, power up, and SSH in. To install Meshtastic:
 
@@ -64,9 +66,9 @@ Edit config.yaml to set MAC (use MACAddressSource eth0) and node limits (200-400
 
 ![NEO-6M](/images/posts/nebra/nebra-gps-neo6m.jpg)
 
-Enable I2C by uncommenting their lines in both `/boot/firmware/config.txt` and `/etc/meshtasticd/config.yaml` if using I2C sensors. Check devices with `i2cdetect -y 1`. 
+If using I2C sensors, enable I2C by uncommenting their lines in both `/boot/firmware/config.txt` and `/etc/meshtasticd/config.yaml`. Check devices with `i2cdetect -y 1` 
 
-Some miners include a NEO-6M GPS; if absent, adding parts is possible but often a USB GPS or cell modem is easier. I spoke with the developer of the Nebra board. The pin allocation on the hat header is because he wanted to leave UART0 available on 14/15. To enable onboard NEO-6M GPS:
+Some miners include a NEO-6M GPS chip, which is nice. If absent, adding surface mount parts is possible but often a USB GPS or cell modem is easier. I spoke with the developer of the Nebra board. The pin allocation on the hat header is because he wanted to leave UART0 available on 14/15. To enable onboard NEO-6M GPS:
 
 ```shell
 sudo apt install gpsd gpsd-clients chrony socat
@@ -100,7 +102,9 @@ Put a lightning arrestor on the main antenna. Connect both wires with a split bo
 
 ![meshtastic cell modem](/images/posts/nebra/nebra-case.jpg)
 
-For remote access, see the [Quectel EG25-G Mini PCIe guide](https://casper.im/Nebra-Cell-Modem/). This LTE card supports multiple GNSS constellations. Use MAIN only for Meshtastic to avoid interference. Use other LTE antenna for GPS, it works fine. The EG25-G requires a SIM; eSIM is possible but complex. GPS performance is good even indoors. Keep LTE and LoRa antennas separated.
+For remote access, see the [Quectel EG25-G Mini PCIe guide](https://casper.im/Nebra-Cell-Modem/). 
+
+This LTE PCI-E card supports multiple GNSS constellations and quite a few useful features. Use MAIN only for Meshtastic to avoid interference. Use other LTE antenna for GPS, it works fine. The EG25-G requires a SIM; eSIM is possible but complex. GPS performance was good even indoors. Keep LTE and LoRa antennas separated on opposite sides of the case.
 
 
 ### WiFi AP 
@@ -117,21 +121,22 @@ sudo modprobe 8188eu
 sudo reboot
 ```
 
-Verify with `basename $(readlink /sys/class/net/wlan0/device/driver)`.
+Verify with `basename $(readlink /sys/class/net/wlan0/device/driver)`
 
 
 
 ### Antenna Selection
 
-Stock antenna is decent at alleged 3dBi. RAK sells similiarly decent generic Chinese antennas. See [https://github.com/meshtastic/antenna-reports](https://github.com/meshtastic/antenna-reports)
+Stock antenna is decent at alleged 3dBi. RAK sells similiarly decent generic antennas. See [https://github.com/meshtastic/antenna-reports](https://github.com/meshtastic/antenna-reports)
 
 Do not focus on just SWR. If you hooked up a 50 Ω resistor to your NanoVNA, Thanos would be happy that it perfectly balanced but it won’t radiate RF well. SWR tells you how well your antenna matches your transmitter, not antenna performance. High SWR does mean wasted battery and poor range, but low SWR doesn't guarantee good transmitting or efficiency. To do that, hook up the antenna and take measurements at different distance and angle. 
 
-Gain is not magic. It's not adding power, it's shaping it. 0dBi would be a very fat (theoretical and idealized isotropic radiator) donut, handy if you want good coverage in all directions equally. 9dBi would be a very wide pancake, handy if you put on a tower and want to reach other towers. 3-6dBi is compromising between the two. 
+Gain is not magic. It's not adding power, it's shaping it. 0dBi would be a very fat (theoretical and idealized isotropic radiator) donut, handy if you want good coverage in all directions equally. 9dBi would be a very wide but thin pancake, handy if you put on a tower and want to reach other towers. 3-6dBi is compromising between the two. 
 
 Higher gain flattens the vertical beam, turning the donut into a wider, thinner pancake. There is no ideal, only ideal for your purpose. 
 
 If you want all-purpose coverage from a single mountaintop node, 5 dBi, ISM-tuned is the sweet spot. It won't be great at distance, but it won't leave nearby hikers without coverage either. Incidentally these tend to be expensive antennas. 
+
 If you want all-purchase coverage in an urban or suburban environment, 3 dBi would probably be a better choice. 
 
 Now let's make things even more complicated. It's not JUST the dBi. That shapes the power, but how do we get the power in the first place?
@@ -169,8 +174,13 @@ sudo crontab -e
 
 ### Prepping Miner for Outdoor Deployment
 
-The stock antenna is usable but can be upgraded. Wrap threads with telfon tape. Wrap all bulkheads with electrical tape, silicon tape, and then another layer of electrical tape. 
- Fit the EMI rope gasket into the upper lid, trim to fit. Use surge protection at both ends; put a shucked ETH-SP-G2 in the case and connect another cased ETH-SP-G2 to grounding rod or common tower ground. Use lightning arrestor between 915 MHz antenna and N bulkhead, crimp on grounding cable with enough slack. Use M10 port and M10 cable glands for case grounding wire, connect internal shucked ETH-SP-G2 and case grounding lug with one wire and leave enough of a tail to connect. Use split bolts to connect all grounding lines.
+- The stock antenna is usable but can be upgraded. 
+- Wrap threads with telfon tape. Wrap all bulkheads with electrical tape, silicon tape, and then another layer of electrical tape. 
+- Fit the EMI rope gasket into the upper lid, trim to fit. 
+- Use surge protection at both ends; put a shucked ETH-SP-G2 in the case and connect another cased ETH-SP-G2 to grounding rod or common tower ground. 
+- Use lightning arrestor between 915 MHz antenna and N bulkhead, crimp on grounding cable with enough slack. 
+- Use M10 port and M10 cable glands for case grounding wire, connect internal shucked ETH-SP-G2 and case grounding lug with one wire and leave enough of a tail to connect. 
+- Use split bolts to connect all grounding lines.
 
 
 ### Power consumption
