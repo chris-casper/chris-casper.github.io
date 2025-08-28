@@ -44,8 +44,9 @@ include:
 
 # Build settings
 #theme: minima
-#remote_theme: mmistakes/minimal-mistakes
-remote_theme: "mmistakes/minimal-mistakes@4.21.0"
+remote_theme: mmistakes/minimal-mistakes
+#remote_theme: "mmistakes/minimal-mistakes@4.21.0"
+
 plugins:
   - jekyll-feed
   - jekyll-archives
@@ -85,6 +86,7 @@ defaults:
       type: posts
     values:
       layout: single
+      classes: wide
       author_profile: true
       read_time: false
       comments: false

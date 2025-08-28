@@ -209,6 +209,10 @@ Still need to do POE power check as well
 | Antenna                | Antenna upgrade                | $50.00       | 1   |       | Yes      | [eBay](https://www.ebay.com) |
 | u-Green SD Reader      | Flashing eMMC key              | $8.00        |     |       | Yes      | [Amazon](https://www.amazon.com/dp/B0779V61XB) |
 
+Basic build can run as low as $100 if good priced Nebra, basic 1W hat and 2 surge protectors. 
+Or up to $200 if needing to purchase a lot of ancillary or high end components. 
+
+
 
 ### The Power of the Sun!
 
