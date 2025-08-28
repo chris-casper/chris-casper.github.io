@@ -194,6 +194,22 @@ ssh and meshtasticd: 6.x Watts
 Still need to do POE power check as well
 
 
+### BOM
+
+| Item                   | Description                    | Min Cost     | Qty | UOM   | Optional | Vendor   |
+|------------------------|--------------------------------|--------------|-----|-------|----------|----------|
+| Nebra                  | Enclosure, antennas, etc       | $40 - $60    | 1   | Ea    | No       | [eBay](https://www.ebay.com) |
+| Pi Hat                 | NebraHat                       | $30 - $60    | 1   | Ea    | No       | [Discord](https://discord.com) |
+| Stacking headers       | Allowing more than one hat     | $10.00       | 1   | Lot   | Yes      | [Amazon](https://www.amazon.com/dp/B084Q4W1PW) |
+| Grounding wire         | 12 AWG solid, THW PVC          | $15.00       | 1   | Spool | No       | [Amazon](https://www.amazon.com/dp/B07M94L2F8) |
+| Grounding lug          | Works for alum/copper          | $2.28        | 1   | 2 pack| No       | [Home Depot](https://www.homedepot.com/p/Commercial-Electric-14-AWG-to-2-AWG-Dual-Rated-Mechanical-Lug-with-1-Conductor-and-1-Hole-Mount-2-Pack-G99002/310741850) |
+| Split Bolt             | Copper split bolt              | $5.23        | 1   | 2 pack| No       | [Home Depot](https://www.homedepot.com/p/Commercial-Electric-10-AWG-to-8-AWG-Copper-Split-Bolt-2-Pack-GOEC-15/310741770) |
+| Surge protector        | Gas discharge tubes            | $12.50       | 2   | Ea    | No       | [UBTN](https://store.ui.com/us/en/category/accessories-poe-power/collections/pro-store-poe-and-power-surge-protection-outdoor/products/ethernet-surge-protector) |
+| N-Male to N-Male Adapter | For aftermarket antenna      | $10.00       | 1   | 2 pack| Yes      | [Amazon](https://www.amazon.com/dp/B07ZZ1MTC5) |
+| Antenna                | Antenna upgrade                | $50.00       | 1   |       | Yes      | [eBay](https://www.ebay.com) |
+| u-Green SD Reader      | Flashing eMMC key              | $8.00        |     |       | Yes      | [Amazon](https://www.amazon.com/dp/B0779V61XB) |
+
+
 ### The Power of the Sun!
 
 If you got your Nebra and don't want to muck around with configuring a Pi or 12VDC/POE, you can just use the enclosure for a solar node.
