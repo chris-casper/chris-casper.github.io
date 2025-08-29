@@ -172,6 +172,22 @@ sudo crontab -e
 # 0 1 * * 1 /sbin/reboot
 ```
 
+
+### Remote Access
+
+```shell
+sudo nano /etc/modprobe.d/ipv6.conf
+## Don't load ipv6 by default
+#alias net-pf-10 off
+#alias ipv6 off
+
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up
+```
+
+Copy URL to web browser
+
+
 ### Prepping Miner for Outdoor Deployment
 
 - The stock antenna is usable but can be upgraded. 
