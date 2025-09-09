@@ -55,7 +55,7 @@ This is brand new and I'm still working through the config. Please reach out if 
 
 # install nmcli tools and everything else that'll be needed
 sudo apt update
-sudo apt install network-manager modemmanager gpsd gpsd-clients chrony socat
+sudo apt install network-manager modemmanager gpsd gpsd-clients chrony socat -y
 
 sudo systemctl enable NetworkManager
 sudo systemctl start NetworkManager
@@ -193,6 +193,7 @@ sudo nano /etc/chrony/chrony.conf
 # add to end:
 ## GPS via gpsd
 #refclock SHM 0 offset 0.5 delay 0.2 refid GPS poll 4
+# 
 
 # Turn on the service 
 sudo systemctl enable --now gpsd-time.service

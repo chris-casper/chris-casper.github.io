@@ -29,18 +29,33 @@ Each kit includes a 915 MHz 3 dBi antenna, a 2.4 GHz antenna, an aluminum enclos
 
 ### Shucking
 
-Remove the USB board if you don’t need it. The Bluetooth adapter has short range and no external antenna support, I believe it was only meant for initial setup. Keep WiFi and connect to the single USB port. Keep an eye on bulkhead thickness for board clearance. Mounting posts are all M3 pan head screws, buy M3 washers for grounding. Then attach the WeHooper Nebra hat to the 40-pin header or other meshtastic radio. The eMMC module is a small 'key' with gold dot near the Pi board; remove it and flash with [Raspberry Pi Imager](https://www.raspberrypi.com/software/). Adapter compatibility varies greatly; SanDisk SD card adapters don't work, uGreen USB MicroSD adapter off Amazon work reliably. 
+Remove the USB board if you don’t need it. The Bluetooth adapter has short range and no external antenna support, I believe it was only meant for initial setup. Keep WiFi and connect to the single USB port. Keep an eye on bulkhead thickness for board clearance. Mounting posts are all M3 pan head screws, buy M3 washers for grounding. Then attach the WeHooper Nebra hat to the 40-pin header or other meshtastic radio. The eMMC module is a small 'key' with gold dot near the Pi board; remove it and flash with [Raspberry Pi Imager](https://www.raspberrypi.com/software/). Use CM3 version, default Debian distro, and edit settings. Set hostname, WiFi, account, sshd, etc etc. Adapter compatibility varies greatly; SanDisk SD card adapters don't work, uGreen USB MicroSD adapter off Amazon work reliably. 
 
 Reinstall the module, power up, and SSH in. To install Meshtastic:
 
 ```shell
-sudo apt update && sudo apt upgrade
+# New system updates
+sudo apt update -y
+sudo DEBIAN_FRONTEND=noninteractive \
+apt-get -y \
+  -o Dpkg::Options::="--force-confdef" \
+  -o Dpkg::Options::="--force-confold" \
+  dist-upgrade
+# Meshtastic install
 echo 'deb http://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/network:meshtastic:beta.list
 curl -fsSL https://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/network_meshtastic_beta.gpg > /dev/null
-sudo apt update
-sudo apt install meshtasticd
-sudo apt install pipx && pipx install "meshtastic[cli]"
+sudo apt update -y
+sudo apt install meshtasticd i2c-tools -y
+sudo apt install pipx -y && pipx install "meshtastic[cli]"
 pipx ensurepath
+sudo nano /boot/firmware/config.txt
+
+#dtparam=i2c_arm=on
+#dtparam=spi=on
+dtoverlay=spi0-0cs
+# 
+#
+#
 ```
 
 Enable SPI in `/boot/firmware/config.txt` and ensure `dtoverlay=spi0-0cs` is present. Optionally enable I2C via dtparam=i2c_arm=on and install `i2c-tools`. Reboot, then download the correct hat config:
@@ -52,7 +67,8 @@ Enable SPI in `/boot/firmware/config.txt` and ensure `dtoverlay=spi0-0cs` is pre
 sudo wget -O /etc/meshtasticd/config.d/NebraHat_2W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_2W.yaml
 #sudo nano /etc/meshtasticd/config.d/NebraHat_1W.yaml
 sudo nano /etc/meshtasticd/config.d/NebraHat_2W.yaml
-# If 2W, verify power level is set to 8 or lower. 4 is recommended due to 5v rail sag, and is NOT cutting your TX power in half. Obviously change 2W to 1W if purchased that model. 
+# If 2W, verify power level is set to 8 or lower. 4 is recommended due to 5v rail sag, and is NOT cutting your TX power in half. 
+# Obviously change 2W to 1W if purchased that model. 
 # If you have problems below such as "No sx1262 radio", try uncommenting the CS line
 sudo nano /etc/meshtasticd/config.yaml
 
@@ -71,13 +87,14 @@ If using I2C sensors, enable I2C by uncommenting their lines in both `/boot/firm
 Some miners include a NEO-6M GPS chip, which is nice. If absent, adding surface mount parts is possible but often a USB GPS or cell modem is easier. I spoke with the developer of the Nebra board. The pin allocation on the hat header is because he wanted to leave UART0 available on 14/15. To enable onboard NEO-6M GPS:
 
 ```shell
-sudo apt install gpsd gpsd-clients chrony socat
+sudo apt install gpsd gpsd-clients chrony socat -y
 sudo nano /boot/firmware/config.txt
 # Add to end of file:
 # enable_uart=1
 # dtoverlay=uart1,txd1_pin=32,rxd1_pin=33,pin_func=7
-sudo raspi-config   # Select serial interface -> disable shell serial console -> enable serial hardware
+sudo raspi-config   # Select (3) serial interface -> I6 Serial Port -> disable shell serial console -> enable serial hardware
 sudo nano /etc/default/gpsd
+sudo reboot
 ```
 
 Update `/etc/default/gpsd` with DEVICES="/dev/serial1" and add `/dev/serial1` to the Meshtastic GPS: section of config.yaml.
