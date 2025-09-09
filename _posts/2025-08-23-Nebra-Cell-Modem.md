@@ -192,7 +192,7 @@ sudo nano /etc/meshtasticd/config.yaml
 sudo nano /etc/chrony/chrony.conf
 # add to end:
 ## GPS via gpsd
-#refclock SHM 0 offset 0.5 delay 0.2 refid GPS poll 4
+#refclock SHM 0 offset 0.0 delay 0.0 refid GPS poll 4
 # 
 
 # Turn on the service 
@@ -206,6 +206,7 @@ sudo systemctl restart gpsd
 cgps -s
 # Check and see if you're getting GPS time data
 chronyc sources -v
+
 ```
 
 ### PPS?
