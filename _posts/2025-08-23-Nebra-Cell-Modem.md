@@ -196,9 +196,7 @@ sudo nano /etc/chrony/chrony.conf
 # 
 
 # Turn on the service 
-sudo systemctl enable --now gpsd-time.service
-sudo systemctl start --now gpsd-time.service
-systemctl status gpsd-time.service --no-pager
+# 
 sudo systemctl restart chrony
 sudo systemctl restart gpsd
 

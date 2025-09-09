@@ -52,8 +52,7 @@ sudo nano /boot/firmware/config.txt
 
 #dtparam=i2c_arm=on
 #dtparam=spi=on
-dtoverlay=spi0-0cs
-# 
+#dtoverlay=spi0-0cs
 #
 #
 ```
@@ -94,6 +93,12 @@ sudo nano /boot/firmware/config.txt
 # dtoverlay=uart1,txd1_pin=32,rxd1_pin=33,pin_func=7
 sudo raspi-config   # Select (3) serial interface -> I6 Serial Port -> disable shell serial console -> enable serial hardware
 sudo nano /etc/default/gpsd
+# DEVICES="/dev/serial1"
+sudo nano /etc/chrony/chrony.conf
+# # Use gpsd as a time source
+# refclock SHM 0 refid GPS precision 1e-1 offset 0.0 delay 0.2
+sudo systemctl restart chrony
+
 sudo reboot
 ```
 
@@ -139,6 +144,15 @@ sudo reboot
 ```
 
 Verify with `basename $(readlink /sys/class/net/wlan0/device/driver)`
+
+Adding WiFi network manually
+
+```shell
+sudo nmcli connection add type wifi ifname wlan0 con-name mywifi ssid "SSID_NAME"
+sudo nmcli connection modify mywifi wifi-sec.key-mgmt wpa-psk
+sudo nmcli connection modify mywifi wifi-sec.psk "YOUR_PASSWORD"
+sudo nmcli connection modify mywifi connection.autoconnect yes
+```
 
 
 
