@@ -193,7 +193,7 @@ sudo nano /etc/chrony/chrony.conf
 # add to end:
 ## GPS via gpsd
 #refclock SHM 0 offset 0.0 delay 0.0 refid GPS poll 4
-# 
+## Adjust offset or delay as needed 
 
 # Turn on the service 
 # 
