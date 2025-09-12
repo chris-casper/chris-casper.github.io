@@ -107,8 +107,13 @@ sudo nano /etc/chrony/chrony.conf
 # # Use gpsd as a time source
 # refclock SHM 0 refid GPS precision 1e-1 offset 0.0 delay 0.2
 sudo systemctl restart chrony
-
 sudo reboot
+
+# check sats
+cgps -s
+# Once you have satellite lock, check and see if you're getting GPS time data
+chronyc sources -v
+
 ```
 
 Update `/etc/default/gpsd` with DEVICES="/dev/serial1" and add `/dev/serial1` to the Meshtastic GPS: section of config.yaml.
