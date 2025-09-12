@@ -246,8 +246,19 @@ sudo apt install -y rtl-sdr rtl-433 soapyremote-server
 # should see: Bus 001 Device 004: ID 0bda:2838 Realtek Semiconductor Corp. RTL2838 DVB-T
 lsusb | grep RTL2838
 
+sudo tee /etc/udev/rules.d/20-rtl-sdr.rules > /dev/null <<'EOF'
+# NooElec NESDR / RTL2832U SDR dongles
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="2838", MODE="0666", GROUP="plugdev"
+EOF
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+sudo usermod -aG plugdev $USER
+
 # test SDR
 rtl_test -t
+
+# Test capture
+rtl_sdr -s 2048000 -f 100e6 -n 2048000 /tmp/fm.iq
 
 # run SDR server
 rtl_tcp -a 0.0.0.0 -p 1234
@@ -272,7 +283,9 @@ Your SDR software (rtl_test, rtl_tcp, etc.) should now directly claim the dongle
 ### Prepping Miner for Outdoor Deployment
 
 - The stock antenna is usable but can be upgraded. 
-- Wrap threads with telfon tape. Wrap all bulkheads with electrical tape, silicon tape, and then another layer of electrical tape. 
+- Wrap threads with telfon tape. 
+- Wrap all bulkheads with electrical tape, silicon tape, and then another layer of electrical tape. 
+- Alternatively you can use marine shrink tube or butyl tape like CoaxSeal
 - Fit the EMI rope gasket into the upper lid, trim to fit. 
 - Use surge protection at both ends; put a shucked ETH-SP-G2 in the case and connect another cased ETH-SP-G2 to grounding rod or common tower ground. 
 - Use lightning arrestor between 915 MHz antenna and N bulkhead, crimp on grounding cable with enough slack. 
@@ -305,6 +318,9 @@ Still need to do POE power check as well
 | N-Male to N-Male Adapter | For aftermarket antenna      | $10.00       | 1   | 2 pack| Yes      | [Amazon](https://www.amazon.com/dp/B07ZZ1MTC5) |
 | Antenna                | Antenna upgrade                | $50.00       | 1   |       | Yes      | [eBay](https://www.ebay.com) |
 | u-Green SD Reader      | Flashing eMMC key              | $8.00        |     |       | Yes      | [Amazon](https://www.amazon.com/dp/B0779V61XB) |
+| Waterproof Vent Plug   | Allows air and moisture out    | $3.00        |     |       | Yes      | [AliExpress](https://www.aliexpress.us/item/3256806226534115.html) |
+
+
 
 Basic build can run as low as $100 if good priced Nebra, basic 1W hat and 2 surge protectors. 
 Or up to $200 if needing to purchase a lot of ancillary or high end components. 
