@@ -227,7 +227,46 @@ curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up
 ```
 
-Copy URL to web browser
+Copy URL to web browser.
+
+Once you have tailscale installed, you can also install tailscale on your phone and use the Meshtastic app to connect to your node from anywhere in the world. 
+
+
+### Software Defined Radio (SDR)
+
+![NEO-6M](/images/posts/nebra/nebra-sdr.jpg)
+
+I installed a NooElec NESDR Nano 3 in several Nebra nodes. Notion is in high difficulty radio frequency environments, it can help look at what's happening on the spectrum. Running meshtasticd and SDR software at the same time may make the Pi CM3 struggle, but we'll see how it goes. 
+
+```shell
+# Install apps
+sudo apt update
+sudo apt install -y rtl-sdr rtl-433 soapyremote-server
+
+# should see: Bus 001 Device 004: ID 0bda:2838 Realtek Semiconductor Corp. RTL2838 DVB-T
+lsusb | grep RTL2838
+
+# test SDR
+rtl_test -t
+
+# run SDR server
+rtl_tcp -a 0.0.0.0 -p 1234
+# soapyremote-server
+```
+
+Optionally you may want to blacklist the old drivers
+
+```shell
+echo "blacklist dvb_usb_rtl28xxu
+blacklist rtl2832
+blacklist rtl2830" | sudo tee /etc/modprobe.d/blacklist-rtlsdr.conf
+sudo update-initramfs -u
+sudo reboot
+lsmod | grep rtl
+```
+You should not see dvb_usb_rtl28xxu, rtl2832, or rtl2830.
+Your SDR software (rtl_test, rtl_tcp, etc.) should now directly claim the dongle without conflict.
+
 
 
 ### Prepping Miner for Outdoor Deployment
