@@ -2,6 +2,33 @@
 set -euo pipefail
 
 # =========================
+# 
+# REMEMBER TO DO AFTER REBOOT : sudo tailscale up
+#
+# =========================
+
+# ************ THIS IS STILL IN ALPHA DEVELOPMENT - DO NOT USE ************
+
+# =========================
+# nebra_setup.sh 
+#
+# Linux Meshtasticd Setup Script - Optimized for Nebra Nodes
+# Written by Chris Casper
+#
+# v0 - 2025.09.11 - initial
+#
+# TODO:
+# - add non-Hooper hats
+# - testing/dry runs
+# - verify can be run multiple times to change config?
+# - redo update to make sure doesn't hang on questions
+# - config.yaml default changes
+# - Hat yaml default changes
+# - list sensors?
+#
+# =========================
+
+# =========================
 # Defaults (can be overridden by env or CLI flags)
 # =========================
 GPS_NEO6M="${GPS_NEO6M:-no}"                # yes|no
@@ -21,28 +48,31 @@ REBOOT_AT_END="${REBOOT_AT_END:-yes}"       # yes|no
 # =========================
 usage() {
   cat <<'USAGE'
+  
 Usage: ./nebra_setup.sh [options]
 
 Options (all also available via env vars shown in [default]):
   --gps-neo6m {yes|no}            [no]   Enable Neo-6M gpsd + chrony integration
   --hat {1w|2w}                   [2w]   Choose NebraHat profile to download/configure
-  --wifi {stock|ap}               [stock]Keep stock Wi-Fi or switch to AP driver + hostapd/dnsmasq
-  --ap-ssid SSID                  [NebraAP]
-  --ap-pass PASS                  [ChangeMe123]
-  --ap-channel N                  [6]
-  --ap-iface IFACE                [wlan0]
+  --wifi {stock|ap}               [stock]	Keep stock Wi-Fi driver or switch to AP driver + hostapd/dnsmasq
+  --ap-ssid SSID                  [NebraAP]	Nebra hosted WiFi network
+  --ap-pass PASS                  [ChangeMe123]	Password for Nebra WiFi AP
+  --ap-channel N                  [6]			Channel for Nebra WiFi AP
+  --ap-iface IFACE                [wlan0]		Interface Name for Nebra WiFi AP
   --sdr {yes|no}                  [no]   Install rtl-sdr tools + udev rule
-  --blacklist-sdr {yes|no}        [no]   Blacklist dvb_usb_rtl28xxu/rtl2832/rtl2830
-  --tailscale {yes|no}            [no]   Install Tailscale last
+  --blacklist-sdr {yes|no}        [no]   Blacklist default dvb_usb_rtl28xxu/rtl2832/rtl2830 driver
+  --tailscale {yes|no}            [no]   Install Tailscale for remote access
   --reboot {yes|no}               [yes]  Reboot at the end if required
   -h|--help                              Show this help
 
 Examples:
   GPS_NEO6M=yes NEBRA_HAT=1w WIFI_MODE=ap AP_SSID=KD3BQB-AP AP_PASS='StrongPass!' ./nebra_setup.sh
   ./nebra_setup.sh --hat 2w --wifi ap --ap-ssid MyAP --ap-pass secret --sdr yes --blacklist-sdr yes --tailscale yes
+  
 USAGE
 }
 
+# Argument handling
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --gps-neo6m) GPS_NEO6M="${2}"; shift 2 ;;
@@ -61,13 +91,15 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-# Require root
+# Require sudo
 if [[ $EUID -ne 0 ]]; then
   echo "Please run as root (sudo)."
   exit 1
 fi
 
 # Utilities
+# 
+# - basic version, needs work
 apt_update_once() {
   if [[ ! -f /tmp/.apt_updated ]]; then
     apt-get update -y
@@ -78,7 +110,7 @@ apt_update_once() {
 needs_reboot="no"
 
 # =========================
-# Meshtastic repo + install (from your article)
+# Meshtastic repo + install 
 # =========================
 install_meshtastic() {
   echo ">>> Installing Meshtasticd and prerequisites..."
@@ -97,7 +129,7 @@ install_meshtastic() {
 }
 
 # =========================
-# Enable SPI + insert dtoverlay=spi0-0cs (from your article)
+# Enable SPI + insert dtoverlay=spi0-0cs 
 # =========================
 enable_spi_and_overlay() {
   local cfg="/boot/firmware/config.txt"
@@ -121,11 +153,12 @@ enable_spi_and_overlay() {
     sed -i '/^\s*dtparam=spi=on/a dtoverlay=spi0-0cs' "${cfg}"
   fi
 
+  # test this section, a lot
   needs_reboot="yes"
 }
 
 # =========================
-# NebraHat config (from your article)
+# NebraHat config 
 # =========================
 configure_nebra_hat() {
   echo ">>> Configuring NebraHat (${NEBRA_HAT^^}) profile..."
@@ -144,26 +177,30 @@ configure_nebra_hat() {
       exit 1
       ;;
   esac
+  # do nebrahat_Xw.yaml default changes here, too tired to do right now
 
   # Ensure base config exists
   touch /etc/Meshtasticd/config.yaml
+  # Need the default config.yaml changes here
+  # remember to include gps: in gps section below
 
   systemctl enable Meshtasticd
   systemctl restart Meshtasticd || true
 }
 
 # =========================
-# I2C tools (as referenced)
+# I2C tools 
 # =========================
 install_i2c_tools() {
   echo ">>> Installing I2C tools (optional sensor discovery)..."
   apt_update_once
   apt-get install -y i2c-tools
+  # list existing sensors?
 }
 
 # =========================
 # Wi-Fi: keep stock or install AP driver + optional AP stack
-# (driver swap from your article; AP stack added for convenience)
+# AP stack added for convenience
 # =========================
 setup_wifi() {
   if [[ "${WIFI_MODE}" == "stock" ]]; then
@@ -175,12 +212,14 @@ setup_wifi() {
   apt_update_once
   apt-get install -y wget dkms
 
-  # Fetch prebuilt deb from your referenced repo
+  # Fetch prebuilt deb from referenced repo
+  # - cache somewhere just in case?
   local tmpdeb="/root/rtl8188eus_1.0-1_arm64.deb"
   wget -O "${tmpdeb}" "https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/NebraHat/nebraAP/rtl8188eus_1.0-1_arm64.deb"
   dpkg -i "${tmpdeb}" || apt-get -f install -y
 
   # Blacklist old module and ensure 8188eu loads
+  # - had issues here
   echo "blacklist rtl8xxxu" > /etc/modprobe.d/rtl8xxxu.conf
   modprobe 8188eu || true
 
@@ -196,6 +235,7 @@ setup_wifi() {
   systemctl stop dnsmasq || true
 
   # Configure a simple AP on ${AP_INTERFACE}
+  # - test these a lot
   cat > /etc/hostapd/hostapd.conf <<EOF
 interface=${AP_INTERFACE}
 driver=nl80211
@@ -264,6 +304,7 @@ EOF
     udevadm trigger
   fi
 
+  # should I make this default yes?
   if [[ "${BLACKLIST_OLD_SDR}" == "yes" ]]; then
     echo ">>> Blacklisting DVB SDR kernel modules..."
     cat > /etc/modprobe.d/blacklist-rtlsdr.conf <<'EOF'
@@ -285,6 +326,7 @@ setup_gps_neo6m() {
   fi
   echo ">>> Setting up gpsd + chrony for Neo-6M..."
 
+  # remove pps-tools? You need to manually wire PPS pin, how many will?
   apt_update_once
   apt-get install -y gpsd gpsd-clients chrony pps-tools
 
@@ -296,16 +338,19 @@ setup_gps_neo6m() {
     needs_reboot="yes"
   fi
 
-  # gpsd default: point at /dev/ttyAMA0 (adjust if you use serial1, etc.)
+  # gpsd default: point at /dev/ttyAMA0 
+  # Set to serial1 by default, but can switch over by commenting
   sed -i 's|^#\?START_DAEMON=.*|START_DAEMON="true"|' /etc/default/gpsd
   sed -i 's|^#\?GPSD_OPTIONS=.*|GPSD_OPTIONS="-n"|' /etc/default/gpsd
-  sed -i 's|^#\?DEVICES=.*|DEVICES="/dev/ttyAMA0"|' /etc/default/gpsd
+#  sed -i 's|^#\?DEVICES=.*|DEVICES="/dev/ttyAMA0"|' /etc/default/gpsd
+  sed -i 's|^#\?DEVICES=.*|DEVICES="/dev/serial1"|' /etc/default/gpsd
   sed -i 's|^#\?USBAUTO=.*|USBAUTO="true"|' /etc/default/gpsd
 
   systemctl enable gpsd
   systemctl restart gpsd || true
 
   # Minimal chrony config to use gpsd SHM(0); add PPS if wired later
+  # No offsets, adjust if needed
   if ! grep -q "refclock SHM 0" /etc/chrony/chrony.conf; then
     cat >> /etc/chrony/chrony.conf <<'EOF'
 
@@ -343,6 +388,7 @@ install_tailscale() {
 # =========================
 # Main
 # =========================
+
 install_meshtastic
 enable_spi_and_overlay
 configure_nebra_hat
@@ -353,6 +399,7 @@ setup_gps_neo6m
 install_tailscale
 
 echo ">>> All selected steps completed."
+echo ">>> All systems online"
 if [[ "${needs_reboot}" == "yes" && "${REBOOT_AT_END}" == "yes" ]]; then
   echo ">>> Rebooting in 5 seconds to apply kernel/firmware changes (SPI/Wi-Fi/GPS)..."
   sleep 5
