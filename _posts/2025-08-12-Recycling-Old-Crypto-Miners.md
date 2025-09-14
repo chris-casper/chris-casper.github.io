@@ -62,8 +62,24 @@ sudo nano /boot/firmware/config.txt
 #dtparam=i2c_arm=on
 #dtparam=spi=on
 #dtoverlay=spi0-0cs
-#
-#
+
+# Turns on auto-discovery
+sudo apt install avahi-daemon
+
+sudo tee /etc/avahi/services/meshtastic.service > /dev/null <<'EOF'
+<?xml version="1.0" standalone="no"?><!--*-nxml-*-->
+<!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+<service-group>
+    <name>Meshtastic</name>
+    <service protocol="ipv4">
+        <type>_meshtastic._tcp</type>
+        <port>4403</port>
+    </service>
+</service-group>
+EOF
+
+sudo systemctl enable avahi-daemon && sudo systemctl start avahi-daemon
+
 ```
 
 Enable SPI in `/boot/firmware/config.txt` and ensure `dtoverlay=spi0-0cs` is present. Optionally enable I2C via dtparam=i2c_arm=on and install `i2c-tools`. Reboot, then download the correct hat config:
@@ -100,7 +116,9 @@ sudo nano /boot/firmware/config.txt
 # Add to end of file:
 # enable_uart=1
 # dtoverlay=uart1,txd1_pin=32,rxd1_pin=33,pin_func=7
-sudo raspi-config   # Select (3) serial interface -> I6 Serial Port -> disable shell serial console -> enable serial hardware
+#sudo raspi-config   # Select (3) serial interface -> I6 Serial Port -> disable shell serial console -> enable serial hardware
+sudo raspi-config nonint do_serial_hw 0 # Enable Serial Port (enable_uart=1)
+sudo raspi-config nonint do_serial_cons 1 # Disable Serial Console
 sudo nano /etc/default/gpsd
 # DEVICES="/dev/serial1"
 sudo nano /etc/chrony/chrony.conf
@@ -321,9 +339,9 @@ Still need to do POE power check as well
 | Split Bolt             | Copper split bolt              | $5.23        | 1   | 2 pack| No       | [Home Depot](https://www.homedepot.com/p/Commercial-Electric-10-AWG-to-8-AWG-Copper-Split-Bolt-2-Pack-GOEC-15/310741770) |
 | Surge protector        | Gas discharge tubes            | $12.50       | 2   | Ea    | No       | [UBTN](https://store.ui.com/us/en/category/accessories-poe-power/collections/pro-store-poe-and-power-surge-protection-outdoor/products/ethernet-surge-protector) |
 | N-Male to N-Male Adapter | For aftermarket antenna      | $10.00       | 1   | 2 pack| Yes      | [Amazon](https://www.amazon.com/dp/B07ZZ1MTC5) |
-| Antenna                | Antenna upgrade                | $50.00       | 1   |       | Yes      | [eBay](https://www.ebay.com) |
-| u-Green SD Reader      | Flashing eMMC key              | $8.00        |     |       | Yes      | [Amazon](https://www.amazon.com/dp/B0779V61XB) |
-| Waterproof Vent Plug   | Allows air and moisture out    | $3.00        |     |       | Yes      | [AliExpress](https://www.aliexpress.us/item/3256806226534115.html) |
+| Antenna                | Antenna upgrade                | $50.00       | 1   | Ea    | Yes      | [eBay](https://www.ebay.com) |
+| u-Green SD Reader      | Flashing eMMC key              | $8.00        | 1   | Ea    | Yes      | [Amazon](https://www.amazon.com/dp/B0779V61XB) |
+| Waterproof Vent Plug   | Allows air and moisture out    | $3.00        | 1   | Ea    | Yes      | [AliExpress](https://www.aliexpress.us/item/3256806226534115.html) |
 
 
 
