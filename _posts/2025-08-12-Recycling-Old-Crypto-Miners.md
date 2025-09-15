@@ -349,6 +349,19 @@ Basic build can run as low as $100 if good priced Nebra, basic 1W hat and 2 surg
 Or up to $200 if needing to purchase a lot of ancillary or high end components. 
 
 
+### Deployment Lessons Learned
+
+- Ground test your node on site. 
+- Spares for literally everything. Anything you will NEED, have at least one or two spares.
+- You will lose nuts, bolts and U-bolts. Have a baggie of the tower bits for your installer. Stuff will be dropped. Have extra zip ties.
+- Test your cables, test your POE injector
+- Have lots of different grounding options
+- Have a spare fully operational node when doing a tower install. Troubleshooting is time intensive compared to direct swap
+- Ground test your rig for at least a week
+- Pre-program a WiFi link. In a pinch, set your phone HotSpot to that WiFi network or have your laptop be able to form an Access Point
+- Have the tailscale app on your phone. It near instantly tells you when node is online. Plus you can switch from WiFi to cell to verify outside access
+- Copy the private and admin keys in advanced so you can remotely reprogram your node via another node
+
 
 ### The Power of the Sun!
 
