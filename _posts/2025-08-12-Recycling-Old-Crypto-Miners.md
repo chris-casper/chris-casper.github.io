@@ -37,11 +37,11 @@ There's two ways of writing the OS:
 
 ### Writing Debian Using Nebra Pi board
 
-Still confirming. Looks like it runs much slower but more reliably.
+Still confirming. Looks like it runs much slower but more reliably. The two pin connector tells the board to either be in programming mode or operating mode. The three pin connector is flashing firmware or writing to SD/eMMC card, I believe.
 
 - Remove Nebra Pi board from Nebra, remove Micro-USB cable
 - Download and install [Raspberry Pi USB Boot](https://github.com/raspberrypi/usbboot/raw/master/win32/rpiboot_setup.exe) before anything else
-- There are two sets of jumpers on Nebra Pi board. Leave 3 pin alone if already on 2 and 3. On 2 pin connector, switch from not jumped to jumped
+- There are two sets of jumpers on Nebra Pi board right next to the CM3. Leave 3 pin connector alone if already on Pins 2 and 3 (. On 2 pin connector, switch from not jumped to jumped
 - Plug in USB cable to PC and Pi board
 - Run rpi-boot-CM-CM2-CM3
 - Run Pi Imager
