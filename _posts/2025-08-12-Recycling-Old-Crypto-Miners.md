@@ -37,7 +37,7 @@ There's two ways of writing the OS:
 
 # Writing Debian Using Nebra Pi board
 
-Still confirming
+Still confirming. Looks like it runs much slower but more reliably.
 
 - Remove Nebra Pi board from Nebra, remove Micro-USB cable
 - Download and install [Raspberry Pi USB Boot](https://github.com/raspberrypi/usbboot/raw/master/win32/rpiboot_setup.exe) before anything else
@@ -45,7 +45,7 @@ Still confirming
 - Plug in USB cable to PC and Pi board
 - Run rpi-boot-CM-CM2-CM3
 - Run Pi Imager
-- Once done, unjump 2 pin connector and plug back into nebra. Leave 3 pin alone
+- Once done, unjump 2 pin connector! Will not work unless unjumpered. Plug back into nebra, leave 3 pin alone.
 
 
 # Writing Debian MicroSD adapter method
