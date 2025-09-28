@@ -29,11 +29,15 @@ Each kit includes a 915 MHz 3 dBi antenna, a 2.4 GHz antenna, an aluminum enclos
 
 ### Shucking
 
-Remove the USB board if you don’t need it. The Bluetooth adapter has short range and no external antenna support, I believe it was only meant for initial setup. Keep WiFi and connect to the single USB port. Keep an eye on bulkhead thickness for board clearance. Mounting posts are all M3 pan head screws, buy M3 washers for grounding. Then attach the WeHooper Nebra hat to the 40-pin header or other meshtastic radio. The eMMC module is a small 'key' with gold dot near the Pi board. It will work in a MicroSD slot. Adapter compatibility varies greatly; SanDisk SD card adapters don't work, uGreen USB MicroSD adapter off Amazon work reliably. eMMC has much longer lifespan and operating temps, try not to use a MicroSD card for anything but testing or temp controlled environment. 
+Remove the USB board if you don’t need it. The Bluetooth adapter has short range and no external antenna support, I believe it was only meant for initial setup. Keep WiFi and connect to the single USB port. Keep an eye on bulkhead thickness for board clearance. Mounting posts are all M3 pan head screws, buy M3 washers for grounding. Then attach the WeHooper Nebra hat to the 40-pin header or other meshtastic radio. 
 
-# Using Nebra Pi board
+The eMMC module is a small 'key' with gold dot near the Pi board. It will work in a MicroSD slot. Adapter compatibility varies greatly; SanDisk SD card adapters don't work, uGreen USB MicroSD adapter off Amazon work reliably. eMMC has much longer lifespan and operating temps, try not to use a MicroSD card for anything but testing or temp controlled environment. 
 
-Still confirmings
+There's two ways of writing the OS:
+
+# Writing Debian Using Nebra Pi board
+
+Still confirming
 
 - Remove Nebra Pi board from Nebra, remove Micro-USB cable
 - Download and install [Raspberry Pi USB Boot](https://github.com/raspberrypi/usbboot/raw/master/win32/rpiboot_setup.exe) before anything else
@@ -44,7 +48,7 @@ Still confirmings
 - Once done, unjump 2 pin connector and plug back into nebra. Leave 3 pin alone
 
 
-# MicroSD adapter method
+# Writing Debian MicroSD adapter method
 
 - Remove eMMC key, put in MicroSD slot or adapter
 - Fire up [Raspberry Pi Imager](https://www.raspberrypi.com/software/). 
