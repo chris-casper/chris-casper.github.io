@@ -35,7 +35,7 @@ The eMMC module is a small 'key' with gold dot near the Pi board. It will work i
 
 There's two ways of writing the OS:
 
-# Writing Debian Using Nebra Pi board
+### Writing Debian Using Nebra Pi board
 
 Still confirming. Looks like it runs much slower but more reliably.
 
@@ -48,7 +48,7 @@ Still confirming. Looks like it runs much slower but more reliably.
 - Once done, unjump 2 pin connector! Will not work unless unjumpered. Plug back into nebra, leave 3 pin alone.
 
 
-# Writing Debian MicroSD adapter method
+### Writing Debian MicroSD adapter method
 
 - Remove eMMC key, put in MicroSD slot or adapter
 - Fire up [Raspberry Pi Imager](https://www.raspberrypi.com/software/). 
