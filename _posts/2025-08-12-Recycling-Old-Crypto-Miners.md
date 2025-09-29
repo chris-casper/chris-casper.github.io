@@ -377,9 +377,11 @@ Or up to $200 if needing to purchase a lot of ancillary or high end components.
 - Have lots of different grounding options
 - Have a spare fully operational node when doing a tower install. Troubleshooting is time intensive compared to direct swap
 - Ground test your rig for at least a week
-- Pre-program a WiFi link. In a pinch, set your phone HotSpot to that WiFi network or have your laptop be able to form an Access Point
+- Pre-program a WiFi link for the location. In a pinch, set your phone HotSpot to that WiFi network or have your laptop be able to form an Access Point
 - Have the tailscale app on your phone. It near instantly tells you when node is online. Plus you can switch from WiFi to cell to verify outside access
 - Copy the private and admin keys in advanced so you can remotely reprogram your node via another node
+
+Consider tapping your N antenna ports with a [5/8"-24 UNEF RH tap](https://www.amazon.com/dp/B07NZP1CXM). The threads are rough by default. Screw in the tap by hand as much as possible. Only switch to the wrench once you hit resistance and have the tap well seated. Ideally you shouldn't need the wrench at all. Some cutting fluid, machine oil or lube on the tap would be a good idea but don't need a lot. If you don't have any, skip.  
 
 
 ### The Power of the Sun!
