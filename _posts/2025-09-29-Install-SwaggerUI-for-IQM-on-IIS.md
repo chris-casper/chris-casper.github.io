@@ -188,6 +188,44 @@ _No changes were made to the IQM/Mongoose app or its app pool._
 
 ---
 
+## No HTTPS?
+
+You really should enable HTTPS. But for testing or very small environments, edit swagger-initializer.js with following code example. Replace host with your server name.
+
+```javascript
+window.onload = function() {
+  //<editor-fold desc="Changeable Configuration Block">
+
+  // the following lines will be replaced by docker/configurator, when it runs in a docker-container
+window.ui = SwaggerUIBundle({
+  url: "http://host/IDORequestService/ido/api-docs/",
+  dom_id: '#swagger-ui',
+  deepLinking: true,
+  presets: [ SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset ],
+  layout: "StandaloneLayout",
+  // Override servers after load
+  onComplete: function() {
+    const spec = window.ui.specSelectors.specJson().toJS();
+    if (spec.openapi) {
+      spec.servers = [
+        { url: "http://host/IDORequestService/ido" },
+        { url: "https://host/IDORequestService/ido" }
+      ];
+    } else {
+      spec.schemes = ["http","https"];
+    }
+    window.ui.specActions.updateJsonSpec(spec);
+  }
+});
+
+
+  //</editor-fold>
+};
+```
+
+
+---
+
 ## Optional: Scripted Setup (PowerShell)
 
 > Adjust the version and paths to taste.
