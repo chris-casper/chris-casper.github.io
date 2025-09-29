@@ -21,7 +21,7 @@ breadcrumbs: true
 
 ## Intro
 
-Swagger UI is a graphical interface for swagger rather than just a JSON file. You can also run demo API requests directly from the browser. Lets you prototype much faster and easier. 
+[Swagger UI](https://swagger.io/tools/swagger-ui/) is a graphical interface for swagger rather than just a JSON file. You can also run demo API requests directly from the browser. Lets you prototype much faster and easier. 
 
 It just static HTML and Javascript, so nearly zero overhead. Has no impact on your production system. 
 
