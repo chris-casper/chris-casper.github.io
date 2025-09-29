@@ -16,9 +16,15 @@ breadcrumbs: true
 # permalink: /Infor-IQM-API/Install-SwaggerUI-on-IIS/
 ---
 
-## Goal
 
-Host a standalone **Swagger UI** (static files) on the **same IIS host** as Infor IQM/Mongoose so you can browse the built-in **Mongoose API docs**—including **REST v2** (Wizard-generated, typed endpoints)—**without** modifying or risking the existing IQM application.
+![Swagger YU](/images/posts/iqm/swaggerui.png)
+
+## Intro
+
+Swagger UI is a graphical interface for swagger rather than just a JSON file. You can also run demo API requests directly from the browser. Lets you prototype much faster and easier. 
+
+It just static HTML and Javascript, so nearly zero overhead. Has no impact on your production system. 
+
 
 This guide:
 - **Does not** change the IQM/Mongoose binaries, app pool, or web.config  
