@@ -357,6 +357,33 @@ sudo crontab -e
 
 ```
 
+###  Cheap LTE service
+
+Embedded Works slash IoTDataWorks sells an unlimited 64kbps SIM for $55 ish on [Amazon](https://www.amazon.com/dp/B07JCTZ3BF). I was told it didn't work with the Nebra or Nebra cell modem but worked for me. This should work, but I haven't tested it on a fresh install yet. It only uses T-Mobile, operator ID 310260
+
+Embedded Works uses m2mglobal as the APN. Be sure to reboot a couple times to make sure it stays working. Might take a minute or two to connect.
+
+```shell
+# Enable services + radio
+sudo systemctl enable --now ModemManager NetworkManager
+sudo nmcli radio wwan on
+sudo rfkill unblock all
+
+# Create or update the NM GSM profile
+sudo nmcli c add type gsm ifname "*" con-name mycell apn m2mglobal 2>/dev/null || true
+sudo nmcli c modify mycell gsm.apn m2mglobal gsm.home-only no \
+  connection.autoconnect yes connection.autoconnect-retries -1 \
+  connection.wait-device-timeout 600 ipv4.method auto ipv6.method ignore \
+  ipv4.route-metric 700
+
+# Optional RF prefs (best effort) - Turn on only if nothing else works
+# You do probably want --set-preferred-mode='4g'
+# sudo mmcli -m 0 --set-allowed-modes='4g' --set-preferred-mode='4g' || true
+# sudo mmcli -m 0 --set-bands='eutran-2,eutran-4,eutran-12,eutran-66,eutran-71' || true
+
+# Connect now
+sudo nmcli c up mycell
+```
 
 
 
