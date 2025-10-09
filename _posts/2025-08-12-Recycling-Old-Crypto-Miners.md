@@ -182,19 +182,7 @@ This LTE PCI-E card supports multiple GNSS constellations and quite a few useful
 
 ### WiFi AP 
 
-See [https://github.com/wehooper4/meshtastic-Hardware/tree/main/NebraHat/nebraAP](https://github.com/wehooper4/meshtastic-Hardware/tree/main/NebraHat/nebraAP)
-
-For access point mode, replace the stock Realtek driver:
-
-```shell
-wget -O ~/rtl8188eus_1.0-1_arm64.deb https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/nebraAP/rtl8188eus_1.0-1_arm64.deb
-sudo dpkg -i ~/rtl8188eus_1.0-1_arm64.deb
-echo "blacklist rtl8xxxu" | sudo tee /etc/modprobe.d/rtl8xxxu.conf
-sudo modprobe 8188eu
-sudo reboot
-```
-
-Verify with `basename $(readlink /sys/class/net/wlan0/device/driver)`
+Buy a new WiFi dongle that includes native linux support and AP mode. Included one has driver issues, and is kinda nightmare.
 
 Adding WiFi network manually
 
@@ -205,6 +193,94 @@ sudo nmcli connection modify mywifi wifi-sec.psk "YOUR_PASSWORD"
 sudo nmcli connection modify mywifi connection.autoconnect yes
 ```
 
+Setting up AP mode
+
+Save to setup-ap.sh and run sudo bash ./setup-ap.sh
+
+
+```shell
+#!/bin/bash
+# Simple AP setup script for Debian
+# Run as root
+
+### CONFIGURATION ###
+AP_SSID="MyAccessPoint"
+AP_PASSWORD="SuperSecret123"
+WLAN_IF="wlan0"
+AP_IP="192.168.50.1"
+DHCP_RANGE_START="192.168.50.10"
+DHCP_RANGE_END="192.168.50.200"
+UPLINK_IF="eth0"   # or wwan0 if you want to NAT to LTE
+####################
+
+set -e
+
+echo "[*] Installing required packages..."
+sudo apt -o Acquire::ForceIPv4=true update
+sudo apt -o Acquire::ForceIPv4=true install -y hostapd dnsmasq iptables-persistent ifupdown
+
+echo "[*] Stopping services until configured..."
+systemctl stop hostapd || true
+systemctl stop dnsmasq || true
+
+echo "[*] Configuring static IP on $WLAN_IF..."
+cat >/etc/network/interfaces.d/$WLAN_IF <<EOF
+auto $WLAN_IF
+iface $WLAN_IF inet static
+    address $AP_IP
+    netmask 255.255.255.0
+EOF
+ifdown $WLAN_IF || true
+ifup $WLAN_IF
+
+echo "[*] Configuring dnsmasq..."
+mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig.$(date +%s) || true
+cat >/etc/dnsmasq.conf <<EOF
+interface=$WLAN_IF
+dhcp-range=$DHCP_RANGE_START,$DHCP_RANGE_END,255.255.255.0,24h
+EOF
+
+echo "[*] Configuring hostapd..."
+cat >/etc/hostapd/hostapd.conf <<EOF
+interface=$WLAN_IF
+driver=nl80211
+ssid=$AP_SSID
+hw_mode=g
+channel=6
+wmm_enabled=1
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=$AP_PASSWORD
+wpa_key_mgmt=WPA-PSK
+rsn_pairwise=CCMP
+EOF
+
+# Point hostapd to config
+sed -i "s|^#DAEMON_CONF=.*|DAEMON_CONF=\"/etc/hostapd/hostapd.conf\"|" /etc/default/hostapd
+
+echo "[*] Enabling IP forwarding..."
+sed -i 's/^#\?net.ipv4.ip_forward.*/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+sysctl -p
+
+echo "[*] Setting up NAT to $UPLINK_IF..."
+iptables -t nat -A POSTROUTING -o $UPLINK_IF -j MASQUERADE
+iptables -A FORWARD -i $UPLINK_IF -o $WLAN_IF -m state --state RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -i $WLAN_IF -o $UPLINK_IF -j ACCEPT
+netfilter-persistent save
+
+echo "[*] Enabling services..."
+systemctl unmask hostapd
+systemctl enable hostapd
+systemctl enable dnsmasq
+systemctl restart hostapd
+systemctl restart dnsmasq
+
+echo "[+] Access Point setup complete!"
+echo "    SSID: $AP_SSID"
+echo "    Password: $AP_PASSWORD"
+echo "    Interface: $WLAN_IF ($AP_IP)"
+```
 
 
 ### Antenna Selection
