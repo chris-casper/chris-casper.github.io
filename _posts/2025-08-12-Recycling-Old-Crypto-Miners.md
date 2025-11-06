@@ -72,14 +72,13 @@ apt-get -y \
 # Meshtastic install
 echo 'deb http://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_13/ /' | sudo tee /etc/apt/sources.list.d/network:Meshtastic:beta.list
 curl -fsSL https://download.opensuse.org/repositories/network:Meshtastic:beta/Debian_13/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/network_Meshtastic_beta.gpg > /dev/null
-sudo apt update
-sudo apt install meshtasticd
 sudo apt update -y
 sudo apt install meshtasticd i2c-tools -y
 sudo apt install pipx -y && pipx install "meshtastic[cli]"
 pipx ensurepath
 sudo nano /boot/firmware/config.txt
 
+# add or uncomment these lines
 #dtparam=i2c_arm=on
 #dtparam=spi=on
 #dtoverlay=spi0-0cs
