@@ -100,23 +100,47 @@ EOF
 
 sudo systemctl enable avahi-daemon && sudo systemctl start avahi-daemon
 
+
+# Rename hostname, set for DNS
+sudo hostnamectl set-hostname KD3BQB-NodeXX
+sudo systemctl restart avahi-daemon
+sudo nmcli general hostname KD3BQB-NodeXX
+sudo systemctl restart NetworkManager
+
+# Meshtastic CLI
+meshtastic --host  --set region US
+meshtastic --host  --set lnm "SUSQ VAL PA Mesh - NodeXX"
+meshtastic --host  --set sn "SVMI"
+meshtastic --host  --export-config | grep "Key:"
+
 ```
 
 Enable SPI in `/boot/firmware/config.txt` and ensure `dtoverlay=spi0-0cs` is present. Optionally enable I2C via dtparam=i2c_arm=on and install `i2c-tools`. Reboot, then download the correct hat config:
 
 
 ```shell
+
 # Documentation at https://github.com/wehooper4/meshtastic-Hardware/tree/main/NebraHat
+
+# Get YAML
 # sudo wget –O /etc/meshtasticd/config.d/NebraHat_1W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_1W.yaml
 sudo wget -O /etc/meshtasticd/config.d/NebraHat_2W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_2W.yaml
+# sudo wget -O /etc/meshtasticd/config.d/NebraHat_Duo_E22P.yaml https://raw.githubusercontent.com/wehooper4/Meshtastic-Hardware/refs/heads/main/NebraHat/Duo/NebraHat_Duo_E22P.yaml
+
+# Edit YAML
 #sudo nano /etc/meshtasticd/config.d/NebraHat_1W.yaml
 sudo nano /etc/meshtasticd/config.d/NebraHat_2W.yaml
+#sudo nano /etc/meshtasticd/config.d/NebraHat_Duo_E22P.yaml
 # If 2W, verify power level is set to 8 or lower. 4 is recommended due to 5v rail sag, and is NOT cutting your TX power in half. 
 # Obviously change 2W to 1W if purchased that model. 
+
+# Edit Meshtasticd Config
 # If you have problems below such as "No sx1262 radio", try uncommenting the CS line
 sudo nano /etc/meshtasticd/config.yaml
 
+# Fire up meshtasticd 
 sudo systemctl enable meshtasticd && sudo systemctl start meshtasticd
+
 ```
 
 Edit config.yaml to set MAC (use MACAddressSource eth0) and node limits (200-400). Troubleshoot with `journalctl -xeu meshtasticd.service` or run `meshtasticd` manually. Configure through the Meshtastic app. Use the Network option on the Cloud tab in the app. 
