@@ -104,13 +104,15 @@ sudo systemctl enable avahi-daemon && sudo systemctl start avahi-daemon
 # Rename hostname, set for DNS
 sudo hostnamectl set-hostname KD3BQB-NodeXX
 sudo systemctl restart avahi-daemon
-sudo nmcli general hostname KD3BQB-NodeXX
-sudo systemctl restart NetworkManager
+# sudo nano /etc/hosts
+
+# if ZebraHat, enable i2c via this
+#sudo raspi-config
 
 # Meshtastic CLI
-meshtastic --host  --set region US
-meshtastic --host  --set lnm "SUSQ VAL PA Mesh - NodeXX"
-meshtastic --host  --set sn "SVMI"
+meshtastic --host --set lora.region "US"
+meshtastic --host --set-owner "SUSQ VAL PA Mesh - Town - Tower"
+meshtastic --host --set-owner-short "SVMI"
 meshtastic --host  --export-config | grep "Key:"
 
 ```
@@ -126,11 +128,15 @@ Enable SPI in `/boot/firmware/config.txt` and ensure `dtoverlay=spi0-0cs` is pre
 # sudo wget –O /etc/meshtasticd/config.d/NebraHat_1W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_1W.yaml
 sudo wget -O /etc/meshtasticd/config.d/NebraHat_2W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_2W.yaml
 # sudo wget -O /etc/meshtasticd/config.d/NebraHat_Duo_E22P.yaml https://raw.githubusercontent.com/wehooper4/Meshtastic-Hardware/refs/heads/main/NebraHat/Duo/NebraHat_Duo_E22P.yaml
+#sudo wget –O /etc/meshtasticd/config.d/ZebraHat.yaml https://raw.githubusercontent.com/wehooper4/Meshtastic-Hardware/refs/heads/main/ZebraHAT/ZebraHat.yaml
+
 
 # Edit YAML
 #sudo nano /etc/meshtasticd/config.d/NebraHat_1W.yaml
 sudo nano /etc/meshtasticd/config.d/NebraHat_2W.yaml
 #sudo nano /etc/meshtasticd/config.d/NebraHat_Duo_E22P.yaml
+#sudo nano /etc/meshtasticd/config.d/ZebraHat.yaml
+
 # If 2W, verify power level is set to 8 or lower. 4 is recommended due to 5v rail sag, and is NOT cutting your TX power in half. 
 # Obviously change 2W to 1W if purchased that model. 
 
