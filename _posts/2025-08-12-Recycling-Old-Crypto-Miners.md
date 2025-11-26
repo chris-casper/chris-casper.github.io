@@ -53,7 +53,7 @@ Still confirming. Looks like it runs much slower but more reliably. The two pin 
 - Remove eMMC key, put in MicroSD slot or adapter
 - Fire up [Raspberry Pi Imager](https://www.raspberrypi.com/software/). 
 - First button: Pi 3 (Nebra uses a Compute Module 3 (CM3) which is in the small text) 
-- Second button: first option in OS list, which is the default 64 bit Debian distro
+- Second button: Go with Lite 64 bit, less running services
 - Third button: should come up with 32GB option, select that.
 
 Once you're done, hit the bottom right button to start. You'll get a prompt about settings. Go ahead and edit settings. Set hostname, WiFi, account, sshd, etc etc. Otherwise you won't be able to log into your Pi afterwards. Reinstall the module, power up, and [SSH](https://www.chiark.greenend.org.uk/~sgtatham/putty/) in. To find your new node, do a port scan or check your router for the DHCP entry. 
