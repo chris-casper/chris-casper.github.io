@@ -169,7 +169,7 @@ EOF
 # Get config file
 cd /etc/meshtasticd/config.d/
 wget -O /etc/meshtasticd/config.d/lyra_ultra_hat_1W.yaml https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/Luckfox%20Ultra%20Hat/lyra_ultra_hat_1W.yaml
-wget -O /etc/meshtasticd/config.d/lyra_ultra_hat_2W.yaml https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/Luckfox%20Ultra%20Hat/lyra_ultra_hat_2W.yaml
+# wget -O /etc/meshtasticd/config.d/lyra_ultra_hat_2W.yaml https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/Luckfox%20Ultra%20Hat/lyra_ultra_hat_2W.yaml
 # If using E22P, use 1W config file and just set power level to 18. Won't burn itself up, but won't give you more dbm
 # If you have problems below such as "No sx1262 radio", try uncommenting the CS line
 
@@ -332,3 +332,7 @@ Once you have tailscale installed, you can also install tailscale on your phone 
 
 Still need to TODO for USB and POE
 
+
+### Backboards for Lyra
+
+TODO STLs and laser files 
