@@ -12,11 +12,11 @@ tags:
 
 ### Luckfox Lyra Ultra W
 
-RK3506B, triple-core ARM Cortex-A7 and ARM Cortex-M0 Processors 
-Full USB port and USB-C port
-Onboard 8GB eMMC
-Onboard WiFi and Onboard bluetooth (optional)
-Onboard ethernet with optional POE hat
+- RK3506B, triple-core ARM Cortex-A7 and ARM Cortex-M0 Processors 
+- Full USB port and USB-C port
+- Onboard 8GB eMMC
+- Onboard WiFi and Onboard bluetooth (optional)
+- Onboard ethernet with optional POE hat
 
 Very nifty board that is very capable and economical. It can be powered via USB C or POE. Buy plenty of [2x13 stacking headers](https://www.adafruit.com/product/1112).
 
@@ -59,9 +59,9 @@ Handy if your Lyra doesn't come up via DHCP
 Using a [USB to UART TTL cable](https://www.amazon.com/dp/B083HVM7VZ), connect the following:
 
 Assuming ethernet port oriented down, left hand header, inner row
-GND — MUST be shared with USB-TTL GND (third down)
-TX (board) → connect to RX on USB-TTL (fourth down)
-RX (board) → connect to TX on USB-TTL (fifth down)
+- GND — MUST be shared with USB-TTL GND (third down)
+- TX (board) → connect to RX on USB-TTL (fourth down)
+- RX (board) → connect to TX on USB-TTL (fifth down)
 
 Refer to this diagram:
 
@@ -69,18 +69,16 @@ Refer to this diagram:
 
 Luckfox RK3506 boards use:
 
-Baud: 1500000 (not a typo)
-Data: 8
-Parity: N
-Stop: 1
-Flow control: None
+- Baud: 1500000 (not a typo)
+- Data: 8
+- Parity: N
+- Stop: 1
+- Flow control: None
 
 
 ### Logging in
 
-Plug in POE hat
-Connect to POE switch or injector
-Check your router to see what IP it has or run a network scan for port 22
+Plug in POE hat. Connect to POE switch or injector. Check your router to see what IP it has or run a network scan for port 22
 
 SSH in with putty or connect via serial
 
