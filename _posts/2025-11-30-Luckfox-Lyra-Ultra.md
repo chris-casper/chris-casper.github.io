@@ -20,6 +20,36 @@ Onboard ethernet with optional POE hat
 
 Very nifty board that is very capable and economical
 
+
+### Flashing -  LOADER in RKDevTool 
+
+Special thanks to vid for all his help!
+
+Hold down the boot button while plugging in the USB. If you see LOADER, proceed here. If it says NETMASK, skip to resetting the Lyra.
+
+You can use the [Armbian build](https://github.com/armbian/community/releases/download/26.2.0-trunk.7/Armbian_community_26.2.0-trunk.7_Luckfox-lyra-ultra-w_trixie_vendor_6.1.115_minimal.img.xz).
+
+![Flashing the Lyra](/images/posts/lyra/Flashing.png)
+
+- Hold the boot button (button closest to USB cable, the one that isn't labelled "RESET") while plugging in USB
+- RKDEVTool should show "LOADER" mode (NOT "MASKROM" mode)
+- In the download tab, uncheck everything. 
+- Right click and add a new entry. Select STORAGE to be EMMC, ADDRESS should default to 0x00000000, set NAME to system, put full path into PATH field
+- Check the box for "write by address" and then press "Run"
+
+If successful you'll see a message like the one on the right
+
+
+### NETMASK - Resetting the Lyra after a bad update
+
+If things go badly, download the Luckfox_Lyra_Ultra_W_EMMC_250717 firmware from [Luckfox wiki](https://wiki.luckfox.com/Luckfox-Lyra/Image-flashing/#2--image-download).
+You can use the ubuntu image.img to load Ubuntu firmware and I highly recommend it. 
+
+Fire up RKDevTool v3.31. Snag a piece of wire, form it into a U, hit the jumper pads while plugging in the USB button. You should see MASKROM at the bottom of the RKDevTool once you're successful. The pads are slightly recessed so it may take a trial or two. 
+
+Once it does show up, go to Upgrade Firmware tab, click on Firmware button. Navigate to the unzipped firmware bundle, select update.img, then hit Upgrade.
+
+
 ### Connecting via Serial
 
 Handy if your Lyra doesn't come up via DHCP
