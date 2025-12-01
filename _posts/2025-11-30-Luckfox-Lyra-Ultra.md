@@ -319,7 +319,8 @@ If you're not very experienced with Linux, remember to log in every so often to 
 
 ### Remote Access
 
-If you use Ubuntu image, it may not have TUN service built into the kernel and it won't work. 
+If you use Mark's Ubuntu image, it may not have TUN service built into the kernel and it won't work. 
+If you use Luckfox community Ubuntu image, not sure yet. 
 If you use Armbian, it should.
 
 ```shell
