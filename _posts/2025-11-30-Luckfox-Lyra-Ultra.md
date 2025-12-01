@@ -8,18 +8,17 @@ tags:
   - crypto
 ---
 
-
-![meshtastic Pi](/images/posts/nebra/nebra-pi.png)
+![lyra ](/images/posts/lyra/luckfox-lyra-ultra-w.jpg)
 
 ### Luckfox Lyra Ultra W
 
 RK3506B, triple-core ARM Cortex-A7 and ARM Cortex-M0 Processors 
-Full USB port
-USB-C port
+Full USB port and USB-C port
 Onboard 8GB eMMC
-Onboard WiFi
-Onboard bluetooth
-Onboard ethernet
+Onboard WiFi and Onboard bluetooth (optional)
+Onboard ethernet with optional POE hat
+
+Very nifty board that is very capable and economical
 
 ### Connecting via Serial
 
@@ -33,6 +32,8 @@ TX (board) → connect to RX on USB-TTL (fourth down)
 RX (board) → connect to TX on USB-TTL (fifth down)
 
 Refer to this diagram:
+
+![lyra pinout](/images/posts/lyra/lyra-pinout.jpg)
 
 Luckfox RK3506 boards use:
 
@@ -160,7 +161,7 @@ Configure through the Meshtastic app. Use the Network option on the Cloud tab in
 
 ### WiFi
 
-Lyra Ultra W has WiFi built in. Check by running ip link show
+Lyra Ultra W has WiFi built in. Check by running 'ip link show' and making sure wlan0 is there
 
 Adding WiFi network manually
 
