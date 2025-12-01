@@ -319,7 +319,11 @@ If you're not very experienced with Linux, remember to log in every so often to 
 
 ### Remote Access
 
+If you use Ubuntu image, it may not have TUN service built into the kernel and it won't work. 
+If you use Armbian, it should.
+
 ```shell
+sudo apt install curl
 curl -fsSL https://tailscale.com/install.sh | sh
 sudo tailscale up
 ```
@@ -327,6 +331,9 @@ sudo tailscale up
 Copy URL to web browser.
 
 Once you have tailscale installed, you can also install tailscale on your phone and use the Meshtastic app to connect to your node from anywhere in the world. 
+
+
+
 
 
 ### Power consumption
