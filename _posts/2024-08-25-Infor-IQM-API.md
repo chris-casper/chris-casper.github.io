@@ -16,6 +16,7 @@ tags:
 Infor Mongoose REST API - [Link](https://docs.infor.com/mg/2023.x/en-us/mongooseolh/default.html?helpcontent=rwn1573170285401.html)  
 Infor Mongoose Youtube Channel - [Link](https://www.youtube.com/playlist?list=PLQe-TQ28qm-ijxPSNmP2qDHicVyS6x46g)  
 Infor IQM User Manual - [Link](https://docs.infor.com/iqm/10.x/en-us/useradminlist/default.html)  
+Infor IDO guide - [Link](https://developer.infor.com/idorequestservice-ido/configuration)
   
 Infor does not provide a lot of IQM documentation, just the user manual and admin manual. IQM is predominently just a number of Mongoose forms. And there's quite a bit more Infor Mongoose documentation, as you can tell from the above links. Let alone having its own playlist of Infor documentation on Youtube. Not everything will be applicable, you don't get all the best features Mongoose has available if you just have IQM. 
   
