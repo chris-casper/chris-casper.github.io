@@ -46,7 +46,10 @@ If successful you'll see a message like the one on the right
 ### NETMASK - Resetting the Lyra after a bad update
 
 If things go badly, download the Luckfox_Lyra_Ultra_W_EMMC_250717 firmware from [Luckfox wiki](https://wiki.luckfox.com/Luckfox-Lyra/Image-flashing/#2--image-download).
+
 You can use the ubuntu image.img to load Ubuntu firmware and I highly recommend it. 
+You can also use [this](https://github.com/markbirss/rk3506-ubuntu) build as well.
+
 
 Fire up RKDevTool v3.31. Snag a piece of wire, form it into a U, hit the jumper pads while plugging in the USB button. I clipped the wire at 45 degree angle. Or very pointy tweezers. You should see MASKROM at the bottom of the RKDevTool once you're successful. The pads are slightly recessed so it may take a trial or two. 
 
@@ -332,9 +335,6 @@ sudo tailscale up
 Copy URL to web browser.
 
 Once you have tailscale installed, you can also install tailscale on your phone and use the Meshtastic app to connect to your node from anywhere in the world. 
-
-
-
 
 
 ### Power consumption
