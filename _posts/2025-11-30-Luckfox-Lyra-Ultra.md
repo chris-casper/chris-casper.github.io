@@ -54,7 +54,7 @@ Once it does show up, go to Upgrade Firmware tab, click on Firmware button. Navi
 
 Handy if your Lyra doesn't come up via DHCP
 
-Using a USB to UART TTL cable, connect the following:
+Using a [USB to UART TTL cable](https://www.amazon.com/dp/B083HVM7VZ), connect the following:
 
 Assuming ethernet port oriented down, left hand header, inner row
 GND — MUST be shared with USB-TTL GND (third down)
