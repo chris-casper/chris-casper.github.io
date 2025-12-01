@@ -53,7 +53,7 @@ Still confirming. Looks like it runs much slower but more reliably. The two pin 
 - Remove eMMC key, put in MicroSD slot or adapter
 - Fire up [Raspberry Pi Imager](https://www.raspberrypi.com/software/). 
 - First button: Pi 3 (Nebra uses a Compute Module 3 (CM3) which is in the small text) 
-- Second button: first option in OS list, which is the default 64 bit Debian distro
+- Second button: Go with Lite 64 bit, less running services
 - Third button: should come up with 32GB option, select that.
 
 Once you're done, hit the bottom right button to start. You'll get a prompt about settings. Go ahead and edit settings. Set hostname, WiFi, account, sshd, etc etc. Otherwise you won't be able to log into your Pi afterwards. Reinstall the module, power up, and [SSH](https://www.chiark.greenend.org.uk/~sgtatham/putty/) in. To find your new node, do a port scan or check your router for the DHCP entry. 
@@ -70,14 +70,15 @@ apt-get -y \
   -o Dpkg::Options::="--force-confold" \
   dist-upgrade
 # Meshtastic install
-echo 'deb http://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_12/ /' | sudo tee /etc/apt/sources.list.d/network:meshtastic:beta.list
-curl -fsSL https://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_12/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/network_meshtastic_beta.gpg > /dev/null
+echo 'deb http://download.opensuse.org/repositories/network:/Meshtastic:/beta/Debian_13/ /' | sudo tee /etc/apt/sources.list.d/network:Meshtastic:beta.list
+curl -fsSL https://download.opensuse.org/repositories/network:Meshtastic:beta/Debian_13/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/network_Meshtastic_beta.gpg > /dev/null
 sudo apt update -y
 sudo apt install meshtasticd i2c-tools -y
 sudo apt install pipx -y && pipx install "meshtastic[cli]"
 pipx ensurepath
 sudo nano /boot/firmware/config.txt
 
+# add or uncomment these lines
 #dtparam=i2c_arm=on
 #dtparam=spi=on
 #dtoverlay=spi0-0cs
@@ -99,23 +100,53 @@ EOF
 
 sudo systemctl enable avahi-daemon && sudo systemctl start avahi-daemon
 
+
+# Rename hostname, set for DNS
+sudo hostnamectl set-hostname KD3BQB-NodeXX
+sudo systemctl restart avahi-daemon
+# sudo nano /etc/hosts
+
+# if ZebraHat, enable i2c via this
+#sudo raspi-config
+
+# Meshtastic CLI
+meshtastic --host --set lora.region "US"
+meshtastic --host --set-owner "SUSQ VAL PA Mesh - Town - Tower"
+meshtastic --host --set-owner-short "SVMI"
+meshtastic --host  --export-config | grep "Key:"
+
 ```
 
 Enable SPI in `/boot/firmware/config.txt` and ensure `dtoverlay=spi0-0cs` is present. Optionally enable I2C via dtparam=i2c_arm=on and install `i2c-tools`. Reboot, then download the correct hat config:
 
 
 ```shell
+
 # Documentation at https://github.com/wehooper4/meshtastic-Hardware/tree/main/NebraHat
+
+# Get YAML
 # sudo wget –O /etc/meshtasticd/config.d/NebraHat_1W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_1W.yaml
 sudo wget -O /etc/meshtasticd/config.d/NebraHat_2W.yaml https://github.com/wehooper4/meshtastic-Hardware/raw/refs/heads/main/NebraHat/NebraHat_2W.yaml
+# sudo wget -O /etc/meshtasticd/config.d/NebraHat_Duo_E22P.yaml https://raw.githubusercontent.com/wehooper4/Meshtastic-Hardware/refs/heads/main/NebraHat/Duo/NebraHat_Duo_E22P.yaml
+#sudo wget –O /etc/meshtasticd/config.d/ZebraHat.yaml https://raw.githubusercontent.com/wehooper4/Meshtastic-Hardware/refs/heads/main/ZebraHAT/ZebraHat.yaml
+
+
+# Edit YAML
 #sudo nano /etc/meshtasticd/config.d/NebraHat_1W.yaml
 sudo nano /etc/meshtasticd/config.d/NebraHat_2W.yaml
+#sudo nano /etc/meshtasticd/config.d/NebraHat_Duo_E22P.yaml
+#sudo nano /etc/meshtasticd/config.d/ZebraHat.yaml
+
 # If 2W, verify power level is set to 8 or lower. 4 is recommended due to 5v rail sag, and is NOT cutting your TX power in half. 
 # Obviously change 2W to 1W if purchased that model. 
+
+# Edit Meshtasticd Config
 # If you have problems below such as "No sx1262 radio", try uncommenting the CS line
 sudo nano /etc/meshtasticd/config.yaml
 
+# Fire up meshtasticd 
 sudo systemctl enable meshtasticd && sudo systemctl start meshtasticd
+
 ```
 
 Edit config.yaml to set MAC (use MACAddressSource eth0) and node limits (200-400). Troubleshoot with `journalctl -xeu meshtasticd.service` or run `meshtasticd` manually. Configure through the Meshtastic app. Use the Network option on the Cloud tab in the app. 
