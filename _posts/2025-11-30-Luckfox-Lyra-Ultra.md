@@ -331,7 +331,12 @@ Once you have tailscale installed, you can also install tailscale on your phone 
 
 ### Power consumption
 
-Still need to TODO for USB and POE
+![lyra power](/images/posts/lyra/lyra-USB-power.jpg)
+
+With no hat:
+
+- USB - 1W, 0.2A, 5V
+- POE - 1.5W, 27 mA. Switch is pushing at 54-56V. 
 
 
 ### Backboards for Lyra
