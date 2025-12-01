@@ -47,9 +47,12 @@ If successful you'll see a message like the one on the right
 If things go badly, download the Luckfox_Lyra_Ultra_W_EMMC_250717 firmware from [Luckfox wiki](https://wiki.luckfox.com/Luckfox-Lyra/Image-flashing/#2--image-download).
 You can use the ubuntu image.img to load Ubuntu firmware and I highly recommend it. 
 
-Fire up RKDevTool v3.31. Snag a piece of wire, form it into a U, hit the jumper pads while plugging in the USB button. You should see MASKROM at the bottom of the RKDevTool once you're successful. The pads are slightly recessed so it may take a trial or two. 
+Fire up RKDevTool v3.31. Snag a piece of wire, form it into a U, hit the jumper pads while plugging in the USB button. I clipped the wire at 45 degree angle. Or very pointy tweezers. You should see MASKROM at the bottom of the RKDevTool once you're successful. The pads are slightly recessed so it may take a trial or two. 
+
+![lyra reset](/images/posts/lyra/Lyra-reset.png)
 
 Once it does show up, go to Upgrade Firmware tab, click on Firmware button. Navigate to the unzipped firmware bundle, select update.img, then hit Upgrade.
+
 
 
 ### Connecting via Serial
