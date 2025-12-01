@@ -12,13 +12,14 @@ tags:
 
 ### Luckfox Lyra Ultra W
 
-- RK3506B, triple-core ARM Cortex-A7 and ARM Cortex-M0 Processors 
+- RK3506B, triple-core ARM Cortex-A7 and ARM Cortex-M0 Processors, 512MB DDR3
 - Full USB port and USB-C port
 - Onboard 8GB eMMC
-- Onboard WiFi and Onboard bluetooth (optional)
-- Onboard ethernet with optional POE hat
+- Onboard WiFi and Onboard bluetooth (optional) - 2.4GHz Wi-Fi6 / Bluetooth 5.2 / BLE
+- Onboard 100mbps ethernet with optional POE hat
+- Supports MIPI interface (2-lane, 22-pin) with a maximum output resolution of 1280x800@60fps
 
-Very nifty board that is very capable and economical. It can be powered via USB C or POE. Buy plenty of [2x13 stacking headers](https://www.adafruit.com/product/1112).
+Very nifty board that is very capable and economical. Weight is 0.05 kg (50 grams). Size is roughly 5cm by 5cm by 2cm. It can be powered via USB C or POE. Buy plenty of [2x13 stacking headers](https://www.adafruit.com/product/1112).
 
 You can buy [Lyra hats](https://github.com/wehooper4/Meshtastic-Hardware/tree/main/Luckfox%20Ultra%20Hat#how-to-buy) from WeHooper.
 
