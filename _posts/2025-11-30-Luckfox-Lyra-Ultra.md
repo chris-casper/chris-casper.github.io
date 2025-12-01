@@ -1,7 +1,7 @@
 ---
-title: "Recycling Old Crypto Miners - Nebra"
-excerpt: "Low cost high power LoRA Mesh networking"
-last_modified_at: 2025-08-23 20:00:00
+title: "Meshtastic with Luckfox Lyra Ultra"
+excerpt: "Gen 3 Tower Nodes"
+last_modified_at: 2025-11-30 20:00:00
 tags:
   - meshtastic
   - LoRA
@@ -18,7 +18,9 @@ Onboard 8GB eMMC
 Onboard WiFi and Onboard bluetooth (optional)
 Onboard ethernet with optional POE hat
 
-Very nifty board that is very capable and economical
+Very nifty board that is very capable and economical. It can be powered via USB C or POE. Buy plenty of [2x13 stacking headers](https://www.adafruit.com/product/1112).
+
+You can buy [Lyra hats](https://github.com/wehooper4/Meshtastic-Hardware/tree/main/Luckfox%20Ultra%20Hat#how-to-buy) from WeHooper.
 
 
 ### Flashing -  LOADER in RKDevTool 
