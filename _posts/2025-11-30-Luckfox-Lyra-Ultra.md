@@ -21,6 +21,7 @@ tags:
 
 Very nifty board that is very capable and economical. Weight is 0.05 kg (50 grams). Size is roughly 5cm by 5cm by 2cm. It can be powered via USB C or POE. Buy plenty of [2x13 stacking headers](https://www.adafruit.com/product/1112).
 
+You can buy [Lyra](https://www.luckfox.com/Luckfox-Lyra-Ultra?ci=622) directly from Luckfox. 
 You can buy [Lyra hats](https://github.com/wehooper4/Meshtastic-Hardware/tree/main/Luckfox%20Ultra%20Hat#how-to-buy) from WeHooper.
 
 
