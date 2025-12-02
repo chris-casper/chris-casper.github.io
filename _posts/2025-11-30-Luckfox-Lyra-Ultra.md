@@ -350,3 +350,25 @@ With no hat:
 ### Backboards for Lyra
 
 TODO STLs and laser files 
+
+
+### Tower Hardware
+
+[Nebra case](https://www.alibaba.com/product-detail/A-019B-16-210-130-60MM_1600264733542.html) can be purchased for $15 or less. Shipping is the expensive part. In smaller quantities, it makes sense to buy same case from Aliexpress. 
+
+For smaller builds, I'm experimenting with [smaller cases](https://www.alibaba.com/product-detail/SMB-01-102-72-50MM-Die_1600553804501.html). 
+
+Nebra Strut, reach out to [Mark](https://www.ebay.com/str/2way4u2016) for a quote. Should be $40 ish if buying a bunch
+- 13 or 23 inch strut
+- Angle iron on both ends
+For the arm:
+- one arm, centered on both sides
+- centering on enclosure side keeps from interferring with antennas on either side of enclosure.
+- Centering on tower side is just for ease of shipping/storage. If you think it's an issue, can go towards one side
+On the enclosure side:
+- flat side out
+- 9 inches long angle iron
+- two mounting holes, centered width wise, 5/16 holes, 7.5 inches apart (190mm preferably)
+On tower side:
+- 9 inches long angle iron
+- two 1.5 inch U-bolts
