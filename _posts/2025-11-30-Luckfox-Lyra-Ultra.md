@@ -361,7 +361,7 @@ TODO STLs and laser files
 
 For smaller builds, I'm experimenting with [smaller cases](https://www.alibaba.com/product-detail/SMB-01-102-72-50MM-Die_1600553804501.html). 
 
-Nebra Strut, reach out to [Mark](https://www.ebay.com/str/2way4u2016) for a quote. Should be $40 ish if buying a bunch
+Nebra Strut, reach out to [Mark](https://www.ebay.com/str/2way4u2016) for a quote. Should be $40-50 ish if buying a bunch
 - 13 or 23 inch strut
 - Angle iron on both ends
 For the arm:
@@ -370,10 +370,10 @@ For the arm:
 - Centering on tower side is just for ease of shipping/storage. If you think it's an issue, can go towards one side
 On the enclosure side:
 - flat side out
-- 9 inches long angle iron
+- 9 inches long angle iron (just slightly shorter than the case)
 - two mounting holes, centered width wise, 5/16 holes, 7.5 inches apart (190mm preferably)
 On tower side:
 - 9 inches long angle iron
-- two 1.5 inch U-bolts
+- two 1.5 inch U-bolts (change this depending on your tower)
 
-We're also looking as gusset brackets for longer lifespan. 
+We're also looking as gusset brackets for longer lifespan. It's meant to be cheap but strong enough. Not interfere with antennas, just long enough to minimize tower shadow and interference, etc. You'll need two M6 bolts and washets. I recommend metal banding the case to the strut, mostly to minimize amount of force on the bolts. 
