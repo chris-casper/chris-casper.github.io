@@ -373,3 +373,5 @@ On the enclosure side:
 On tower side:
 - 9 inches long angle iron
 - two 1.5 inch U-bolts
+
+We're also looking as gusset brackets for longer lifespan. 
