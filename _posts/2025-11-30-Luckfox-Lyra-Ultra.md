@@ -355,6 +355,8 @@ TODO STLs and laser files
 
 ### Tower Hardware
 
+![lyra strut](/images/posts/lyra/nebra_strut.jpg)
+
 [Nebra case](https://www.alibaba.com/product-detail/A-019B-16-210-130-60MM_1600264733542.html) can be purchased for $15 or less. Shipping is the expensive part. In smaller quantities, it makes sense to buy same case from Aliexpress. 
 
 For smaller builds, I'm experimenting with [smaller cases](https://www.alibaba.com/product-detail/SMB-01-102-72-50MM-Die_1600553804501.html). 
