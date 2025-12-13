@@ -41,7 +41,7 @@ You can use the [Armbian build](https://github.com/armbian/community/releases/do
 - Right click and add a new entry. Select STORAGE to be EMMC, ADDRESS should default to 0x00000000, set NAME to system, put full path into PATH field
 - Check the box for "write by address" and then press "Run"
 
-If successful you'll see a message like the one on the right
+If successful you'll see a message like the one on the right. You want to do the flashing pretty quickly after putting into LOADER mode. If it doesn't want to go, reseat the USB, hold down the boot and rerun the flashing immediately once LOADER comes up. 
 
 
 ### NETMASK - Resetting the Lyra after a bad update
@@ -90,8 +90,13 @@ Plug in POE hat. Connect to POE switch or injector. Check your router to see wha
 
 SSH in with putty or connect via serial
 
+If using Luckfox ubuntu image:
 Username: lyra
 Password: luckfox
+
+If using armbian:
+Username: root
+Password: 1234
 
 Change the password with passwd
 
