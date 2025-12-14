@@ -1,10 +1,10 @@
 ---
 title: "Easy way to pass FCC Amateur Radio licenses"
 excerpt: "Cram for the test, learn by doing"
-last_modified_at: 2025-12-01 20:00:00
+last_modified_at: 2025-12-13 20:00:00
 tags:
-  - meshtastic
-  - LoRA
+  - radio
+  - fcc
 ---
 
 ### Licenses classes
