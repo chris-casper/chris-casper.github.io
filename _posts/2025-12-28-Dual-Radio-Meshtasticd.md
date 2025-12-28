@@ -243,6 +243,21 @@ echo "  journalctl -u meshtasticd-${USB_NAME}.service -f"
 
 ```
 
+### File Permissions
+
+You may need to update file permissions.
+
+```shell
+
+sudo chown -R meshtasticd:meshtasticd /var/lib/meshtasticd-zebra
+sudo chown -R meshtasticd:meshtasticd /var/lib/meshtasticd-usb
+sudo chmod 750 /var/lib/meshtasticd-zebra
+sudo chmod 750 /var/lib/meshtasticd-usb
+sudo find /var/lib/meshtasticd-zebra -type d -exec chmod 750 {} \;
+sudo find /var/lib/meshtasticd-usb   -type d -exec chmod 750 {} \;
+
+```
+
 
 ### Config
 
@@ -256,4 +271,18 @@ meshtastic --host localhost:4403 --set-owner-short "SVMI"
 meshtastic --host localhost:4404 --set lora.region "US"
 meshtastic --host localhost:4404 --set-owner "SUSQ VAL PA Mesh - Radio 2"
 meshtastic --host localhost:4404 --set-owner-short "SVMI"
+
+sudo systemctl restart meshtasticd-zebra
+sudo systemctl restart meshtasticd-usb
+
+```
+
+### Troubleshooting
+
+
+```shell
+
+journalctl -u meshtasticd-usb.service
+journalctl -u meshtasticd-zebra.service
+
 ```
