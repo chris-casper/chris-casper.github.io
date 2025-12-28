@@ -1,11 +1,10 @@
 ---
-title: "Nebra Cell Modem Setup and Config"
-excerpt: "Low cost high power LoRA Mesh networking"
-last_modified_at: 2025-08-23 20:00:00
+title: "Dual Radio Meshtastic Node"
+excerpt: "Allows for one node to operate as a retrans site using two antennas, by using multiple instances of meshtasticd"
+last_modified_at: 2025-12-28 20:00:00
 tags:
   - Meshtastic
   - LoRA
-  - crypto
 ---
 
 
