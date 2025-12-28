@@ -277,6 +277,18 @@ sudo systemctl restart meshtasticd-usb
 
 ```
 
+
+### Networked Nodes
+
+These commands enables UDP communication between the nodes. For example, if you had two radios attached to yagi, directiona or sectorized antennas, and wanted to operate a retrans site.
+
+```shell
+
+meshtastic --host localhost:4403 -set network.enable_protocols 1
+meshtastic --host localhost:4404 -set network.enable_protocols 1
+```
+
+
 ### Troubleshooting
 
 
