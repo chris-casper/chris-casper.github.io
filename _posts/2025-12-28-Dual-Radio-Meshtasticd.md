@@ -1,6 +1,6 @@
 ---
 title: "Dual Radio Meshtastic Node"
-excerpt: "Allows for one node to operate as a retrans site using two antennas, by using multiple instances of meshtasticd"
+excerpt: "Allows for one node to operate as a retrans site using two antennas, by using multiple networked instances of meshtasticd"
 last_modified_at: 2025-12-28 20:00:00
 tags:
   - Meshtastic
