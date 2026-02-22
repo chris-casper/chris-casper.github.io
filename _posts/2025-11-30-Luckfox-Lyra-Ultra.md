@@ -31,7 +31,9 @@ Special thanks to vid for all his help!
 
 Hold down the boot button while plugging in the USB. If you see LOADER, proceed here. If it says NETMASK, skip to resetting the Lyra.
 
-You can use the [Armbian build](https://github.com/armbian/community/releases/download/26.2.0-trunk.7/Armbian_community_26.2.0-trunk.7_Luckfox-lyra-ultra-w_trixie_vendor_6.1.115_minimal.img.xz).
+You can use the [Armbian build](https://github.com/armbian/community/releases/download/26.2.0-trunk.7/Armbian_community_26.2.0-trunk.7_Luckfox-lyra-ultra-w_trixie_vendor_6.1.115_minimal.img.xz). but I've had issues.
+I use the luckfox Ubuntu image. They can be found [here](https://forums.luckfox.com/viewtopic.php?t=1760). It doesn't have TUN support.
+There's some aftermarket images, mark bliss being one that is functional. 
 
 ![Flashing the Lyra](/images/posts/lyra/Flashing.png)
 
@@ -108,6 +110,13 @@ passwd
 #passwd: password updated successfully
 ```
 
+Add user with SUDO rights
+
+```shell
+sudo adduser newusername
+sudo usermod -aG sudo newusername
+```
+
 ### Setup
 
 ```shell
@@ -130,15 +139,15 @@ pipx ensurepath
 
 
 # Enable SPI
-# 1 Advanced Options -> 4 SPI -> (enter)  -> 1 Enable
+# 1 Advanced Options -> 4 SPI -> (enter)  -> 1 Enable SPI0 (not SPI1)
 sudo luckfox-config
-
+# spidev0.0 #pins are (CS=10, CLK=8, MOSI=6, MISO=7)
 
 # Set SPI pins
 sudo nano /etc/luckfox.cfg
 # use pins from below
 
-# Add these uncommented lines to /etc/luckfox.conf
+# It should look like this in /etc/luckfox.conf
 # Settings
 #SPI0_STATUS=1
 #SPI0_SPEED=20000000
@@ -148,6 +157,8 @@ sudo nano /etc/luckfox.cfg
 #SPI0_CS_RM_IO=10
 
 # reboot
+# stop the meshtasticd service and run it manually to confirm the pins are grabbed
+# if doesn't run, try sudo meshtasticd
 
 # Turns on auto-discovery
 sudo apt install avahi-daemon
@@ -180,8 +191,8 @@ EOF
 cd /etc/meshtasticd/config.d/
 wget -O /etc/meshtasticd/config.d/lyra_ultra_hat_1W.yaml https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/Luckfox%20Ultra%20Hat/lyra_ultra_hat_1W.yaml
 # wget -O /etc/meshtasticd/config.d/lyra_ultra_hat_2W.yaml https://github.com/wehooper4/Meshtastic-Hardware/raw/refs/heads/main/Luckfox%20Ultra%20Hat/lyra_ultra_hat_2W.yaml
-# If using E22P, use 1W config file and just set power level to 18. Won't burn itself up, but won't give you more dbm
-# If you have problems below such as "No sx1262 radio", try uncommenting the CS line
+# If using E22P, use 1W config file
+# If you have problems below such as "No sx1262 radio", try uncommenting the CS line. Doesn't apply to E22P
 
 # uncomment eth0 or set your MACAddressSource
 sudo nano /etc/meshtasticd/config.yaml
@@ -194,9 +205,38 @@ meshtastic --host --set-owner "SUSQ VAL PA Mesh - Town - Tower"
 meshtastic --host --set-owner-short "SVMI"
 meshtastic --host  --export-config | grep "Key:"
 
+# Install Tailscale
+# LUCKFOX UBUNTU DOESN'T HAVE TUN
+sudo apt update
+sudo apt install -y curl gnupg lsb-release
+curl -fsSL https://tailscale.com/install.sh | sh
+
+# Stop default service (if running)
+sudo systemctl stop tailscaled
+
+# Override service to force userspace mode (no TUN required)
+sudo mkdir -p /etc/systemd/system/tailscaled.service.d
+sudo tee /etc/systemd/system/tailscaled.service.d/userspace.conf > /dev/null <<'EOF'
+[Service]
+ExecStart=
+ExecStart=/usr/sbin/tailscaled --tun=userspace-networking --state=/var/lib/tailscale/tailscaled.state
+EOF
+
+# Reload systemd and enable on boot
+sudo systemctl daemon-reload
+sudo systemctl enable tailscaled
+sudo systemctl start tailscaled
+
+# Authenticate (can use auth key for headless setup, but those expire every 90 days)
+sudo tailscale up --accept-routes
+
+# Verify status
+tailscale status
+
 ```
 
 Edit config.yaml to set MAC (use MACAddressSource eth0) and node limits (100-200). 
+Hooper hat includes mac already.
 Troubleshoot with `journalctl -xeu meshtasticd.service` or run `meshtasticd` manually. 
 Configure through the Meshtastic app. Use the Network option on the Cloud tab in the app. 
 
