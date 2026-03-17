@@ -1,15 +1,12 @@
 ---
 title: "Meshtastic with Luckfox Lyra Ultra"
 excerpt: "Gen 3 Tower Nodes"
-last_modified_at: 2025-11-30 20:00:00
+last_modified_at: 2026-03-05 20:00:00
 tags:
   - meshtastic
   - LoRA
-  - crypto
 ---
-
 ![lyra ](/images/posts/lyra/luckfox-lyra-ultra-w.jpg)
-
 ### Luckfox Lyra Ultra W
 
 - RK3506B, triple-core ARM Cortex-A7 and ARM Cortex-M0 Processors, 512MB DDR3
@@ -19,50 +16,59 @@ tags:
 - Onboard 100mbps ethernet with optional POE hat
 - Supports MIPI interface (2-lane, 22-pin) with a maximum output resolution of 1280x800@60fps
 
-Very nifty board that is very capable and economical. Weight is 0.05 kg (50 grams). Size is roughly 5cm by 5cm by 2cm. It can be powered via USB C or POE. Buy plenty of [2x13 stacking headers](https://www.adafruit.com/product/1112).
+Very nifty board that is very capable and economical. Weight is 0.05 kg (50 grams). Size is roughly 5cm by 5cm by 2cm. It can be powered via USB C or POE. Buy plenty of [2x13 stacking headers](https://www.adafruit.com/product/1112), or even better [these](https://www.amazon.com/dp/B00KE8K5RG).
 
 You can buy [Lyra](https://www.luckfox.com/Luckfox-Lyra-Ultra?ci=622) directly from Luckfox. 
-You can buy [Lyra hats](https://github.com/wehooper4/Meshtastic-Hardware/tree/main/Luckfox%20Ultra%20Hat#how-to-buy) from WeHooper.
+You can buy [Lyra hats](https://github.com/wehooper4/Meshtastic-Hardware/tree/main/Luckfox%20Ultra%20Hat#how-to-buy) from WeHooper. I recommend the E22P hat.
+You can look here for additional boards if desired. 
+
 
 
 ### Flashing -  LOADER in RKDevTool 
 
 Special thanks to vid for all his help!
 
-Hold down the boot button while plugging in the USB. If you see LOADER, proceed here. If it says NETMASK, skip to resetting the Lyra.
+The only downside to the Lyra Ultra is loading the OS. It's a pain but manageable. Out of the box, it's somewhat easy. You can find the [official instructions here](https://wiki.luckfox.com/Luckfox-Lyra/Image-flashing).
 
-You can use the [Armbian build](https://github.com/armbian/community/releases/download/26.2.0-trunk.7/Armbian_community_26.2.0-trunk.7_Luckfox-lyra-ultra-w_trixie_vendor_6.1.115_minimal.img.xz).
+Download [RK Driver Assistant](https://files.luckfox.com/wiki/Omni3576/TOOLS/DriverAssitant_v5.13.zip) and [RKDevTool](https://files.luckfox.com/wiki/Omni3576/TOOLS/RKDevTool_Release_v3.31.zip). In the config INI file for the RKDevTool, switch language to English before firing up the app.  
+
+
+
+I recommend [mPWRD-OS](https://github.com/mPWRD-OS), with the current version being [mPWRD-OS 0.1.0 Alpha](https://github.com/mPWRD-OS/mPWRD-OS/releases/tag/v0.1.0). It's based on Armbian but optimized for meshtastic and theoretically meshcore. 
+
+There are two buttons next to the USB C port. The closer one is the BOOT button, the second button further away is the RESET button. Hold down the boot button while plugging in the USB. If you see LOADER, proceed here. If it says NETMASK, skip to resetting the Lyra.
 
 ![Flashing the Lyra](/images/posts/lyra/Flashing.png)
 
+- Right click and add a new entry. Select STORAGE to be EMMC, ADDRESS should default to 0x00000000, set NAME to system, put full path into PATH field
 - Hold the boot button (button closest to USB cable, the one that isn't labelled "RESET") while plugging in USB
 - RKDEVTool should show "LOADER" mode (NOT "MASKROM" mode)
 - In the download tab, uncheck everything. 
-- Right click and add a new entry. Select STORAGE to be EMMC, ADDRESS should default to 0x00000000, set NAME to system, put full path into PATH field
 - Check the box for "write by address" and then press "Run"
 
-If successful you'll see a message like the one on the right
+If successful you'll see a message like the one on the right. You want to go quickly as the LOADER can timeout. mPWRD-OS should auto-boot and meshtasticd should be reachable with no interaction. I do the initial location via console cable but you can ssh in for that. mpwrd-menu is the command for install and config.
+
+username: root
+password: 1234
 
 
 ### NETMASK - Resetting the Lyra after a bad update
 
-If things go badly, download the Luckfox_Lyra_Ultra_W_EMMC_250717 firmware from [Luckfox wiki](https://wiki.luckfox.com/Luckfox-Lyra/Image-flashing/#2--image-download).
+tl;dr - LOADER is weird proprietary partition. Load Luckfox Ubuntu to get that. THEN burn it a second time with your preferred image. 
+Again. LOADER needs a specific boot partition to run. Most OS won't have that. See below for nerd details.
 
-You can use the ubuntu image.img to load Ubuntu firmware and I highly recommend it. 
-You can also use [this](https://github.com/markbirss/rk3506-ubuntu) build as well.
-
-
-Fire up RKDevTool v3.31. Snag a piece of wire, form it into a U, hit the jumper pads while plugging in the USB button. I clipped the wire at 45 degree angle. Or very pointy tweezers. You should see MASKROM at the bottom of the RKDevTool once you're successful. The pads are slightly recessed so it may take a trial or two. 
+To get into NETMASK, fire up RKDevTool v3.31. Snag a piece of wire or use a set of tweezers, form it into a U, hit the jumper pads while plugging in the USB button. I clipped the wire at 45 degree angle, but tweezers are better if the points are even. You should see MASKROM at the bottom of the RKDevTool once you're successful. The pads are slightly recessed so it may take a trial or two. Or five.
 
 ![lyra reset](/images/posts/lyra/Lyra-reset.png)
 
 Once it does show up, go to Upgrade Firmware tab, click on Firmware button. Navigate to the unzipped firmware bundle, select update.img, then hit Upgrade.
 
+Give it a bit after the upgrade is successful, then tap the RESET button while holding down the BOOT button. Once LOADER is displayed, you can then load your other OS using the above instructions.
 
 
-### Connecting via Serial
+### Connecting to Console via Serial
 
-Handy if your Lyra doesn't come up via DHCP
+Handy if your Lyra doesn't come up via DHCP. It's not TECHNICALLY needed but a very good idea to know how to console in. 
 
 Using a [USB to UART TTL cable](https://www.amazon.com/dp/B083HVM7VZ), connect the following:
 
@@ -90,20 +96,18 @@ Plug in POE hat. Connect to POE switch or injector. Check your router to see wha
 
 SSH in with putty or connect via serial
 
+If using Luckfox Ubuntu:
 Username: lyra
 Password: luckfox
 
-Change the password with passwd
+If using Armbian:
+username: root
+password: 1234
 
-```shell
-passwd
-#Current password:
-#New password:
-#Retype new password:
-#passwd: password updated successfully
-```
 
-### Setup
+### Setup for NON-mPWRD-OS linux OS on Luckfox
+
+Seriously, skip all this and use mPWRD-OS. If you're hardcore tho, here's manual setup instructions:
 
 ```shell
 
@@ -199,7 +203,8 @@ Configure through the Meshtastic app. Use the Network option on the Cloud tab in
 
 ### WiFi
 
-Lyra Ultra W has WiFi built in. Check by running 'ip link show' and making sure wlan0 is there
+
+Lyra Ultra W has WiFi built in and mPWRD-OS should have it running. Check by running 'ip link show' and making sure wlan0 is there
 
 Adding WiFi network manually
 
@@ -325,7 +330,7 @@ If you're not very experienced with Linux, remember to log in every so often to 
 
 If you use Mark's Ubuntu image, it may not have TUN service built into the kernel and it won't work. 
 If you use Luckfox community Ubuntu image, not sure yet. Will test it.
-If you use Armbian, it should.
+If you use Armbian/mPWRD-OS, it should.
 
 ```shell
 sudo apt install curl
@@ -351,3 +356,7 @@ With no hat:
 ### Backboards for Lyra
 
 TODO STLs and laser files 
+
+
+### LOADER Partition Details
+
