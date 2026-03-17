@@ -468,6 +468,7 @@ Still need to do POE power check as well
 | Antenna                | Antenna upgrade                | $50.00       | 1   | Ea    | Yes      | [eBay](https://www.ebay.com) |
 | u-Green SD Reader      | Flashing eMMC key              | $8.00        | 1   | Ea    | Yes      | [Amazon](https://www.amazon.com/dp/B0779V61XB) |
 | Waterproof Vent Plug   | Allows air and moisture out    | $3.00        | 1   | Ea    | Yes      | [AliExpress](https://www.aliexpress.us/item/3256806226534115.html) |
+| WiFi                   | Included Wifi is terrible      | $6.00        | 1   | Ea    | Yes      | [AliExpress](https://www.aliexpress.us/item/3256807867209673.html) |
 
 
 
