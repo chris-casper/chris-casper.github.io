@@ -476,6 +476,42 @@ Basic build can run as low as $100 if good priced Nebra, basic 1W hat and 2 surg
 Or up to $200 if needing to purchase a lot of ancillary or high end components. 
 
 
+### Struts
+
+If this is going up on a tower, you want to move 1-3 wavelengths out from the tower. It helps with your SWR, reduces tower shadow, etc. Wavelength for 915mhz is 13 inch. But the strut acts like a lever. Further out from the tower, more force is put on the tower from wind load. Another consideration is that you're adding 5-6 inches of the Nebra case, from the edge of the case to the center of the furthest antenna port, which helps. You can deduct that from the total length you want.
+
+For the pipe, I used Southland Black Iron Pipe from Lowes. I used 1.25 inch pipe, but honestly even 0.75 or 1 inch is fine. I cut into two foot sections. 10ft is more economical, but 6 foot sections fit in the car more easily. It should be slightly more than 1/8th inch thick walls. 
+
+![pipe cutting](/images/posts/nebra/pipe.jpg)
+
+For the end pieces, we went with two 9 inch sections of 1/8th angle steel. For the tower end, weld on two U bolts. For the Nebra end, you need to drill two holes. I recommend 9/32 drill bit. You want slightly oversized holes. The holes need to be 108mm apart, edge to edge. 10mm from the outside edge. Easiest way is to photocopy the nebra case on a copier and tape that to one of the angle sections. 
+
+![Paper Template](/images/posts/nebra/strut-template.jpg)
+
+Once I got a clean drill, I used a paint marker pen to put the dot on every future piece. 
+
+![Paint Template](/images/posts/nebra/paint-template.jpg)
+
+You don't need to drill the tower end, but you can re-use bad drilled sections for the tower end. Just mark appropriately. I did 100% test fits after drilling. 
+
+![Test fit](/images/posts/nebra/test-fit.jpg)
+
+Once you have the holes drilled, weld the pipe to the inside center of both pieces of angle. Spray with cold galvanizing. When putting on the tower, use blue loctite on the nuts. I use two nuts per thread. 
+
+We went through a couple iterations increasing strength, decreasing complexity and reducing costs. If you don't have a metal shop and welder, I recommend reaching out to [this eBay shop](https://www.ebay.com/str/2way4u2016) , which has some of our older designs for sale. 
+
+You'll need the following items
+
+| Item                                | Description              | Length     | Cost   | Qty | UOM | Vendor |
+|:------------------------------------|:--------------------------|:-----------|-------:|----:|:----|:--------|
+| Angle, Mild Steel                   | 1.5" x 1.5" x 1/8"       | 9 inch     | $2     | 2   | Ea  | [eBay](https://www.ebay.com/str/2twentytwosteeldesigns) |
+| Pipe, Mild Steel                    | 1/8" wall thickness      | 10–30 inch | $6–16  | 1   | Ea  | [eBay](https://www.ebay.com/str/2twentytwosteeldesigns) |
+| U-Bolt or Muffler Clamp, Mild Steel | Various sizes            | —          | $4–6   | 2   | Lot | [eBay](https://www.ebay.com) |
+| Spray Galvanizing                   | 20 oz can                | —          | $10.00 | 1   | Can | [Amazon](https://www.amazon.com/dp/B00106H68W/?th=1) |
+
+Most towers are 1.5in tubing. 
+
+
 ### Deployment Lessons Learned
 
 - Ground test your node on site. 
