@@ -39,7 +39,7 @@ Your Lyra is now a thumb drive. If Windows, use [balenaEtcher](https://etcher.ba
 For Linux:
 
 ```shell
-lsblk                     # find the new disk, e.g. /dev/sdX (7.3 GB)
+lsblk     # find the new disk, e.g. /dev/sdX (7.3 GB)
 sudo dd if=your-image.img of=/dev/sdX bs=4M status=progress conv=fsync
 sudo sync
 ```
