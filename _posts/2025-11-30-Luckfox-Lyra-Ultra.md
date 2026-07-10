@@ -6,9 +6,12 @@ tags:
   - meshtastic
   - LoRA
 ---
-![lyra ](/images/posts/lyra/luckfox-lyra-ultra-w.jpg)
+
 ### Luckfox Lyra Ultra W
 
+![lyra ](/images/posts/lyra/luckfox-lyra-ultra-w.jpg)
+
+Specs:
 - RK3506B, triple-core ARM Cortex-A7 and ARM Cortex-M0 Processors, 512MB DDR3
 - Full USB port and USB-C port
 - Onboard 8GB eMMC
@@ -22,6 +25,24 @@ You can buy [Lyra](https://www.luckfox.com/Luckfox-Lyra-Ultra?ci=622) directly f
 You can buy [Lyra hats](https://github.com/wehooper4/Meshtastic-Hardware/tree/main/Luckfox%20Ultra%20Hat#how-to-buy) from WeHooper. I recommend the E22P hat.
 You can look here for additional boards if desired. 
 
+
+### TL;DR - Easy Setup - USB mass storage (UMS) mode
+
+Lyras are generally great but pain to load. 
+
+New board: Use the webloader. 
+
+Redoing a board: Get a [serial cable](https://www.amazon.com/dp/B083HVM7VZ) , plug serial cable to the [correct pins](https://casper.im/Luckfox-Lyra-Ultra/#connecting-to-console-via-serial), plug in USB-C and hit Control + C during boot. Worst case, hit RESET button and hit Control + C couple times. Once you get a prompt, type `ums 0 mmc 0` 
+
+Your Lyra is now a thumb drive. If Windows, use [balenaEtcher](https://etcher.balena.io/). It's ext4 so Windows can't read it, don't try formatting it. Etcher works fine. This can be flaky so try out the board even if it fails Etcher's verify pass. Just redo if it is bad.
+
+For Linux:
+
+```shell
+lsblk                     # find the new disk, e.g. /dev/sdX (7.3 GB)
+sudo dd if=your-image.img of=/dev/sdX bs=4M status=progress conv=fsync
+sudo sync
+```
 
 
 ### Flashing -  LOADER in RKDevTool 
