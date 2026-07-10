@@ -49,15 +49,15 @@ sudo sync
 
 Special thanks to vid for all his help!
 
-The only downside to the Lyra Ultra is loading the OS. It's a pain but manageable. Out of the box, it's somewhat easy. You can find the [official instructions here](https://wiki.luckfox.com/Luckfox-Lyra/Image-flashing).
+The only downside to the Lyra Ultra is loading the OS. It's a pain but manageable. Out of the box, it's somewhat easy. You can find the [official instructions here](https://wiki.luckfox.com/Luckfox-Lyra/Image-flashing). 
+
+We have a webflasher, but it is in BETA and should only be used by those comfortable with recovery. [Luckfox Webflasher](https://susme.sh/lyra/)
 
 Download [RK Driver Assistant](https://files.luckfox.com/wiki/Omni3576/TOOLS/DriverAssitant_v5.13.zip) and [RKDevTool](https://files.luckfox.com/wiki/Omni3576/TOOLS/RKDevTool_Release_v3.31.zip). In the config INI file for the RKDevTool, switch language to English before firing up the app.  
 
-
-
 I recommend [mPWRD-OS](https://github.com/mPWRD-OS), with the current version being [mPWRD-OS 0.1.0 Alpha](https://github.com/mPWRD-OS/mPWRD-OS/releases/tag/v0.1.0). It's based on Armbian but optimized for meshtastic and theoretically meshcore. 
 
-There are two buttons next to the USB C port. The closer one is the BOOT button, the second button further away is the RESET button. Hold down the boot button while plugging in the USB. If you see LOADER, proceed here. If it says NETMASK, skip to resetting the Lyra.
+All data goes over USB C. There are two buttons next to the USB C port. The closer one is the BOOT button, the second button further away is the RESET button. Hold down the boot button while plugging in the USB. If you see LOADER, proceed here. If it says NETMASK, skip to resetting the Lyra.
 
 ![Flashing the Lyra](/images/posts/lyra/Flashing.png)
 
@@ -75,10 +75,12 @@ password: 1234
 
 ### NETMASK - Resetting the Lyra after a bad update
 
-tl;dr - LOADER is weird proprietary partition. Load Luckfox Ubuntu to get that. THEN burn it a second time with your preferred image. 
+tl;dr - LOADER is weird proprietary partition. Load [Luckfox Ubuntu](https://wiki.luckfox.com/Luckfox-Lyra/Getting-Started/overview#2-image-download) to get that. THEN burn it a second time with your preferred image. 
 Again. LOADER needs a specific boot partition to run. Most OS won't have that. See below for nerd details.
 
-To get into NETMASK, fire up RKDevTool v3.31. Snag a piece of wire or use a set of tweezers, form it into a U, hit the jumper pads while plugging in the USB button. I clipped the wire at 45 degree angle, but tweezers are better if the points are even. You should see MASKROM at the bottom of the RKDevTool once you're successful. The pads are slightly recessed so it may take a trial or two. Or five.
+Easiest solution is using a serial cable and following the steps in [Connecting To Console via Serial](https://casper.im/Luckfox-Lyra-Ultra/#connecting-to-console-via-serial). Then drop in Luckfox Ubuntu. Then follow [LOADER steps](https://casper.im/Luckfox-Lyra-Ultra/#flashing----loader-in-rkdevtool) or use the web flasher.
+
+If you don't have a serial cable, to get into NETMASK, fire up RKDevTool v3.31. Snag a piece of wire or use a set of tweezers, form it into a U, hit the jumper pads while plugging in the USB button. I clipped the wire at 45 degree angle, but tweezers are better if the points are even. You should see MASKROM at the bottom of the RKDevTool once you're successful. The pads are slightly recessed so it may take a trial or two. Or five.
 
 ![lyra reset](/images/posts/lyra/Lyra-reset.png)
 
@@ -89,14 +91,14 @@ Give it a bit after the upgrade is successful, then tap the RESET button while h
 
 ### Connecting to Console via Serial
 
-Handy if your Lyra doesn't come up via DHCP. It's not TECHNICALLY needed but a very good idea to know how to console in. 
+Handy if your Lyra doesn't come up via DHCP. It's not TECHNICALLY needed but a very good idea to know how to console in. This solely gives you console-in, all the data goes over USB C.
 
 Using a [USB to UART TTL cable](https://www.amazon.com/dp/B083HVM7VZ), connect the following:
 
 Assuming ethernet port oriented down, left hand header, inner row
 - GND — MUST be shared with USB-TTL GND (third down)
-- TX (board) → connect to RX on USB-TTL (fourth down)
-- RX (board) → connect to TX on USB-TTL (fifth down)
+- TX (board) → connect to RX on USB-TTL (fourth down, pin 22)
+- RX (board) → connect to TX on USB-TTL (fifth down, pin 23)
 
 Refer to this diagram:
 
@@ -109,6 +111,12 @@ Luckfox RK3506 boards use:
 - Parity: N
 - Stop: 1
 - Flow control: None
+
+If having issues flashing but you have a serial cable, hit Control + C to stop autoboot. Then type 'rbrom".
+If you miss the autoboot (easy to do), leave the USB C cable plugged in and just hit RESET button. 
+That drops you straight into MASKROM mode and you can use the RKDevTool without jumping the two tiny pads.  
+I drop on the Luckfox Ubuntu with the LOADER partition, then reboot to LOADER and load mPWRD-OS.
+
 
 
 ### Logging in
@@ -351,7 +359,7 @@ If you're not very experienced with Linux, remember to log in every so often to 
 
 If you use Mark's Ubuntu image, it may not have TUN service built into the kernel and it won't work. 
 If you use Luckfox community Ubuntu image, not sure yet. Will test it.
-If you use Armbian/mPWRD-OS, it should.
+If you use Armbian/mPWRD-OS, it will have it pre-loaded.
 
 ```shell
 sudo apt install curl
@@ -380,6 +388,8 @@ TODO STLs and laser files
 
 
 ### LOADER Partition Details
+
+
 
 
 
